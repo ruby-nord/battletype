@@ -37,6 +37,10 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
         it 'has a velocity' do
           expect(created_ship.velocity).to eq(Ship::MEDIUM[:velocity])
         end
+        
+        it 'has a ship_type' do
+          expect(created_ship.ship_type).to eq("medium")
+        end
 
         it 'has a state' do
           expect(created_ship.state).to eq('engaged')
@@ -83,7 +87,7 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
       before { allow_words(word) }
       
       it "contains the newly launched ship and the attacker's name" do
-        expect(dispatch.payload).to include(launched_ship: { damage: 2, velocity: 6, type: "medium" }, player: "Rico")
+        expect(dispatch.payload).to include(launched_ship: { damage: 2, velocity: 6, type: "medium" }, player_id: player.id)
       end
     end
     

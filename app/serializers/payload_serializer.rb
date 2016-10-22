@@ -1,7 +1,7 @@
 class PayloadSerializer < Struct.new(:player, :ship)
   def to_json
     {
-        player: player.nickname,
+        player_id: player.id,
         launched_ship: {
             type: ship.ship_type,
             damage: ship.damage,
