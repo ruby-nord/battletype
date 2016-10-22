@@ -15,7 +15,7 @@ class Attack
     @valid ||= begin
       unique_case_insensitive_word? &&
       long_enough? &&
-      word_exists?
+      english_word?
     end
   end
 
@@ -29,7 +29,7 @@ class Attack
     word.length >= MIN_WORD_SIZE
   end
 
-  def word_exists?
-    DictionaryEntry.where(word: word).present?
+  def english_word?
+    DictionaryEntry.where(word: word.downcase).present?
   end
 end

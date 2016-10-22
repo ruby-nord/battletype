@@ -43,6 +43,7 @@ RSpec.describe "Attack", type: :model do
     describe "Word should exist in dictionary" do
       before { allow_words("animal") }
       it { expect(Attack.new(game, "animal").valid?).to be true }
+      it { expect(Attack.new(game, "AniMal").valid?).to be true }
       it { expect(Attack.new(game, "animal12").valid?).to be false }
     end
   end
