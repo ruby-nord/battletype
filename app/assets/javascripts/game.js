@@ -1,0 +1,3 @@
+$(function () {
+  Battletype.init("stdin");
+});
