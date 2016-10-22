@@ -1,11 +1,12 @@
 class AttacksController < ApplicationController
   def create
     word = params[:word]
-    
+
     if word.blank?
       head 422
     else
-      ActionCable.server.broadcast "game_#{params[:game_id]}", Attacks::Launch.call(current_player, word)
+      payload = Attacks::Launch.call(player: current_player, word: word)
+      ActionCable.server.broadcast "game_#{current_player.game_id}", payload
       head 200
     end
   end

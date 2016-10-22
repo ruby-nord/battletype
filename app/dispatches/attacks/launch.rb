@@ -5,11 +5,11 @@ module Attacks
 
     public
 
-    def self.call(player, word)
-      new(player, word).call
+    def self.call(player:, word:)
+      new(player: player, word: word).call
     end
 
-    def initialize(player, word)
+    def initialize(player:, word:)
       @game   = player.game
       @player = player
       @word   = word
