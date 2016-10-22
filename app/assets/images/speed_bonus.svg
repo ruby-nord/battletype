@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 8</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-257.000000, -648.000000)">
+            <g id="Group-8" transform="translate(257.000000, 648.000000)">
+                <circle id="Oval-4" fill="#00FFC6" cx="18" cy="18" r="18"></circle>
+                <circle id="Oval-4" fill="#0B876B" cx="18" cy="18" r="13"></circle>
+                <g id="flash" transform="translate(12.000000, 10.000000)" fill="#FFFFFF">
+                    <g id="Capa_1">
+                        <path d="M12.94124,6.82832967 C12.83438,6.58516484 12.59648,6.42857143 12.33401,6.42857143 L7.33226,6.42857143 L9.38964,0.912989011 C9.466925,0.705824176 9.438975,0.473340659 9.314825,0.291032967 C9.19074,0.108791209 8.986315,0 8.767915,0 L3.81953,0 C3.54315,0 3.295565,0.173472527 3.19774,0.435692308 L0.06084,8.84518681 C-0.016445,9.05235165 0.011505,9.28483516 0.135655,9.46714286 C0.259805,9.64938462 0.46423,9.75824176 0.68263,9.75824176 L6.233565,9.72441758 L3.3007,17.6368352 C3.26196,17.7414066 3.302065,17.8591648 3.396185,17.9171868 C3.490305,17.9752088 3.611855,17.957011 3.6855,17.8739341 L12.82853,7.55373626 C13.0039,7.35567033 13.0481,7.07149451 12.94124,6.82832967 L12.94124,6.82832967 Z" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
