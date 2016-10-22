@@ -1,56 +1,37 @@
-/* global Stdin */
+/* global Stdin, PS2EventRelay */
+
+//= require battletype/stdin
+//= require battletype/ps2_event_relay
+
 (function () {
   this.Battletype = {
-    listeners: {},
+    attacking: true,
+    
+    _eventsRelay: Object.create(PS2EventRelay),
     
     init: function(options) {
-      this.mode = "attack";
-      this.addEventListener("wordTyped", function (e) { this.transmitEntry(e.detail); }, false);
+      this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
+      
       this._stdin = Object.create(Stdin, {
-        $input: { value: options.input },
-        terminal: { value: this }
+        inputDevice: { value: options.inputDevice },
+        ps2Port: { value: this._eventsRelay }
       });
       this._stdin.powerOn();
       
-      this.$attack  = options.attack;
-      this.$defense = options.defense;
+      this.attackFrequency  = options.attackFrequency;
+      this.defenseFrequency = options.defenseFrequency;
     },
     transmitEntry: function (entry) {
-      if (this.mode == "attack") {
-        this.$attack.querySelector("[name='word']").value = entry.word;
-        this.$attack.submit();
-      }
-      
-      return true;
+      return this.attacking ? this._transmitAttack(entry) : this._transmitDefense(entry);
     },
-    
-    // Event implementation
-    // TODO: move to a mixin ?
-    addEventListener: function (type, callback) {
-      if (!(type in this.listeners)) {
-        this.listeners[type] = [];
-      }
-      this.listeners[type].push(callback);
+    _transmitAttack: function (entry) {
+      this.attackFrequency.querySelector("[name='word']").value = entry.word;
+      return $(this.attackFrequency).trigger("submit.rails");
     },
-    removeEventListener: function (type, callback) {
-      if (!(type in this.listeners)) { return; }
-      var stack = this.listeners[type];
-      for (var i = 0, l = stack.length; i < l; i++) {
-        if(stack[i] === callback){
-          stack.splice(i, 1);
-          return this.removeEventListener(type, callback);
-        }
-      }
+    _transmitDefense: function (entry) {
+      this.defenseFrequency.querySelector("[name='word']").value = entry.word;
+      this.defenseFrequency.querySelector("[name='perfectTyping']").value = entry.perfectTyping;
+      return $(this.defenseFrequency).trigger("submit.rails");
     },
-    dispatchEvent: function (event) {
-      if (!(event.type in this.listeners)) {
-        return;
-      }
-      var stack = this.listeners[event.type];
-      event.target = this;
-      for(var i = 0, l = stack.length; i < l; i++) {
-        stack[i].call(this, event);
-      }
-    }
   };
 }).call(this);

@@ -5,24 +5,23 @@
   };
   
   this.Stdin = {
-    $input: { writable: true },
-    terminal: { writable: true },
+    inputDevice: { writable: true },
+    ps2Port: { writable: true },
     
     powerOn: function () {
       this._typingMistake = false,
-      this.$input.value = "";
-      this.$input.addEventListener("keydown", this, { passive: true });
-      this.$input.addEventListener("keyup", this, { passive: true });
+      
+      this.inputDevice.value = "";
+      this.inputDevice.addEventListener("keydown", this, { passive: true });
     },
     powerOff: function () {
-      this.$input.removeEventListener("keydown", this, { passive: true });
-      this.$input.removeEventListener("keyup", this, { passive: true });
+      this.inputDevice.removeEventListener("keydown", this, { passive: true });
     },
     perfectTyping: function () {
       return ! this._typingMistake;
     },
     currentEntry: function () {
-      return { word: this.$input.value, perfectTyping: this.perfectTyping() };
+      return { word: this.inputDevice.value, perfectTyping: this.perfectTyping() };
     },
     handleEvent: function (e) {
       var pressedKey;
@@ -62,8 +61,8 @@
       });
     },
     _dispatchWordTypedEvent: function () {
-      var event = new CustomEvent("wordTyped", { detail: this.currentEntry() });
-      this.terminal.dispatchEvent(event);
+      var event = new CustomEvent("entry", { detail: this.currentEntry() });
+      this.ps2Port.dispatchEvent(event);
     }
   };
 }).call(this);

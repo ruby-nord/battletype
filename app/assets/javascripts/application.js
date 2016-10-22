@@ -15,3 +15,5 @@
 //= require turbolinks
 //= require cable
 //= require_tree ./channels
+
+//= require game

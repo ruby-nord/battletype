@@ -14,25 +14,25 @@ function typeKeys(element, keys) {
 
 describe("Stdin", function() {
   var stdin;
-  var terminal = { dispatchEvent: function () {} };
-  var $input = document.createElement("input");
+  var ps2Port = { dispatchEvent: function () {} };
+  var inputDevice = document.createElement("input");
   
   beforeEach(function() {
-    stdin = Object.create(Stdin, { $input: { value: $input }, terminal: { value: terminal } });
+    stdin = Object.create(Stdin, { inputDevice: { value: inputDevice }, ps2Port: { value: ps2Port } });
     stdin.powerOn();
   });
   
   it("records the pressing of the backspace key", function () {
-    typeKeys($input, ["A", "B", "Backspace", "C"]);
+    typeKeys(inputDevice, ["A", "B", "Backspace", "C"]);
     
     expect(stdin.perfectTyping()).toBeFalsy();
   });
   
   it("triggers an event when the Enter key is pressed", function () {
-    spyOn(terminal, "dispatchEvent");
+    spyOn(ps2Port, "dispatchEvent");
     
-    typeKeys($input, ["A", "B", "Enter"]);
+    typeKeys(inputDevice, ["A", "B", "Enter"]);
     
-    expect(terminal.dispatchEvent).toHaveBeenCalledWith(jasmine.any(CustomEvent));
+    expect(ps2Port.dispatchEvent).toHaveBeenCalledWith(jasmine.any(CustomEvent));
   });
 });
