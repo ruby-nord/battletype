@@ -23,11 +23,21 @@ RSpec.describe "Attacks", type: :request do
       end
     end
 
+    context 'when provided word has already been played' do
+      before :each do
+        game.words.create!(value: 'duplicate')
+      end
+
+      it 'returns 422 HTTP status' do
+        post "/attacks", params: { word: 'duplicate' }
+        expect(response).to have_http_status(422)
+      end
+    end
+
   # NEXT:
   # - mot du dico anglais
   # - mot pas du dico anglais
   # - meme mot case differente
-  # - meme mot
   # - meme mot pluriel
   # - meme mot singulier
   end

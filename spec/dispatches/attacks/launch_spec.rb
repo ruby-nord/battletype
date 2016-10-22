@@ -17,6 +17,23 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
         expect(dispatch.call(player, word)).to be_instance_of(Attack)
       end
     end
+
+    context 'when word is not valid' do
+      let(:word) { 'duplicate' }
+
+      before :each do
+        Word.create!(game: game, value: word)
+      end
+
+      it 'does not save the word' do
+        dispatch.call(player, word)
+        expect(Word.where(value: word, game: game).count).to eq(1)
+      end
+
+      it 'returns an Attack object' do
+        expect(dispatch.call(player, word)).to be_instance_of(Attack)
+      end
+    end
   end
 end
 
