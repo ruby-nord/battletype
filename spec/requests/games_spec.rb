@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Games", type: :request do
-  let(:game)            { Game.create!(name: 'Starship Battle') }
+  let(:game)            { Game.create!(name: 'Starship Battle', slug: 'starship-battle') }
 
   describe "GET show" do
     context "player is signed in" do
