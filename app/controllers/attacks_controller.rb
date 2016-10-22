@@ -7,9 +7,10 @@ class AttacksController < ApplicationController
 
     if attack.valid?
       ActionCable.server.broadcast("game_#{params[:game_id]}", {ships: current_player.ships.to_json})
-      head 200
     else
-      head 422
+      ActionCable.server.broadcast("game_#{params[:game_id]}", { player: current_player.nickname, invalid_word: word })
     end
+    
+    head 200
   end
 end

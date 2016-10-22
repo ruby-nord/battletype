@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Attacks", type: :request do
   let(:game)            { Game.create!(name: 'Starship Battle') }
-  let(:player)          { game.players.create! }
+  let(:player)          { game.players.create!(nickname: "Rico") }
 
   before :each do
     allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
@@ -29,9 +29,9 @@ RSpec.describe "Attacks", type: :request do
         game.words.create!(value: 'duplicate')
       end
 
-      it 'returns 422 HTTP status' do
+      it 'returns 200 HTTP status' do
         post "/attacks", params: { word: 'duplicate' }
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(200)
       end
     end
 
@@ -42,7 +42,13 @@ RSpec.describe "Attacks", type: :request do
 
       it 'returns 422 HTTP status' do
         post "/attacks", params: { word: 'battletype' }
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(200)
+      end
+      
+      it 'broadcasts an error message' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/attacks", params: { word: 'battletype' }
+        expect(ActionCable.server).to have_received(:broadcast).with(anything, player: "Rico", invalid_word: 'battletype' )
       end
     end
 
