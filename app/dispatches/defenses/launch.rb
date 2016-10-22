@@ -20,7 +20,7 @@ module Defenses
 
       if defense.valid?
         destroy_ship
-        update_strike_gauge
+        update_strike
       end
 
       return defense
@@ -32,8 +32,11 @@ module Defenses
       defense.ship.update(state: 'destroyed')
     end
 
-    def update_strike_gauge
-      player.update(strike_gauge: defense.strike_gauge)
+    def update_strike
+      player.update(
+        strike_gauge:     defense.strike_gauge,
+        unlocked_strike:  defense.unlocked_strike
+      )
     end
   end
 end

@@ -8,6 +8,7 @@ RSpec.describe "Defense", type: :model do
   let(:attacker_word)   { Word.create!(value: 'HaCkeR', game: game) }
   let(:perfect_typing)  { '1' }
   let(:player)          { Player.create!(game: game) }
+  let(:word)            { attacker_word.value }
 
   before :each do
     attacker.ships.create!(word: attacker_word, state: 'engaged')
@@ -41,6 +42,42 @@ RSpec.describe "Defense", type: :model do
 
       it 'returns 0' do
         expect(defense.strike_gauge).to eq(0)
+      end
+    end
+  end
+
+  describe '#unlocked_strike' do
+    let(:word) { '' } # fake it to have direct strike_gauge from player
+
+    describe 'strike gauge between 10 and 24' do
+      it 'returns hyperdrive if gauge is 10' do
+        player.strike_gauge = 10
+        expect(defense.unlocked_strike).to eq(:hyperdrive)
+      end
+
+      it 'returns hyperdrive if gauge is 24' do
+        player.strike_gauge = 24
+        expect(defense.unlocked_strike).to eq(:hyperdrive)
+      end
+
+      it 'remains jammer if unlocked' do
+        player.unlocked_strike = 'jammer'
+        expect(defense.unlocked_strike).to eq('jammer')
+      end
+
+      it 'remains gauge_leak if unlocked' do
+        player.unlocked_strike = 'gauge_leak'
+        expect(defense.unlocked_strike).to eq('gauge_leak')
+      end
+
+      it 'remains enlarger if unlocked' do
+        player.unlocked_strike = 'enlarger'
+        expect(defense.unlocked_strike).to eq('enlarger')
+      end
+
+      it 'remains saboteur if unlocked' do
+        player.unlocked_strike = 'saboteur'
+        expect(defense.unlocked_strike).to eq('saboteur')
       end
     end
   end

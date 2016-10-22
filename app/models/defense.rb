@@ -19,6 +19,13 @@ class Defense
     end
   end
 
+  def unlocked_strike
+    current_strike = player.unlocked_strike
+    next_strike    = Strike.reward_for(strike_gauge)
+
+    [current_strike, next_strike].compact.max { |strike| Strike::ALL.index(strike.to_s) }
+  end
+
   def valid?
     @ship ||= look_for_attacker_ship
 
