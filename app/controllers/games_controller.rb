@@ -3,8 +3,9 @@ class GamesController < ApplicationController
 
   def show
     unless current_player
-      player = Users::Enlist.call(@game)
-      return render FullGame.new if player.nil?
+      return render FullGame.new if enlist.game_full?
+
+      player = enlist.call
       session[:player_id] = player.id
     end
   end
@@ -12,5 +13,9 @@ class GamesController < ApplicationController
   private
   def set_game
     @game = Game.find(params[:id])
+  end
+
+  def enlist
+    @enlist ||= Users::Enlist.new(@game)
   end
 end
