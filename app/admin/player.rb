@@ -17,7 +17,7 @@ ActiveAdmin.register Player do
     column :nickname
     column :life
     column :strike_gauge
-    column :current_strike
+    column :unlocked_strike
     column :ships do |player|
       player.ships.count
     end
@@ -36,7 +36,7 @@ ActiveAdmin.register Player do
       row :nickname
       row :life
       row :strike_gauge
-      row :current_strike
+      row :unlocked_strike
       row :ships do |player|
         player.ships.count
       end

@@ -13,25 +13,25 @@ game = Game.create!(
 )
 
 batman = Player.create!(
-  nickname:       "Batman",
-  life:           10,
-  strike_gauge:   0,
-  current_strike: nil,
-  human:          true,
-  creator:        true,
-  won:            false,
-  game:           game
+  nickname:         "Batman",
+  life:             10,
+  strike_gauge:     0,
+  unlocked_strike:  nil,
+  human:            true,
+  creator:          true,
+  won:              false,
+  game:             game
 )
 
 superman = Player.create!(
-  nickname:       "Superman",
-  life:           10,
-  strike_gauge:   0,
-  current_strike: nil,
-  human:          true,
-  creator:        false,
-  won:            false,
-  game:           game
+  nickname:         "Superman",
+  life:             10,
+  strike_gauge:     0,
+  unlocked_strike:  nil,
+  human:            true,
+  creator:          false,
+  won:              false,
+  game:             game
 )
 
 ### Batman Ships

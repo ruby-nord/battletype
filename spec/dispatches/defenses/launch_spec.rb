@@ -28,11 +28,16 @@ RSpec.describe "Defenses::Launch", type: :dispatch do
 
       context "when word was perfectly typed" do
         before :each do
-          player.strike_gauge = 3
+          player.strike_gauge    = 17
+          player.unlocked_strike = 'hyperdrive'
         end
 
         it "upgrades player strike gauge" do
-          expect { dispatch.call(player: player, word: word, perfect_typing: '1') }.to change { player.strike_gauge }.from(3).to(11)
+          expect { dispatch.call(player: player, word: word, perfect_typing: '1') }.to change { player.strike_gauge }.from(17).to(25)
+        end
+
+        it "bumps player unlocked strike" do
+          expect { dispatch.call(player: player, word: word, perfect_typing: '1') }.to change { player.unlocked_strike }.from('hyperdrive').to('jammer')
         end
       end
 

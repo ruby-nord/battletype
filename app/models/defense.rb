@@ -13,10 +13,17 @@ class Defense
 
   def strike_gauge
     if perfect_typing
-      player.strike_gauge + word.size
+      [player.strike_gauge + word.size, 100].min
     else
       0
     end
+  end
+
+  def unlocked_strike
+    current_strike = player.unlocked_strike
+    next_strike    = Strike.reward_for(strike_gauge)
+
+    [current_strike, next_strike].compact.max { |strike| Strike::ALL.index(strike.to_s) }
   end
 
   def valid?
