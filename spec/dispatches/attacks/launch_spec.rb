@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Attacks::Launch", type: :dispatch do
   subject(:dispatch)  { Attacks::Launch }
   let(:game)          { Game.create! }
-  let(:player)        { Player.create!(game: game) }
+  let(:player)        { Player.create!(game: game, nickname: "Rico") }
 
   describe ".call" do
     context 'when word is valid' do
@@ -18,8 +18,8 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
         expect { dispatch.call(player, word) }.to change { Ship.where(player: player).count }.from(0).to(1)
       end
 
-      it 'returns an Attack object' do
-        expect(dispatch.call(player, word)).to be_instance_of(Attack)
+      it 'returns a payload' do
+        expect(dispatch.call(player, word)).to be_instance_of(Hash)
       end
 
       describe 'created ship' do
@@ -69,10 +69,34 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
         expect(Ship.where(player: player).count).to eq(0)
       end
 
-      it 'returns an Attack object' do
-        expect(dispatch.call(player, word)).to be_instance_of(Attack)
+      it 'returns a payload' do
+        expect(dispatch.call(player, word)).to be_instance_of(Hash)
+      end
+    end
+  end
+
+  describe "#payload" do
+    subject(:dispatch) { Attacks::Launch.new(player, word) }
+    
+    context "if the word is valid" do
+      let(:word) { 'curry' }
+      before { allow_words(word) }
+      
+      it "contains the newly launched ship and the attacker's name" do
+        expect(dispatch.payload).to include(launched_ship: { damage: 2, velocity: 6 }, player: "Rico")
+      end
+    end
+    
+    context "if the word is not valid" do
+      let(:word) { 'duplicate' }
+
+      before :each do
+        Word.create!(game: game, value: word)
+      end
+      
+      it "contains the invalid word and the attacker's name" do
+        expect(dispatch.payload).to include(invalid_word: "duplicate", player: "Rico")
       end
     end
   end
 end
-
