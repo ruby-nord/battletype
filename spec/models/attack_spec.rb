@@ -5,6 +5,52 @@ RSpec.describe "Attack", type: :model do
   let(:game)        { Game.create! }
   let(:word)        { 'attack' }
 
+  describe '.reward_for' do
+    describe 'word between 0 and 1 letters' do
+      it 'returns nil for an empty string ' do
+        expect(Attack.reward_for(word: '')).to eq(nil)
+      end
+
+      it 'returns nil for a word with 1 letter' do
+        expect(Attack.reward_for(word: 'a')).to eq(nil)
+      end
+    end
+
+    describe 'word between 2 and 3 letters' do
+      it 'returns SMALL ship for a word with 2 letters' do
+        expect(Attack.reward_for(word: 'he')).to eq(Ship::SMALL)
+      end
+
+      it 'returns SMALL ship for a word with 3 letters' do
+        expect(Attack.reward_for(word: 'sun')).to eq(Ship::SMALL)
+      end
+    end
+
+    describe 'word between 4 and 6 letters' do
+      it 'returns MEDIUM ship for a word with 4 letters' do
+        expect(Attack.reward_for(word: 'ship')).to eq(Ship::MEDIUM)
+      end
+
+      it 'returns MEDIUM ship for a word with 5 letters' do
+        expect(Attack.reward_for(word: 'fleet')).to eq(Ship::MEDIUM)
+      end
+
+      it 'returns MEDIUM ship for a word with 6 letters' do
+        expect(Attack.reward_for(word: 'rocket')).to eq(Ship::MEDIUM)
+      end
+    end
+
+    describe 'word with at least 7 letters' do
+      it 'returns LARGE ship for a word with 7 letters' do
+        expect(Attack.reward_for(word: 'missile')).to eq(Ship::LARGE)
+      end
+
+      it 'returns LARGE ship for a word with 8 letters' do
+        expect(Attack.reward_for(word: 'starship')).to eq(Ship::LARGE)
+      end
+    end
+  end
+
   describe '#valid?' do
     context 'when word has never been played' do
       it 'returns true' do
@@ -23,8 +69,10 @@ RSpec.describe "Attack", type: :model do
     end
 
     context 'when word has already been played with different case' do
+      let(:word) { 'decontamination' }
+
       before :each do
-        Word.create!(value: 'AtTaCk', game: game)
+        Word.create!(value: 'DeConTaminaTION', game: game)
       end
 
       it 'returns false' do
