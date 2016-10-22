@@ -7,6 +7,8 @@ gem 'puma',         '~> 3.0'
 
 gem 'figaro',       '~> 1.1.1'
 gem 'jbuilder',     '~> 2.5'
+gem 'oj',           '~> 2.12.14' # Used by rollbar
+gem 'rollbar',      '~> 2.13.3'
 
 # Assets
 gem 'sass-rails',   '~> 5.0'
