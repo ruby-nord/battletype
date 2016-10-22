@@ -18,9 +18,9 @@ RSpec.describe "Defenses", type: :request do
     end
 
     context "when word does not match any attacker ship" do
-      it "returns 422 HTTP status" do
+      it "returns 200 HTTP status" do
         post "/defenses", params: { word: 'unknown', perfect_typing: '1' }
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(200)
       end
     end
 
@@ -30,9 +30,9 @@ RSpec.describe "Defenses", type: :request do
         player.ships.create!(word: own_word)
       end
 
-      it "returns 422 HTTP status" do
+      it "returns 200 HTTP status" do
         post "/defenses", params: { word: 'own', perfect_typing: '1' }
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(200)
       end
     end
 
@@ -42,9 +42,9 @@ RSpec.describe "Defenses", type: :request do
         attacker.ships.create!(word: attacker_word)
       end
 
-      it "returns 422 HTTP status" do
+      it "returns 200 HTTP status" do
         post "/defenses", params: { word: 'comet', perfect_typing: '1' }
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(200)
       end
     end
 
