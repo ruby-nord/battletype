@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  root 'home#show'
+  root 'launchpad#show'
 end
