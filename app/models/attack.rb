@@ -43,7 +43,7 @@ class Attack
   end
 
   def english_word?
-    unless DictionaryEntry.where(word: word.downcase).present?
+    unless DictionaryEntry.where(word: word.downcase).exists?
       errors.add(:word, "english_word")
     end
   end
