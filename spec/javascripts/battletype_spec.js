@@ -6,14 +6,38 @@ describe("Battletype", function() {
   var attackForm  = $("<form><input name='word'></form>").get(0);
   var defenseForm = $("<form><input name='word'><input name='perfectTyping'></form>").get(0);
   
-  it("transmits the typed word to the server", function() {
-    spyOn(attackForm, "submit");
-    Battletype.init({ input: inputField, attack: attackForm, defense: defenseForm });
-    Battletype.mode = "attack";
+  describe("When attacking", function () {
+    beforeEach(function () {
+      Battletype.attacking = true;
+    });
     
-    var entry = { word: "Elephant", perfectTyping: false };
+    it("transmits the typed word to the server through the attack form", function() {
+      spyOn(attackForm, "submit");
+      Battletype.init({ inputDevice: inputField, attackFrequency: attackForm, defenseFrequency: defenseForm });
+      
+      var entry = { word: "Starbucks" };
+      
+      Battletype.transmitEntry(entry);
+      expect(attackForm.submit).toHaveBeenCalled();
+      expect(attackForm.elements[0].value).toEqual("Starbucks");
+    });
+  });
+  
+  describe("When defending", function () {
+    beforeEach(function () {
+      Battletype.attacking = false;
+    });
     
-    Battletype.transmitEntry(entry);
-    expect(attackForm).toHaveBeenCalled();
+    it("transmits the typed word to the server through the defense form", function() {
+      spyOn(defenseForm, "submit");
+      Battletype.init({ inputDevice: inputField, attackFrequency: attackForm, defenseFrequency: defenseForm });
+      
+      var entry = { word: "Cylon", perfectTyping: true };
+      
+      Battletype.transmitEntry(entry);
+      expect(defenseForm.submit).toHaveBeenCalled();
+      expect(defenseForm.elements[0].value).toEqual("Cylon");
+      expect(defenseForm.elements[1].value).toEqual("true");
+    });
   });
 });
