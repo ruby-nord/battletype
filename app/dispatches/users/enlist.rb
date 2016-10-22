@@ -1,16 +1,17 @@
 module Users
   class Enlist
-    def self.call(game)
-      new(game).call
-    end
+    MAX_PLAYERS = 2
 
-    def initialize(game)
+   def initialize(game)
       @game = game
     end
 
     def call
-      player = Player.create!(nickname: nickname)
-      session[:player_id] = player.id
+      Player.create!(nickname: nickname)
+    end
+
+    def game_full?
+      game.players.count >= MAX_PLAYERS
     end
 
     attr_reader :game
