@@ -1,3 +1,3 @@
 $(function () {
-  if (console && Battletype) { console.log("🚀"); }
+  Battletype.init("stdin");
 });
