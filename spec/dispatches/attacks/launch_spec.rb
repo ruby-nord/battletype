@@ -22,6 +22,10 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
         expect(dispatch.call(player: player, word: word)).to be_instance_of(Hash)
       end
 
+      it "returns payload with the newly launched ship and the attacker's id" do
+        expect(dispatch.call(player: player, word: word)).to include(code: 'successful_attack', word: 'curry', launched_ship: { damage: 2, velocity: 6, type: "medium" }, player_id: player.id)
+      end
+
       describe 'created ship' do
         subject(:created_ship) do
           dispatch.call(player: player, word: word)
@@ -76,30 +80,9 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
       it 'returns a payload' do
         expect(dispatch.call(player: player, word: word)).to be_instance_of(Hash)
       end
-    end
-  end
 
-  describe "#payload" do
-    subject(:dispatch) { Attacks::Launch.new(player: player, word: word) }
-
-    context "if the word is valid" do
-      let(:word) { 'curry' }
-      before { allow_words(word) }
-
-      it "contains the newly launched ship and the attacker's name" do
-        expect(dispatch.payload).to include(launched_ship: { damage: 2, velocity: 6, type: "medium" }, player_id: player.id)
-      end
-    end
-
-    context "if the word is not valid" do
-      let(:word) { 'duplicate' }
-
-      before :each do
-        Word.create!(game: game, value: word)
-      end
-
-      it "contains the invalid word and the attacker's name" do
-        expect(dispatch.payload).to include(word: "duplicate", player_id: player.id, error_codes: ["unique_case_insensitive_word", "english_word"])
+      it "returns a payload with the invalid word and the attacker's id" do
+        expect(dispatch.call(player: player, word: word)).to include(code: 'failed_attack', word: "duplicate", player_id: player.id, error_codes: ["unique_case_insensitive_word", "english_word"])
       end
     end
   end

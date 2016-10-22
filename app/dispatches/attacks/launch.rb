@@ -13,30 +13,30 @@ module Attacks
       @game   = player.game
       @player = player
       @word   = word
-      @attack = Attack.new(game, word, player)
+      @attack = Attack.new(game: game, word: word, player: player)
     end
 
     def call
-      if attack.valid?
-        save_word
-        upgrade_fleet
-      end
+      return failed_payload unless attack.valid?
 
-      return payload
-    end
+      save_word
+      upgrade_fleet
 
-    def payload
-      if attack.valid?
-        PayloadSerializer.new(player, launched_ship).to_json
-      else
-        { code: 'failed_attack', player_id: player.id, word: word, error_codes: attack.errors[:word] }
-      end
+      return successful_payload
     end
 
     private
 
+    def failed_payload
+      { code: 'failed_attack', player_id: player.id, word: word, error_codes: attack.errors[:word] }
+    end
+
     def save_word
       @saved_word = Word.create!(value: word, game: game)
+    end
+
+    def successful_payload
+      PayloadSerializer.new(player, word, launched_ship).to_h
     end
 
     def upgrade_fleet
