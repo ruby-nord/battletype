@@ -4,7 +4,6 @@ var ready = function (){
   App.messages = App.cable.subscriptions.create({channel: 'GameChannel', game_id: game_id}, {
     received: function(data) {
       console.log(data);
-      return $('#messages').append("<tr><td>" + data.user + " says : </td><td>" + data.message + "</td></tr>");
     },
   });
 }
