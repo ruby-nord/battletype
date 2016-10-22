@@ -1,0 +1,68 @@
+#small_ship {
+  text-align: center;
+  position: absolute;
+  display: block;
+  right: -150px;   //FIXME (positionnement en JS ?)
+  top: 330px;      //FIXME (positionnement en JS ?)
+
+  -webkit-animation: movingleft 18s linear infinite;
+  -moz-animation: movingleft 18s linear infinite;
+  animation: movingleft 18s linear infinite;
+
+  .word {
+    background: $word_label;
+    border-radius: 4px;
+    color: $white;
+    display: inline-block;
+    font-family: Consolas, monaco, monospace;
+    font-size: .8em;
+    margin: 0 0 5px;
+    padding: 3px 5px;
+  }
+
+  .ship {
+    display: block;
+
+    svg {
+      height: 50px;
+      width: 70px;
+
+      #fire01 {
+        -webkit-animation: shake01 .1s ease infinite;
+        -moz-animation: shake01 .1s ease infinite;
+        animation: shake01 .1s ease infinite;
+      }
+
+      #fire02 {
+        -webkit-animation: shake02 .1s ease infinite;
+        -moz-animation: shake02 .1s ease infinite;
+        animation: shake02 .1s ease infinite;
+      }
+
+      #Ship01 {
+        -webkit-animation: levitate 3s ease infinite;
+        -moz-animation: levitate 3s ease infinite;
+        animation: levitate 3s ease infinite;
+        -webkit-animation: levitate 2s ease infinite;
+        -moz-animation: levitate 2s ease infinite;
+        animation: levitate 2s ease infinite;
+      }
+
+      #fuselage, #lights, #pulsar, #fire {
+        -webkit-animation: levitate_slow_left .2s ease infinite;
+        -moz-animation: levitate_slow_left .2s ease infinite;
+        animation: levitate_slow_left .2s ease infinite;
+      }
+
+      .light {
+        -webkit-animation: opacity 2s ease infinite;
+        -moz-animation: opacity 2s ease infinite;
+        animation: opacity 2s ease infinite;
+
+        &.circle01 {animation-delay: .2s}
+        &.circle02 {animation-delay: .4s}
+      }
+
+    }
+  }
+}
