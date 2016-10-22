@@ -83,7 +83,7 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
       before { allow_words(word) }
       
       it "contains the newly launched ship and the attacker's name" do
-        expect(dispatch.payload).to include(launched_ship: { damage: 2, velocity: 6 }, player: "Rico")
+        expect(dispatch.payload).to include(launched_ship: { damage: 2, velocity: 6, type: "medium" }, player: "Rico")
       end
     end
     

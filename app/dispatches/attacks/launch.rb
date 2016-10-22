@@ -26,7 +26,7 @@ module Attacks
     
     def payload
       if attack.valid?
-        { player: player.nickname, launched_ship: { damage: launched_ship.damage, velocity: launched_ship.velocity } }
+        PayloadSerializer.new(player, launched_ship).to_json
       else
         { player: player.nickname, invalid_word: word }
       end
