@@ -14,6 +14,8 @@ $ bundle install
 $ cp config/application.yml.sample config/application.yml
 $ rails db:create
 $ rails db:migrate
+$ rake db:seed
+$ rake dico:update
 ```
 
 ### Usage
