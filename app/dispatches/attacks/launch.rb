@@ -23,7 +23,7 @@ module Attacks
 
       return payload
     end
-    
+
     def payload
       if attack.valid?
         PayloadSerializer.new(player, launched_ship).to_json
@@ -33,7 +33,7 @@ module Attacks
     end
 
     private
-    
+
     def attack
       @attack ||= Attack.new(game, word, player)
     end
@@ -45,7 +45,7 @@ module Attacks
     def upgrade_fleet
       player.ships << launched_ship
     end
-    
+
     def launched_ship
       base_characteristics = Attack.reward_for(word: word)
       ship_characteristics = base_characteristics.merge(state: 'engaged', word: saved_word)

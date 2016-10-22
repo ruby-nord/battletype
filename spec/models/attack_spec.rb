@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Attack", type: :model do
-  subject(:attack)  { Attack.new(game, word, player) }
+  subject(:attack)  { Attack.new(game: game, word: word, player: player) }
   let(:game)        { Game.create! }
   let(:word)        { 'attack' }
   let(:player)      { Player.new }
@@ -84,16 +84,18 @@ RSpec.describe "Attack", type: :model do
 
     describe "Word length verification" do
       before { allow_words(["a", "aa", "aaa"]) }
-      it { expect(Attack.new(game, "a", player).valid?).to be false }
-      it { expect(Attack.new(game, "aa", player).valid?).to be true }
-      it { expect(Attack.new(game, "aaa", player).valid?).to be true }
+
+      it { expect(Attack.new(game: game, word: "a", player: player).valid?).to be false }
+      it { expect(Attack.new(game: game, word: "aa", player: player).valid?).to be true }
+      it { expect(Attack.new(game: game, word: "aaa", player: player).valid?).to be true }
     end
 
     describe "Word should exist in dictionary" do
       before { allow_words("animal") }
-      it { expect(Attack.new(game, "animal", player).valid?).to be true }
-      it { expect(Attack.new(game, "AniMal", player).valid?).to be true }
-      it { expect(Attack.new(game, "animal12", player).valid?).to be false }
+
+      it { expect(Attack.new(game: game, word: "animal", player: player).valid?).to be true }
+      it { expect(Attack.new(game: game, word: "AniMal", player: player).valid?).to be true }
+      it { expect(Attack.new(game: game, word: "animal12", player: player).valid?).to be false }
     end
   end
 end
