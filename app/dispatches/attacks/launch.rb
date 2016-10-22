@@ -28,14 +28,14 @@ module Attacks
       if attack.valid?
         PayloadSerializer.new(player, launched_ship).to_json
       else
-        { player: player.nickname, invalid_word: word }
+        { player_id: player.id, invalid_word: word, error_codes: attack.errors[:word] }
       end
     end
 
     private
     
     def attack
-      Attack.new(game, word, player)
+      @attack ||= Attack.new(game, word, player)
     end
 
     def save_word
