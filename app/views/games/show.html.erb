@@ -1,9 +1,14 @@
 <h1><%= @game.name %></h1>
 
-<%= form_tag(attacks_path, id: "attack") do %>
-  <%= text_field_tag :word %>
-  <%= hidden_field_tag :game_id, @game.id %>
-<% end %>
+<div class="combat_zone "id="game">
+
+  <%= render(partial: "games/ships/medium_ship") %>
+
+  <%= form_tag(attacks_path, id: "attack") do %>
+    <%= text_field_tag :word %>
+    <%= hidden_field_tag :game_id, @game.id %>
+  <% end %>
+</div>
 
 <!--<input type="text" id="stdin"></input>-->
 
