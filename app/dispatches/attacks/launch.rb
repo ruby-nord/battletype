@@ -1,7 +1,7 @@
 module Attacks
   class Launch
     private
-    attr_reader :game, :player, :saved_word, :word
+    attr_reader :attack, :game, :player, :saved_word, :word
 
     public
 
@@ -13,6 +13,7 @@ module Attacks
       @game   = player.game
       @player = player
       @word   = word
+      @attack = Attack.new(game, word, player)
     end
 
     def call
@@ -33,10 +34,6 @@ module Attacks
     end
 
     private
-
-    def attack
-      @attack ||= Attack.new(game, word, player)
-    end
 
     def save_word
       @saved_word = Word.create!(value: word, game: game)

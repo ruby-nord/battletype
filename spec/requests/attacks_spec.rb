@@ -22,6 +22,16 @@ RSpec.describe "Attacks", type: :request do
         post "/attacks", params: { word: 'curry' }
         expect(response).to have_http_status(200)
       end
+
+      it 'broadcasts a launched ship payload' do
+        allow_words("curry")
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/attacks", params: { word: 'curry' }
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          player_id: player.id, launched_ship: { type: 'medium', damage: 2, velocity: 6 }
+        )
+      end
     end
 
     context 'when provided word has already been played' do
@@ -32,6 +42,12 @@ RSpec.describe "Attacks", type: :request do
       it 'returns 200 HTTP status' do
         post "/attacks", params: { word: 'duplicate' }
         expect(response).to have_http_status(200)
+      end
+
+      it 'broadcasts an error message' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/attacks", params: { word: 'duplicate' }
+        expect(ActionCable.server).to have_received(:broadcast).with(anything, player: "Rico", invalid_word: 'duplicate' )
       end
     end
 
