@@ -1,2 +1,8 @@
 # All the keys we'll need
-# Empty for now :)
+development:
+  ADMIN_USERNAME: "curry"
+  ADMIN_PASSWORD: "coucoulechat"
+
+production:
+  ADMIN_USERNAME: ""
+  ADMIN_PASSWORD: ""
