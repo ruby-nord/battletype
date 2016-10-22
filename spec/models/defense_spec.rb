@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Defense", type: :model do
-  subject(:defense)   { Defense.new(player, word) }
+  subject(:defense)   { Defense.new(player: player, word: word, perfect_typing: '1') }
 
   let(:game)          { Game.create! }
   let(:attacker)      { Player.create!(game: game) }
@@ -10,6 +10,32 @@ RSpec.describe "Defense", type: :model do
 
   before :each do
     attacker.ships.create!(word: attacker_word, state: 'engaged')
+  end
+
+  describe '#strike_gauge' do
+    subject(:defense) { Defense.new(player: player, word: word, perfect_typing: perfect_typing) }
+
+    let(:word) { 'strike' }
+
+    before :each do
+      player.strike_gauge = 5
+    end
+
+    context 'when word is perfectly typed' do
+      let(:perfect_typing) { '1' }
+
+      it 'returns 11' do
+        expect(defense.strike_gauge).to eq(11)
+      end
+    end
+
+    context 'when word is not perfectly typed' do
+      let(:perfect_typing) { '0' }
+
+      it 'returns 0' do
+        expect(defense.strike_gauge).to eq(0)
+      end
+    end
   end
 
   describe '#valid?' do
