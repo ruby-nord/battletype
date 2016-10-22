@@ -9,6 +9,7 @@ module Users
     end
 
     def call
+      return if @game.players.count >= 2
       Player.create!(nickname: nickname)
     end
 

@@ -8,7 +8,7 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
   describe "POST create" do
     context 'when word is valid' do
       let(:word) { 'curry' }
-      before { allow_words("curry") }
+      before { allow_words(word) }
 
       it 'saves the Word' do
         expect { dispatch.call(player, word) }.to change { Word.where(value: word, game: game).count }.from(0).to(1)
