@@ -9,8 +9,7 @@ module Users
     end
 
     def call
-      player = Player.create!(nickname: nickname)
-      session[:player_id] = player.id
+      Player.create!(nickname: nickname)
     end
 
     attr_reader :game
