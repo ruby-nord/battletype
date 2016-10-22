@@ -46,4 +46,27 @@ RSpec.describe "Games", type: :request do
       it { expect(Game.last.name).to eq("foo") }
     end
   end
+
+  describe "POST create" do
+    context "game doesn't exist" do
+      before { post "/games", params: {game: {name: "foobar"} } }
+
+      it { expect(Game.count).to eq(1) }
+      it { expect(Game.last.name).to eq("foobar") }
+    end
+
+    context "game already exist" do
+      before { Game.create!(slug: "foobar") }
+      before { post "/games", params: {game: {name: "foobar"} } }
+
+      it { expect(Game.count).to eq(1) }
+    end
+
+    context "game name has special characters" do
+      before { post "/games", params: {game: {name: "c'est la fête"} } }
+
+      it { expect(Game.last.name).to eq("c'est la fête") }
+      it { expect(Game.last.slug).to eq("c-est-la-fete") }
+    end
+  end
 end

@@ -1,1 +1,9 @@
 <h1>Battletype 🚀</h1>
+
+<p>Create a game and invite a friend !</p>
+
+<%= form_for(@game) do |f| %>
+  battle-type.com/<%= f.text_field :name, value: "your_name" %>
+  <br>
+  <%= f.submit %>
+<% end %>
