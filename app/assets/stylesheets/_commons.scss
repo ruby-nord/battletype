@@ -19,5 +19,115 @@ body {
     overflow: hidden;
     position: relative;
     width: 100%;
+
+    input[type="text"] {
+      -moz-appearance: none;
+      -moz-box-sizing: border-box;
+      -webkit-appearance: none;
+      -webkit-box-sizing: border-box;
+      appearance: none;
+      background-color: $game_input;
+      border: 0;
+      box-sizing: border-box;
+      color: $white;
+      font-family: Consolas, monaco, monospace;
+      font-size: 1em;
+      line-height: normal;
+      margin: 0 auto;
+      height: 40px;
+      text-align: center;
+      outline: none;
+      padding: 10px;
+      width: 300px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+.hud {
+  height: 100%;
+  position: relative;
+  width: 100%;
+
+  .player, .opponent {
+    display: inline-block;
+    font-family: Consolas, monaco, monospace;
+    text-transform: uppercase;
+    color: $white;
+    font-size: 1.2em;
+    font-weight: normal;
+    line-height: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    bottom: 58px;
+  }
+
+  .player {
+    left: 10px;
+  }
+
+  .opponent {
+    right: 10px;
+  }
+
+  #life_player, #life_opponent {
+    display: block;
+    width: 172px;
+    height: 45px;
+    background: url(under_life.svg);
+    background-size: 172px 45px;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    list-style-type:none;
+    margin: 0;
+    padding: 5px 26px 5px 5px;
+    position: absolute;
+    align-items: center;
+
+    .life_bar {
+      display: block;
+      width: 10px;
+      height: 28px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .life_bar:nth-child(-n+3) {
+      svg {
+        fill: $life;
+      }
+    }
+
+    .life_bar:nth-child(n+4) {
+      svg {
+        fill: lighten($life, 10);
+      }
+    }
+
+    .life_bar:nth-child(n+7) {
+      svg {
+        fill: lighten($life, 20);
+      }
+    }
+
+    .life_bar:last-child {
+      svg {
+        fill: lighten($life, 30);
+      }
+    }
+  }
+
+  #life_player {
+    left: 0;
+  }
+
+  #life_opponent {
+    right: 0;
+    transform: scaleX(-1)
   }
 }
