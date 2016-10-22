@@ -1,2 +1,0 @@
-class DictionaryReference < ApplicationRecord
-end
