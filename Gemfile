@@ -27,6 +27,7 @@ group :development, :test do
   gem 'coffee-rails', '~> 4.2' # Teaspoon still needs coffee-rails, unfortunately (https://github.com/jejacks0n/teaspoon/issues/405)
   gem 'rspec-rails', '~> 3.5'
   gem "teaspoon-jasmine"
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 group :development do

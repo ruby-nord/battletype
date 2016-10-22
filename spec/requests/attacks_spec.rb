@@ -18,6 +18,7 @@ RSpec.describe "Attacks", type: :request do
 
     context "when provided word is an English word" do
       it "returns 200 HTTP status" do
+        allow_words("curry")
         post "/attacks", params: { word: 'curry' }
         expect(response).to have_http_status(200)
       end
