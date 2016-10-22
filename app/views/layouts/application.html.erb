@@ -10,6 +10,10 @@
 
   <body class="<%= controller_name %> <%= action_name %>">
     <div class="wrapper">
+      <header>
+        <img src="<%= image_path('battletype.svg') %>" alt="BattleType" class="logo" />
+        <img src="<%= image_path('ruby_rampage_logo.png') %>" alt="Ruby Rampage" class="rampage" />
+      </header>
       <%= yield %>
     </div>
   </body>

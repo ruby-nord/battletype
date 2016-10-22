@@ -5,10 +5,29 @@
 
 body {
   background: $body_bg;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+
+  .logo {
+    display: inline-block;
+  }
+
+  .rampage {
+    display: inline-block;
+    width: 50px;
+    height: auto;
+  }
 }
 
 .wrapper {
-  margin: 70px auto;
+  margin: 0 auto;
   max-width: 1200px;
   width: 100%;
 
