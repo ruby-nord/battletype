@@ -3,14 +3,14 @@
     "Backspace": 8,
     "Enter": 13
   };
-  
+
   this.Stdin = {
     inputDevice: { writable: true },
     ps2Port: { writable: true },
-    
+
     powerOn: function () {
       this._typingMistake = false,
-      
+
       this.inputDevice.value = "";
       this.inputDevice.addEventListener("keydown", this, { passive: true });
     },
@@ -25,7 +25,7 @@
     },
     handleEvent: function (e) {
       var pressedKey;
-      
+
       switch(e.type) {
       case "keydown":
         if (e.key !== undefined) {
@@ -45,9 +45,9 @@
         // some code here...
         break;
       }
-      
+
       switch(pressedKey) {
-      case "Backspace": 
+      case "Backspace":
         this._typingMistake = true;
         break;
       case "Enter":
