@@ -15,6 +15,7 @@ gem 'figaro',       '~> 1.1.1'
 gem 'jbuilder',     '~> 2.5'
 gem 'oj',           '~> 2.12.14' # Used by rollbar
 gem 'rollbar',      '~> 2.13.3'
+gem 'redis'
 
 # Assets
 gem 'sass-rails',   '~> 5.0'
@@ -36,4 +37,5 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'spring-commands-rspec'
+  gem 'dotenv-rails', '~> 2.1.1'
 end
