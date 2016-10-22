@@ -56,10 +56,12 @@ RSpec.describe "Games", type: :request do
     end
 
     context "game already exist" do
-      before { Game.create!(slug: "foobar") }
+      let!(:another_game) { Game.create!(slug: "other") }
+      let!(:existing_game) { Game.create!(slug: "foobar") }
       before { post "/games", params: {game: {name: "foobar"} } }
 
-      it { expect(Game.count).to eq(1) }
+      it { expect(Game.count).to eq(2) }
+      it { expect(response).to redirect_to(game_url(existing_game)) }
     end
 
     context "game name has special characters" do
