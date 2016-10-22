@@ -99,7 +99,7 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
       end
       
       it "contains the invalid word and the attacker's name" do
-        expect(dispatch.payload).to include(invalid_word: "duplicate", player: "Rico")
+        expect(dispatch.payload).to include(word: "duplicate", player_id: player.id, error_codes: ["unique_case_insensitive_word", "english_word"])
       end
     end
   end
