@@ -6,6 +6,16 @@ RSpec.describe "Attack", type: :model do
   let(:word)        { 'attack' }
 
   describe '.reward_for' do
+    describe 'word between 0 and 1 letters' do
+      it 'returns nil for an empty string ' do
+        expect(Attack.reward_for(word: '')).to eq(nil)
+      end
+
+      it 'returns nil for a word with 1 letter' do
+        expect(Attack.reward_for(word: 'a')).to eq(nil)
+      end
+    end
+
     describe 'word between 2 and 3 letters' do
       it 'returns SMALL ship for a word with 2 letters' do
         expect(Attack.reward_for(word: 'he')).to eq(Ship::SMALL)

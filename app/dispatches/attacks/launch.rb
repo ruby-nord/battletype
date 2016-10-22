@@ -33,8 +33,8 @@ module Attacks
     end
 
     def upgrade_fleet
-      base_charactheristics = Attack.reward_for(word: word)
-      ship_characteristics  = base_charactheristics.merge(
+      base_characteristics = Attack.reward_for(word: word)
+      ship_characteristics = base_characteristics.merge(
         state:  'engaged',
         player: player,
         word:   saved_word
