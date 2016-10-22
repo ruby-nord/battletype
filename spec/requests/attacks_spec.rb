@@ -22,16 +22,33 @@ RSpec.describe "Attacks", type: :request do
         post "/attacks", params: { word: 'curry' }
         expect(response).to have_http_status(200)
       end
+
+      it 'broadcasts a launched ship payload' do
+        allow_words("curry")
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/attacks", params: { word: 'curry' }
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          code: 'successful_attack', player_id: player.id, word: 'curry', launched_ship: { type: 'medium', damage: 2, velocity: 6 }
+        )
+      end
     end
 
     context 'when provided word has already been played' do
       before :each do
         game.words.create!(value: 'duplicate')
+        allow_words("duplicate")
       end
 
       it 'returns 200 HTTP status' do
         post "/attacks", params: { word: 'duplicate' }
         expect(response).to have_http_status(200)
+      end
+
+      it 'broadcasts an error message' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/attacks", params: { word: 'duplicate' }
+        expect(ActionCable.server).to have_received(:broadcast).with(anything, code: 'failed_attack', word: 'duplicate', player_id: player.id, error_codes: ['unique_case_insensitive_word'] )
       end
     end
 
@@ -44,18 +61,12 @@ RSpec.describe "Attacks", type: :request do
         post "/attacks", params: { word: 'battletype' }
         expect(response).to have_http_status(200)
       end
-      
+
       it 'broadcasts an error message' do
         allow(ActionCable.server).to receive(:broadcast)
         post "/attacks", params: { word: 'battletype' }
-        expect(ActionCable.server).to have_received(:broadcast).with(anything, player_id: player.id, word: 'battletype', error_codes: ["unique_case_insensitive_word", "english_word"])
+        expect(ActionCable.server).to have_received(:broadcast).with(anything, code: 'failed_attack', player_id: player.id, word: 'battletype', error_codes: ["unique_case_insensitive_word", "english_word"])
       end
     end
-
-    # NEXT:
-    # - mot du dico anglais
-    # - mot pas du dico anglais
-    # - meme mot pluriel
-    # - meme mot singulier
   end
 end

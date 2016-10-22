@@ -1,6 +1,6 @@
 class Attack
   include ActiveModel::Validations
-  MIN_WORD_SIZE=2
+  MIN_WORD_SIZE = 2
 
   validate :unique_case_insensitive_word?, :english_word?, :long_enough?
 
@@ -22,12 +22,12 @@ class Attack
     end
   end
 
-  def initialize(game, word, player)
-    @game = game
-    @word = word
+  def initialize(game:, word:, player:)
+    @game   = game
+    @word   = word
     @player = player
   end
-  
+
   private
 
   def unique_case_insensitive_word?
