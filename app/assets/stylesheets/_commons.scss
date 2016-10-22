@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+  color: $white;
+}
+
+body {
+  background: $body_bg;
+}
+
+.wrapper {
+  margin: 70px auto;
+  max-width: 1200px;
+  width: 100%;
+
+  .combat_zone {
+    background: $game_bg;
+    height: 600px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+}
