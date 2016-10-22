@@ -8,7 +8,7 @@ Game.destroy_all
 puts 'Game: Batman VS Superman...'
 game = Game.create!(
   name:             "Batman VS Superman",
-  invitation_token: "a676c32ec7",
+  slug:             "Batman VS Superman".parameterize,
   state:            "running"
 )
 
