@@ -22,6 +22,15 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'unknown', perfect_typing: '1' }
         expect(response).to have_http_status(200)
       end
+
+      it 'broadcasts a failed defense payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/defenses", params: { word: 'unknown' }
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          code: 'failed_defense', player_id: player.id, word: 'unknown', error_codes: ['not_found']
+        )
+      end
     end
 
     context "when word matches player's own ship" do
@@ -33,6 +42,15 @@ RSpec.describe "Defenses", type: :request do
       it "returns 200 HTTP status" do
         post "/defenses", params: { word: 'own', perfect_typing: '1' }
         expect(response).to have_http_status(200)
+      end
+
+      it 'broadcasts a failed defense payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/defenses", params: { word: 'own' }
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          code: 'failed_defense', player_id: player.id, word: 'own', error_codes: ['attacker_ship']
+        )
       end
     end
 
@@ -46,6 +64,15 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'comet', perfect_typing: '1' }
         expect(response).to have_http_status(200)
       end
+
+      it 'broadcasts a failed defense payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/defenses", params: { word: 'comet' }
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          code: 'failed_defense', player_id: player.id, word: 'comet', error_codes: ['matching_case']
+        )
+      end
     end
 
     context "when word matches one of attacker's ships" do
@@ -58,17 +85,35 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'HacKeR', perfect_typing: '1' }
         expect(response).to have_http_status(200)
       end
+
+      it 'broadcasts a successful defense payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/defenses", params: { word: 'HacKeR' }
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          code: 'successful_defense', player_id: player.id, word: 'HacKeR', strike: { gauge: 6, unlocked: nil }
+        )
+      end
     end
 
     context "when matching word not perfectly typed" do
       before :each do
-        attacker_word = Word.create!(value: 'perfect')
+        attacker_word = Word.create!(value: 'flaw')
         attacker.ships.create!(word: attacker_word)
       end
 
       it "returns 200 HTTP status" do
-        post "/defenses", params: { word: 'perfect', perfect_typing: '0' }
+        post "/defenses", params: { word: 'flaw', perfect_typing: '0' }
         expect(response).to have_http_status(200)
+      end
+
+      it 'broadcasts a successful defense payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/defenses", params: { word: 'flaw' }
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          code: 'successful_defense', player_id: player.id, word: 'flaw', strike: { gauge: 0, unlocked: nil }
+        )
       end
     end
   end
