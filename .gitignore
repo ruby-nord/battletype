@@ -19,7 +19,8 @@
 # Ignore application configuration
 /config/application.yml
 
+.DS_Store
+
 # Ignore RubyMine project files
 .idea
-
 .DS_Store

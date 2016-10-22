@@ -2,7 +2,9 @@
 development:
   ADMIN_USERNAME: "curry"
   ADMIN_PASSWORD: "coucoulechat"
+  HOST:           "localhost"
 
 production:
   ADMIN_USERNAME: ""
   ADMIN_PASSWORD: ""
+  HOST:           "battletype.2016.rubyrampage.com"

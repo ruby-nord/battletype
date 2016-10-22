@@ -39,6 +39,15 @@ Rails.application.configure do
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
+  # Action Cable endpoint configuration
+  config.action_cable.url = "ws://#{ENV["HOST"]}/cable"
+  config.action_cable.allowed_request_origins = [ENV["HOST"], "battletype.com"].map do |e|
+                                                  ["https://#{e}", /https:\/\/#{e}.*/,
+                                                   "http://#{e}", /http:\/\/#{e}.*/]
+                                                end.flatten
+
+
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
