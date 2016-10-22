@@ -12,11 +12,7 @@ class GamesController < ApplicationController
 
   private
   def set_game
-    @game ||= begin
-      game = Game.where(slug: params[:id]).first
-      game = Games::Create.call(params[:id]) if game.nil?
-      game
-    end
+    @game = Game.find_by(slug: params[:id]) || Games::Create.new(params[:id]).call
   end
 
   def enlist

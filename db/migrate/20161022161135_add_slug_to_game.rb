@@ -2,7 +2,7 @@ class AddSlugToGame < ActiveRecord::Migration[5.0]
   def up
     remove_column :games, :invitation_token #index is automatically removed in rails 4
     add_column :games, :slug, :string
-    add_index  :games, [:slug]
+    add_index  :games, [:slug], unique: true
     Game.find_each do |game|
       game.update(slug: game.name.parameterize)
     end
