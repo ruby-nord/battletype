@@ -3,6 +3,7 @@ development:
   ADMIN_USERNAME: "curry"
   ADMIN_PASSWORD: "coucoulechat"
   HOST:           "localhost"
+  REDIS_URL:      "redis://127.0.0.1:6379"
 
 production:
   ADMIN_USERNAME: ""
