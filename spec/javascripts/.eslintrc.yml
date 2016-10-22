@@ -1,6 +1,7 @@
 env:
   browser: true
   jasmine: true
+  jquery: true
 extends: 'eslint:recommended'
 globals:
   Battletype: true

@@ -14,10 +14,11 @@ function typeKeys(element, keys) {
 
 describe("Stdin", function() {
   var stdin;
+  var terminal = { dispatchEvent: function () {} };
   var $input = document.createElement("input");
   
   beforeEach(function() {
-    stdin = Object.create(Stdin, { $input: { value: $input } });
+    stdin = Object.create(Stdin, { $input: { value: $input }, terminal: { value: terminal } });
     stdin.powerOn();
   });
   
@@ -25,5 +26,13 @@ describe("Stdin", function() {
     typeKeys($input, ["A", "B", "Backspace", "C"]);
     
     expect(stdin.perfectTyping()).toBeFalsy();
+  });
+  
+  it("triggers an event when the Enter key is pressed", function () {
+    spyOn(terminal, "dispatchEvent");
+    
+    typeKeys($input, ["A", "B", "Enter"]);
+    
+    expect(terminal.dispatchEvent).toHaveBeenCalledWith(jasmine.any(CustomEvent));
   });
 });
