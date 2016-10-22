@@ -1,24 +1,33 @@
-# README
+# BattleType
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Getting Started
 
-Things you may want to cover:
+### Requirements
 
-* Ruby version
+* PostgreSQL
+* Ruby 2.3.1
 
-* System dependencies
+### Installation
 
-* Configuration
+```
+$ bundle install
+$ cp config/application.yml.sample config/application.yml
+$ rails db:create
+$ rails db:migrate
+```
 
-* Database creation
+### Usage
 
-* Database initialization
+Just launch the Rails app.
 
-* How to run the test suite
+```
+$ rails s
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Contributing
 
-* Deployment instructions
-
-* ...
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
