@@ -10,13 +10,14 @@ gem 'jbuilder',     '~> 2.5'
 # Assets
 gem 'sass-rails',   '~> 5.0'
 gem 'uglifier',     '>= 1.3.0'
-gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'turbolinks',   '~> 5'
 
 group :development, :test do
   gem 'byebug', platform: :mri
+  gem 'coffee-rails', '~> 4.2' # Teaspoon still needs coffee-rails, unfortunately (https://github.com/jejacks0n/teaspoon/issues/405)
   gem 'rspec-rails', '~> 3.5'
+  gem "teaspoon-jasmine"
 end
 
 group :development do
