@@ -13,7 +13,7 @@ class Defense
 
   def strike_gauge
     if perfect_typing
-      player.strike_gauge + word.size
+      [player.strike_gauge + word.size, 100].min
     else
       0
     end
