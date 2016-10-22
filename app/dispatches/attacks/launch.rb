@@ -16,31 +16,41 @@ module Attacks
     end
 
     def call
-      attack = Attack.new(game, word)
-
       if attack.valid?
         save_word
         upgrade_fleet
       end
 
-      return attack
+      return payload
+    end
+    
+    def payload
+      if attack.valid?
+        { player: player.nickname, launched_ship: { damage: launched_ship.damage, velocity: launched_ship.velocity } }
+      else
+        { player: player.nickname, invalid_word: word }
+      end
     end
 
     private
+    
+    def attack
+      Attack.new(game, word, player)
+    end
 
     def save_word
       @saved_word = Word.create!(value: word, game: game)
     end
 
     def upgrade_fleet
+      player.ships << launched_ship
+    end
+    
+    def launched_ship
       base_characteristics = Attack.reward_for(word: word)
-      ship_characteristics = base_characteristics.merge(
-        state:  'engaged',
-        player: player,
-        word:   saved_word
-      )
+      ship_characteristics = base_characteristics.merge(state: 'engaged', word: saved_word)
 
-      Ship.create!(ship_characteristics)
+      Ship.new(ship_characteristics)
     end
   end
 end

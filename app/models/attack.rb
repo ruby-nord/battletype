@@ -2,7 +2,7 @@ class Attack
   MIN_WORD_SIZE=2
 
   private
-  attr_reader :game, :word
+  attr_reader :game, :word, :player
 
   public
 
@@ -19,9 +19,10 @@ class Attack
     end
   end
 
-  def initialize(game, word)
+  def initialize(game, word, player)
     @game = game
     @word = word
+    @player = player
   end
 
   def valid?
@@ -31,7 +32,7 @@ class Attack
       english_word?
     end
   end
-
+  
   private
 
   def unique_case_insensitive_word?
