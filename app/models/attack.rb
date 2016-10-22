@@ -4,6 +4,19 @@ class Attack
 
   public
 
+  def self.reward_for(word:)
+    case word.length
+    when 0..1
+      nil
+    when 2..3
+      Ship::SMALL
+    when 4..6
+      Ship::MEDIUM
+    else
+      Ship::LARGE
+    end
+  end
+
   def initialize(game, word)
     @game = game
     @word = word

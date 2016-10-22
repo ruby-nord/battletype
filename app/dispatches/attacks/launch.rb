@@ -1,7 +1,7 @@
 module Attacks
   class Launch
     private
-    attr_reader :game, :player, :word
+    attr_reader :game, :player, :saved_word, :word
 
     public
 
@@ -20,6 +20,7 @@ module Attacks
 
       if attack.valid?
         save_word
+        upgrade_fleet
       end
 
       return attack
@@ -28,7 +29,18 @@ module Attacks
     private
 
     def save_word
-      Word.create!(value: word, game: game)
+      @saved_word = Word.create!(value: word, game: game)
+    end
+
+    def upgrade_fleet
+      base_charactheristics = Attack.reward_for(word: word)
+      ship_characteristics  = base_charactheristics.merge(
+        state:  'engaged',
+        player: player,
+        word:   saved_word
+      )
+
+      Ship.create!(ship_characteristics)
     end
   end
 end
