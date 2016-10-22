@@ -18,7 +18,9 @@
       <li class="life_bar"><%= render "games/hud/life" %></li>
       <li class="life_bar"><%= render "games/hud/life" %></li>
     </ul>
-    <h1 class="player">Casimir</h1>
+    <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
+      <%= f.text_field :nickname %>
+    <% end %>
 
     <ul id="life_opponent">
       <li class="life_bar"><%= render "games/hud/life" %></li>
@@ -32,7 +34,7 @@
       <li class="life_bar"><%= render "games/hud/life" %></li>
       <li class="life_bar"><%= render "games/hud/life" %></li>
     </ul>
-    <h1 class="opponent">Calimero</h1>
+    <h1 class="opponent"><%= opponent.nickname %></h1>
 
     <div class="player_bonus">
       <img src="<%= image_path('speed_bonus.svg') %>"/>

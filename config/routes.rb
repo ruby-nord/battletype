@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   resources :attacks,   only: [:create]
   resources :defenses,  only: [:create]
   resources :games,     only: [:show, :create]
+  resources :players,   only: [:update]
 end
