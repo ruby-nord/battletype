@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20161022200518) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "slug"
-    t.index ["slug"], name: "index_games_on_slug", using: :btree
+    t.index ["slug"], name: "index_games_on_slug", unique: true, using: :btree
   end
 
   create_table "players", force: :cascade do |t|

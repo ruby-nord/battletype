@@ -1,9 +1,11 @@
-<h1><%= @game.name %></h1>
 
-<div class="combat_zone "id="game">
+
+<div class="combat_zone attack_mode" id="game">
   <%= render "stars" %>
 
   <div class="hud">
+    <h1 class="room">ROOM: <%= @game.name %></h1>
+
     <ul id="life_player">
       <li class="life_bar"><%= render "games/hud/life" %></li>
       <li class="life_bar"><%= render "games/hud/life" %></li>
@@ -30,8 +32,16 @@
       <li class="life_bar"><%= render "games/hud/life" %></li>
       <li class="life_bar"><%= render "games/hud/life" %></li>
     </ul>
-
     <h1 class="opponent">Calimero</h1>
+
+    <div class="player_bonus">
+      <img src="<%= image_path('speed_bonus.svg') %>"/>
+      <p>Speed +20% (Use SPACE)</p>
+    </div>
+    
+    <div class="bonus_bar">
+      <div class="bonus_percentage"></div>
+    </div>
 
     <%= text_field_tag :stdin %>
     <%= form_tag(attacks_path, id: "attack", data: { remote: true }) do %>
