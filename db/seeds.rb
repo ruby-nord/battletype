@@ -1,7 +1,62 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+## Cleanup
+
+puts 'Cleaning database...'
+Game.destroy_all
+
+## Game - Batman VS Superman
+
+puts 'Game: Batman VS Superman...'
+game = Game.create!(
+  name:             "Batman VS Superman",
+  invitation_token: "a676c32ec7",
+  state:            "running"
+)
+
+batman = Player.create!(
+  nickname:       "Batman",
+  life:           10,
+  strike_gauge:   0,
+  current_strike: nil,
+  human:          true,
+  creator:        true,
+  won:            false,
+  game:           game
+)
+
+superman = Player.create!(
+  nickname:       "Superman",
+  life:           10,
+  strike_gauge:   0,
+  current_strike: nil,
+  human:          true,
+  creator:        false,
+  won:            false,
+  game:           game
+)
+
+### Batman Ships
+
+batman.ships.create!(
+  damage:   1,
+  velocity: 4,
+  state:    'engaged',
+  word:     Word.new(value: 'lex', game: game)
+)
+
+batman.ships.create!(
+  damage:   4,
+  velocity: 12,
+  state:    'engaged',
+  word:     Word.new(value: 'kryptonite', game: game)
+)
+
+### Superman Ships
+
+superman.ships.create!(
+  damage:   2,
+  velocity: 6,
+  state:    'engaged',
+  word:     Word.new(value: 'joker', game: game)
+)
+
+puts 'Finished!'
