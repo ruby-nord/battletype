@@ -1,10 +1,16 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
+# Base
 gem 'rails',        '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg',           '~> 0.18'
 gem 'puma',         '~> 3.0'
 
+# Git sources
+gem 'activeadmin',         git: 'https://github.com/activeadmin/activeadmin.git'
+gem 'inherited_resources', git: 'https://github.com/activeadmin/inherited_resources.git' # Used by activeadmin
+
+# Gems!
 gem 'figaro',       '~> 1.1.1'
 gem 'jbuilder',     '~> 2.5'
 gem 'oj',           '~> 2.12.14' # Used by rollbar
