@@ -1,13 +1,13 @@
-#medium_ship {
+#big_ship {
   text-align: center;
   position: absolute;
   display: block;
   right: -150px;   //FIXME (positionnement en JS ?)
-  top: 150px;      //FIXME (positionnement en JS ?)
+  top: 350px;      //FIXME (positionnement en JS ?)
 
-  -webkit-animation: movingleft 30s linear infinite;
-  -moz-animation: movingleft 30s linear infinite;
-  animation: movingleft 30s linear infinite;
+  -webkit-animation: movingleft 40s linear infinite;
+  -moz-animation: movingleft 40s linear infinite;
+  animation: movingleft 40s linear infinite;
 
   .word {
     background: $word_label;
@@ -24,8 +24,7 @@
     display: block;
 
     svg {
-      height: 80px;
-      width: 120px;
+      height: 90px;
 
       #Ship02 {
         -webkit-animation: levitate 3s ease infinite;
@@ -48,10 +47,16 @@
         animation: levitate_slow_top 1s ease infinite;
       }
 
-      #top_wing, #wing_structure01  {
+      #top_wing, #wing_structure01, #wing_structure03 {
         -webkit-animation: levitate_slow_bottom 1s ease infinite;
         -moz-animation: levitate_slow_bottom 1s ease infinite;
         animation: levitate_slow_bottom 1s ease infinite;
+      }
+
+      #secondfuselage, #lightstop {
+        -webkit-animation: levitate_slow_bottom 2s ease infinite;
+        -moz-animation: levitate_slow_bottom .2s ease infinite;
+        animation: levitate_slow_bottom 2s ease infinite;
       }
 
       #fire01 {

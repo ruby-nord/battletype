@@ -2,7 +2,7 @@
 
 <div class="combat_zone "id="game">
   <%= render "stars" %>
-  
+
   <div class="hud">
     <ul id="life_player">
       <li class="life_bar"><%= render "games/hud/life" %></li>
@@ -30,7 +30,7 @@
       <li class="life_bar"><%= render "games/hud/life" %></li>
       <li class="life_bar"><%= render "games/hud/life" %></li>
     </ul>
-    
+
     <h1 class="opponent">Calimero</h1>
 
     <%= text_field_tag :stdin %>
@@ -46,10 +46,25 @@
   </div>
 
   <div id="components">
+
+    <div id="small_ship">
+      <p class="word">yay</p>
+      <div class="ship">
+        <%= render "games/ships/svg/small_ship" %>
+      </div>
+    </div>
+
     <div id="medium_ship">
-      <p class="word"></p>
+      <p class="word">potatoe</p>
       <div class="ship">
         <%= render "games/ships/svg/medium_ship" %>
+      </div>
+    </div>
+
+    <div id="big_ship">
+      <p class="word">established</p>
+      <div class="ship">
+        <%= render "games/ships/svg/big_ship" %>
       </div>
     </div>
   </div>
