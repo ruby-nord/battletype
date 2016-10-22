@@ -5,7 +5,7 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
   let(:game)          { Game.create! }
   let(:player)        { Player.create!(game: game) }
 
-  describe "POST create" do
+  describe ".call" do
     context 'when word is valid' do
       let(:word) { 'curry' }
       before { allow_words("curry") }
