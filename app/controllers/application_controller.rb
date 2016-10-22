@@ -5,6 +5,6 @@ class ApplicationController < ActionController::Base
     player_id = session[:player_id]
     return unless player_id
 
-    @current_player ||= Player.find(player_id)
+    @current_player ||= Player.where(id: player_id).first
   end
 end
