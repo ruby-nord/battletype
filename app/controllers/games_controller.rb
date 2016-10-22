@@ -2,7 +2,7 @@ class GamesController < ApplicationController
   before_action :set_game
 
   def show
-    Users::Enlist
+    Users::Enlist.call(@game)
   end
 
   private
