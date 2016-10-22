@@ -1,13 +1,22 @@
 class Defense
   private
-  attr_reader :player, :word
+  attr_reader :player, :perfect_typing, :word
 
   public
   attr_reader :ship
 
-  def initialize(player, word)
-    @player = player
-    @word   = word
+  def initialize(player:, word:, perfect_typing:)
+    @player         = player
+    @word           = word
+    @perfect_typing = ['1', true].include?(perfect_typing)
+  end
+
+  def strike_gauge
+    if perfect_typing
+      player.strike_gauge + word.size
+    else
+      0
+    end
   end
 
   def valid?

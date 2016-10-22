@@ -18,25 +18,45 @@ RSpec.describe "Defenses::Launch", type: :dispatch do
       let(:word) { 'attacker' }
 
       it "marks attacker's ship as destroyed" do
-        dispatch.call(player, word)
+        dispatch.call(player: player, word: word, perfect_typing: '1')
         expect(attacker_ship.state).to eq('destroyed')
       end
 
       it 'returns a Defense object' do
-        expect(dispatch.call(player, word)).to be_instance_of(Defense)
+        expect(dispatch.call(player: player, word: word, perfect_typing: '1')).to be_instance_of(Defense)
+      end
+
+      context "when word was perfectly typed" do
+        before :each do
+          player.strike_gauge = 3
+        end
+
+        it "upgrades player strike gauge" do
+          expect { dispatch.call(player: player, word: word, perfect_typing: '1') }.to change { player.strike_gauge }.from(3).to(11)
+        end
+      end
+
+      context "when word was not perfectly typed" do
+        before :each do
+          player.strike_gauge = 5
+        end
+
+        it "resets player strike gauge to 0" do
+          expect { dispatch.call(player: player, word: word, perfect_typing: '0') }.to change { player.strike_gauge }.from(5).to(0)
+        end
       end
     end
 
     context "when defense is not valid" do
       let(:word) { 'unknown' }
 
-      it "does not mars any attacker's ship as destroyed" do
-        dispatch.call(player, word)
+      it "does not match any attacker's ship as destroyed" do
+        dispatch.call(player: player, word: word, perfect_typing: '1')
         expect(attacker_ship.state).to eq('engaged')
       end
 
       it 'returns a Defense object' do
-        expect(dispatch.call(player, word)).to be_instance_of(Defense)
+        expect(dispatch.call(player: player, word: word, perfect_typing: '1')).to be_instance_of(Defense)
       end
     end
   end
