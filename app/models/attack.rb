@@ -11,9 +11,15 @@ class Attack
 
   def valid?
     if @valid.nil?
-      @valid = !Word.where(game: game, value: word).exists?
+      @valid = unique_case_insensitive_word?
     end
 
     @valid
+  end
+
+  private
+
+  def unique_case_insensitive_word?
+    Word.where(game: game).where('LOWER(value) = LOWER(?)', word).empty?
   end
 end

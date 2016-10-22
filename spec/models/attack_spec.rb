@@ -21,5 +21,15 @@ RSpec.describe "Attack", type: :model do
         expect(attack.valid?).to eq(false)
       end
     end
+
+    context 'when word has already been played with different case' do
+      before :each do
+        Word.create!(value: 'AtTaCk', game: game)
+      end
+
+      it 'returns false' do
+        expect(attack.valid?).to eq(false)
+      end
+    end
   end
 end

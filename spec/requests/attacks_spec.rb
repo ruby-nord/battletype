@@ -34,11 +34,21 @@ RSpec.describe "Attacks", type: :request do
       end
     end
 
-  # NEXT:
-  # - mot du dico anglais
-  # - mot pas du dico anglais
-  # - meme mot case differente
-  # - meme mot pluriel
-  # - meme mot singulier
+    context 'when provided word has already been played with a different case' do
+      before :each do
+        game.words.create!(value: 'BattleType')
+      end
+
+      it 'returns 422 HTTP status' do
+        post "/attacks", params: { word: 'battletype' }
+        expect(response).to have_http_status(422)
+      end
+    end
+
+    # NEXT:
+    # - mot du dico anglais
+    # - mot pas du dico anglais
+    # - meme mot pluriel
+    # - meme mot singulier
   end
 end
