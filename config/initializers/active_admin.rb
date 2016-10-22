@@ -1,3 +1,5 @@
+require 'routes/constraints/authentication'
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #
@@ -146,6 +148,9 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   # config.before_action :do_something_awesome
+  config.before_action do
+    authenticate_or_request_with_http_basic('admin', &Routes::Constraints::Authentication.new.method(:matches?))
+  end
 
   # == Localize Date/Time Format
   #
