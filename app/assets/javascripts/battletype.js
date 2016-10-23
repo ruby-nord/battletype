@@ -46,7 +46,8 @@
 
       this._stdin = Object.create(Stdin, {
         inputDevice:  { value: document.getElementById("stdin") },
-        ps2Port:      { value: this._eventsRelay }
+        ps2Port:      { value: this._eventsRelay },
+        scanner:      { value: this.scanForShip.bind(this) }
       });
       this._stdin.powerOn();
     },
@@ -122,6 +123,17 @@
           this._logs.displayMessage(payload.code);
         }
         break;
+      }
+    },
+    scanForShip: function (text) {
+      if (!this.attacking) {
+        var target = this.$combatZone.find("[id^='" + Ship._shipIdFromWord(text) + "']");
+        if (target) {
+          return {
+            target: target.get(0),
+            $all: this.$combatZone.ships
+          };
+        }
       }
     },
     transmitEntry: function (entry) {

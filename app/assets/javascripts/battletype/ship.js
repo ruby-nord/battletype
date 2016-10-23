@@ -21,6 +21,21 @@
       positionY: {
         get: function () { /* TODO */ },
         set: function (y) { $(this).css({ top: y + "px" }); }
+      },
+      targeted: {
+        get: function () { return this._targeted; },
+        set: function (t) {
+          this._targeted = Boolean(t);
+          
+          var s = this.querySelector(".ship");
+          if (this._targeted) {
+            s.classList.add("targeted_ship");
+          } else if (s.classList.contains("targeted_ship")) {
+            s.classList.remove("targeted_ship");
+          }
+          
+          return this._targeted;
+        }
       }
     },
     

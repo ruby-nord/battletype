@@ -6,9 +6,6 @@
   };
 
   this.Stdin = {
-    // inputDevice: { writable: true },
-    // ps2Port: { writable: true },
-
     powerOn: function () {
       this.reset();
       this.inputDevice.addEventListener("keydown", this, { capture: true }); // Let's only care for keyups for now
@@ -54,6 +51,16 @@
         }
         
         e.preventDefault();
+        break;
+      default:
+        if (e.type == "keyup") {
+          var scannerResults = this.scanner(this.inputDevice.value);
+          
+          if (scannerResults != false) {
+            scannerResults.$all.each(function () { this.targeted = false; });
+            scannerResults.target.targeted = true;
+          }
+        }
         break;
       }
     },
