@@ -1,7 +1,8 @@
-/* global Stdin, PS2EventRelay */
+/* global Stdin, PS2EventRelay, Dockyard */
 
 //= require battletype/stdin
 //= require battletype/ps2_event_relay
+//= require battletype/dockyard
 
 (function () {
   this.Battletype = {
@@ -10,28 +11,52 @@
     _eventsRelay: Object.create(PS2EventRelay),
     
     init: function(options) {
-      this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
+      this.playerId         = options.playerId;
+      this.opponentId       = options.playerId;
+      this.combatZone       = options.combatZone;
+      this.attackFrequency  = options.attackFrequency;
+      this.defenseFrequency = options.defenseFrequency;
       
+      Dockyard.registerTemplate("small", document.getElementById("small_ship"));
+      Dockyard.registerTemplate("medium", document.getElementById("medium_ship"));
+      Dockyard.registerTemplate("large", document.getElementById("large_ship"));
+      
+      this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
       this._stdin = Object.create(Stdin, {
         inputDevice: { value: options.inputDevice },
         ps2Port: { value: this._eventsRelay }
       });
       this._stdin.powerOn();
       
-      this.attackFrequency  = options.attackFrequency;
-      this.defenseFrequency = options.defenseFrequency;
+    },
+    incomingTransmission: function (payload) {
+      switch(payload.code) {
+      case "successful_attack":
+        if (payload.player_id != this.playerId) { // TODO: comparer plutôt à opponentId
+          Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.combatZone);
+        }
+        break;
+      case "failed_attack":
+        if (payload.player_id == this.playerId) {
+          console.log("Failed attack with word", payload.word);
+          console.log("Error code", payload.error_codes);
+        }
+      }
     },
     transmitEntry: function (entry) {
-      return this.attacking ? this._transmitAttack(entry) : this._transmitDefense(entry);
+      this.attacking ? this._transmitAttack(entry) : this._transmitDefense(entry);
+      this._stdin.reset();
     },
     _transmitAttack: function (entry) {
       this.attackFrequency.querySelector("[name='word']").value = entry.word;
-      return $(this.attackFrequency).trigger("submit.rails");
+      
+      $(this.attackFrequency).trigger("submit.rails");
     },
     _transmitDefense: function (entry) {
       this.defenseFrequency.querySelector("[name='word']").value = entry.word;
       this.defenseFrequency.querySelector("[name='perfectTyping']").value = entry.perfectTyping;
-      return $(this.defenseFrequency).trigger("submit.rails");
+      
+      $(this.defenseFrequency).trigger("submit.rails");
     },
   };
 }).call(this);
