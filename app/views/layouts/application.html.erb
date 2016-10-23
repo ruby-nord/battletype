@@ -13,11 +13,11 @@
     <div class="wrapper">
       <header>
         <div class="logo">
-          <a href="<%= root_path %>"><img src="<%= image_path('battletype.svg') %>" alt="BattleType" /></a>    
+          <a href="<%= root_path %>"><img src="<%= image_path('battletype.svg') %>" alt="BattleType" /></a>
         </div>
         <div class="log" id="log_system">
           <% if content_for?(:log) %>
-            <p><%= yield :log %></p>
+            <%= yield :log %>
           <% end %>
         </div>
         <div class="partners">
