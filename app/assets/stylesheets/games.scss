@@ -7,7 +7,7 @@
 
   &.attack {
     background-color: $game_input;
-    background-image: url(icon_attack.svg);
+    background-image: asset-url("icon_attack.svg");
     background-size: 30px 30px;
     background-position: 5px;
     background-repeat: no-repeat;
@@ -15,7 +15,7 @@
 
   &.defense {
     background-color: $game_input;
-    background-image: url(icon_defense.svg);
+    background-image: asset-url("icon_defense.svg");
     background-size: 30px 30px;
     background-position: 5px;
     background-repeat: no-repeat;
