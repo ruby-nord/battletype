@@ -13,7 +13,11 @@ ActiveAdmin.register Game do
     selectable_column
 
     column :id
-    column :name
+
+    column :name do |game|
+      link_to game.name, admin_game_path(game)
+    end
+
     column :players do |game|
       player_1, player_2 = game.players
 
@@ -46,6 +50,7 @@ ActiveAdmin.register Game do
     attributes_table do
       row :id
       row :name
+      row :slug
       row :state
       row :created_at
       row :updated_at
@@ -53,7 +58,10 @@ ActiveAdmin.register Game do
 
     panel 'Players' do
       table_for game.players do
-        column :nickname
+        column :nickname do |player|
+          link_to player.nickname, admin_player_path(player)
+        end
+
         column :life
         column :strike_gauge
         column :unlocked_strike
@@ -64,6 +72,7 @@ ActiveAdmin.register Game do
         column :human
         column :creator
         column :won
+        column :last_ip
         column :updated_at
       end
     end
@@ -78,6 +87,7 @@ ActiveAdmin.register Game do
           ship.word.value
         end
 
+        column :ship_type
         column :damage
         column :velocity
         column :state

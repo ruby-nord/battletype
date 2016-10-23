@@ -37,26 +37,29 @@ superman = Player.create!(
 ### Batman Ships
 
 batman.ships.create!(
-  damage:   1,
-  velocity: 4,
-  state:    'engaged',
-  word:     Word.new(value: 'lex', game: game)
+  ship_type:  'small',
+  damage:     1,
+  velocity:   4,
+  state:      'engaged',
+  word:       Word.new(value: 'lex', game: game)
 )
 
 batman.ships.create!(
-  damage:   4,
-  velocity: 12,
-  state:    'engaged',
-  word:     Word.new(value: 'kryptonite', game: game)
+  ship_type:  'large',
+  damage:     4,
+  velocity:   12,
+  state:      'engaged',
+  word:       Word.new(value: 'kryptonite', game: game)
 )
 
 ### Superman Ships
 
 superman.ships.create!(
-  damage:   2,
-  velocity: 6,
-  state:    'engaged',
-  word:     Word.new(value: 'joker', game: game)
+  ship_type:  'medium',
+  damage:     2,
+  velocity:   6,
+  state:      'engaged',
+  word:       Word.new(value: 'joker', game: game)
 )
 
 puts 'Finished!'

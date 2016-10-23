@@ -14,7 +14,10 @@ ActiveAdmin.register Player do
 
     column :id
 
-    column :nickname
+    column :nickname do |player|
+      link_to player.nickname, admin_player_path(player)
+    end
+
     column :life
     column :strike_gauge
     column :unlocked_strike
@@ -25,6 +28,7 @@ ActiveAdmin.register Player do
     column :human
     column :creator
     column :won
+    column :last_ip
     column :updated_at
 
     actions
@@ -44,6 +48,7 @@ ActiveAdmin.register Player do
       row :human
       row :creator
       row :won
+      row :last_ip
       row :created_at
       row :updated_at
     end
@@ -54,6 +59,7 @@ ActiveAdmin.register Player do
           ship.word.value
         end
 
+        column :ship_type
         column :damage
         column :velocity
         column :state
