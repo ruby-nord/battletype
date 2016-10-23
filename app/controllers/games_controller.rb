@@ -7,6 +7,7 @@ class GamesController < ApplicationController
 
     enlist.assign_game_to_player!
     session[:player_id] = enlist.player.id
+    @current_player = enlist.player
   end
 
   def create
