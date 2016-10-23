@@ -1,0 +1,66 @@
+#mother_ship {
+  text-align: center;
+  position: absolute;
+  display: block;
+  left: 10px;   //FIXME (positionnement en JS ?)
+  top: 150px;      //FIXME (positionnement en JS ?)
+
+  .word {
+    background: $word_label;
+    border-radius: 4px;
+    color: $white;
+    display: inline-block;
+    font-family: Consolas, monaco, monospace;
+    font-size: .8em;
+    margin: 0;
+    padding: 3px 5px;
+  }
+
+  .ship {
+    display: block;
+
+    svg {
+      height: 250px;
+      width: 270px;
+
+      #Mothership {
+        -webkit-animation: levitate 3s ease infinite;
+        -moz-animation: levitate 3s ease infinite;
+        animation: levitate 3s ease infinite;
+        -webkit-animation: levitate 2s ease infinite;
+        -moz-animation: levitate 2s ease infinite;
+        animation: levitate 2s ease infinite;
+      }
+
+      #bigeye {
+        -webkit-animation: levitate_slowly 2s ease infinite;
+        -moz-animation: levitate_slowly 2s ease infinite;
+        animation: levitate_slowly 2s ease infinite;
+      }
+
+      #bottomsoucoupe {
+        -webkit-animation: levitate_slowly 2s ease infinite;
+        -moz-animation: levitate_slowly 2s ease infinite;
+        animation: levitate_slowly 2s ease infinite;
+      }
+
+      #topsoucoupe, #lights {
+        -webkit-animation: levitate_slowly_inverted 2s ease infinite;
+        -moz-animation: levitate_slowly_inverted 2s ease infinite;
+        animation: levitate_slowly_inverted 2s ease infinite;
+      }
+
+      #wingrightbottom, #wingleftbottom, #winglefttop, #wingrighttop {
+        -webkit-animation: rotation_left 2s ease infinite;
+        -moz-animation: rotation_left 2s ease infinite;
+        animation: rotation_left 2s ease infinite;
+      }
+
+      #ruby, #eye {
+        -webkit-animation: look_right 4s ease infinite;
+        -moz-animation: look_right 4s ease infinite;
+        animation: look_right 4s ease infinite;
+      }
+    }
+  }
+}

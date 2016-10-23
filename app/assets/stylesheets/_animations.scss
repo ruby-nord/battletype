@@ -1,8 +1,8 @@
 // LIGHTS
 @keyframes opacity {
-  0%        {opacity: 1}
-  20%       {opacity: 0}
-  40%, 100% {opacity: 1}
+  0%        {opacity: 1;}
+  20%       {opacity: 0;}
+  40%, 100% {opacity: 1;}
 }
 
 // SHIP MOVE
@@ -16,6 +16,18 @@
   0% { -webkit-transform: translateY(-5px); }
   50% { -webkit-transform: translateY(0px); }
   100%{ -webkit-transform: translateY(-5px); }
+}
+
+@keyframes levitate_slowly {
+  0% { -webkit-transform: translateY(-2px); }
+  50% { -webkit-transform: translateY(0px); }
+  100%{ -webkit-transform: translateY(-2px); }
+}
+
+@keyframes levitate_slowly_inverted {
+  0% { -webkit-transform: translateY(2px); }
+  50% { -webkit-transform: translateY(0px); }
+  100%{ -webkit-transform: translateY(2px); }
 }
 
 @keyframes levitate_slow_top {
@@ -47,4 +59,20 @@
     0%, 100% {transform: translateY(0);}
     10%, 30%, 50%, 70%, 90% {transform: translateY(1px);}
     20%, 40%, 60%, 80% {transform: translateY(-1px);}
+}
+
+// ROTATE
+
+@keyframes rotation_left {
+  0% { -webkit-transform: rotate(.5deg) }
+  50% { -webkit-transform: rotate(-.5deg) }
+  100%{ -webkit-transform: rotate(.5deg) }
+}
+
+@keyframes look_right {
+  0% { -webkit-transform: translateX(0px); }
+  25% { -webkit-transform: translateX(3px); }
+  50% { -webkit-transform: translateX(0px); }
+  75% { -webkit-transform: translateX(-3px); }
+  100%{ -webkit-transform: translateX(0px); }
 }
