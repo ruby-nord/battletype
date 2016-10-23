@@ -5,11 +5,12 @@
   this.Dockyard = {
     _templates: {},
     
-    launch: function (attributes, space) {
+    launch: function (attributes, combatZone) {
       var newShip = Ship.build(this._templates[attributes.ship.type], attributes);
       
-      // TODO: position verticale aléatoire
-      newShip.appendTo(space);
+      newShip.positionY = combatZone.randomFreeVerticalSlot;
+      newShip.appendTo(combatZone);
+      console.log(newShip);
     },
     registerTemplate: function (name, element) {
       this._templates[name] = element;

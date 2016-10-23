@@ -1,7 +1,8 @@
-/* global Stdin, PS2EventRelay, Dockyard */
+/* global Stdin, PS2EventRelay, CombatZone, Dockyard */
 
 //= require battletype/stdin
 //= require battletype/ps2_event_relay
+//= require battletype/combat_zone
 //= require battletype/dockyard
 
 (function () {
@@ -13,7 +14,9 @@
     init: function(options) {
       this.playerId         = options.playerId;
       this.opponentId       = options.playerId;
-      this.combatZone       = options.combatZone;
+      
+      this.combatZone       = CombatZone.locate();
+      
       this.attackFrequency  = options.attackFrequency;
       this.defenseFrequency = options.defenseFrequency;
       
