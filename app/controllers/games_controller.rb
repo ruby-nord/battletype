@@ -3,7 +3,8 @@ class GamesController < ApplicationController
   before_action :join_game, only: [:show], unless: :player_in_game?
 
   def show
-    @opponent ||= @game.players.where.not(id: current_player.id).first || NilPlayer.new
+    @opponent ||= @game.players.where.not(id: current_player&.id).first || NilPlayer.new
+    return render FinishedGame.template_path if @game.state == 'finished'
   end
 
   def create
@@ -14,6 +15,7 @@ class GamesController < ApplicationController
   private
 
   def join_game
+    return if @game.state == 'finished'
     enlist = Players::Enlist.new(game: @game, player: current_player)
 
     if enlist.game_full?
