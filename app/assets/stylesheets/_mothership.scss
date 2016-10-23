@@ -1,4 +1,4 @@
-#mothership {
+.mothership {
   text-align: center;
   position: absolute;
   display: block;
@@ -9,7 +9,8 @@
     background: $word_label;
     border-radius: 4px;
     color: $white;
-    display: inline-block;
+//    display: inline-block;
+    display: none; // Pas pour l'instant
     font-family: Consolas, monaco, monospace;
     font-size: .8em;
     margin: 0;
