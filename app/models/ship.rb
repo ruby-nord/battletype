@@ -1,3 +1,7 @@
+# Available states:
+# - engaged:              has been launched
+# - down:                 has been destroyed by a defense
+# - mission_accomplished: has bombed the opponent's mothership
 class Ship < ApplicationRecord
   TYPES = [
     SMALL   = {

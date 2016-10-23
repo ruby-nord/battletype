@@ -17,9 +17,9 @@ RSpec.describe "Defenses::Launch", type: :dispatch do
     context "when defense is valid" do
       let(:word) { 'attacker' }
 
-      it "marks attacker's ship as destroyed" do
+      it "marks attacker's ship as down" do
         dispatch.call(player: player, word: word, perfect_typing: '1')
-        expect(attacker_ship.state).to eq('destroyed')
+        expect(attacker_ship.state).to eq('down')
       end
 
       it 'returns a payload' do
@@ -81,7 +81,7 @@ RSpec.describe "Defenses::Launch", type: :dispatch do
           code:       'failed_defense',
           player_id:  player.id,
           word:       word,
-          error_codes: ['not_found']
+          error_codes: ['ship_not_found']
         )
       end
     end
