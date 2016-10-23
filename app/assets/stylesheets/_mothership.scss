@@ -24,13 +24,19 @@
       height: 250px;
       width: 270px;
 
+      &.hit {
+        -webkit-animation: mothership_hit .3s ease infinite;
+        -moz-animation: mothership_hit .3s ease infinite;
+        animation: mothership_hit .3s ease infinite;
+        -webkit-animation-iteration-count: 3;
+        animation-iteration-count: 3;
+      }
+
       #Mothership {
-        -webkit-animation: levitate 3s ease infinite;
-        -moz-animation: levitate 3s ease infinite;
-        animation: levitate 3s ease infinite;
         -webkit-animation: levitate 2s ease infinite;
         -moz-animation: levitate 2s ease infinite;
         animation: levitate 2s ease infinite;
+
       }
 
       #bigeye {
