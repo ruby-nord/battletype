@@ -1,3 +1,6 @@
+<% if @game.players.count < 2 %>
+  <% content_for :log, 'Waiting for player to join..' %>
+<% end %>
 
 <div class="wrapper">
   <div class="combat_zone attack_mode" id="combat_zone">
@@ -33,7 +36,7 @@
         <li class="life_bar"><%= render "games/hud/life" %></li>
         <li class="life_bar"><%= render "games/hud/life" %></li>
       </ul>
-      <h1 class="opponent">Calimero</h1>
+      <h1 class="opponent"><%= @opponent.nickname.presence || 'waiting player' %></h1>
       <div class="player_bonus">
         <img src="<%= image_path('speed_bonus.svg') %>"/>
         <p>Speed +20% (Use SPACE)</p>

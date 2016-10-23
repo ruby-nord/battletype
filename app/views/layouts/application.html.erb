@@ -16,7 +16,9 @@
           <a href="<%= root_path %>"><img src="<%= image_path('battletype.svg') %>" alt="BattleType" /></a>    
         </div>
         <div class="log" id="log_system">
-          <p>Waiting for player to join..</p>
+          <% if content_for?(:log) %>
+            <p><%= yield :log %></p>
+          <% end %>
         </div>
         <div class="partners">
           <a href="https://www.rubyrampage.com/entries/194-team-curry" target="_blank" class="button green" >Vote for us!</a>
