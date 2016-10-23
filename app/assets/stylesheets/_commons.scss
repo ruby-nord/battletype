@@ -113,6 +113,24 @@ a {
   max-width: 1200px;
   width: 100%;
 
+  &.explanations {
+    text-align: left;
+    p {
+      display: block;
+      font-family: Consolas, monaco, monospace;
+      color: $white;
+      font-size: 1em;
+      font-weight: normal;
+      line-height: normal;
+      padding: 0;
+      margin: 5px;
+    }
+
+    span {
+      color: $life;
+    }
+  }
+
   .combat_zone {
     height: 600px;
     margin: 0 auto;
@@ -145,6 +163,7 @@ a {
       width: 400px;
       margin: 0 auto;
       z-index: 200;
+      display: none;
 
       .bonus_percentage {
         height: 5px;
@@ -172,7 +191,7 @@ a {
       font-size: 1em;
       line-height: normal;
       margin: 0 auto;
-      height: 35px;
+      height: 45px;
       text-align: center;
       outline: none;
       padding: 8px;
