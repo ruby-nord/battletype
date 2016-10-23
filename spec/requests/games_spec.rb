@@ -81,7 +81,8 @@ RSpec.describe "Games", type: :request do
             anything,
             {
               code:       'player_joined',
-              player_id:  Player.last.id
+              player_id:  Player.last.id,
+              nickname:   Player.last.nickname
             }
           )
         end
@@ -103,6 +104,18 @@ RSpec.describe "Games", type: :request do
 
       it { expect(response).to redirect_to(root_path) }
       it { expect(Game.count).to eq(0) }
+    end
+
+    context "when game is finished" do
+      before :each do
+        game.update(state: "finished")
+        Player.create!(nickname: "Zim", game: game)
+        Player.create!(nickname: "Rico", game: game, won: true)
+
+        get "/games/#{game.to_param}"
+      end
+
+      it { expect(response.body).to include("finished") }
     end
   end
 

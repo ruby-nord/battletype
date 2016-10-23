@@ -1,4 +1,3 @@
-
 <div class="row">
   <%= render "games/stars" %>
   <div class="wrapper">
@@ -12,7 +11,7 @@
     <div class="too_late">
       <h1>Too late! Game is already full.</h1>
       <p>Start a new game right now!</p>
-      <%= link_to "Start Game", root_path, class: "button" %>
+      <%= render 'components/social_links' %>
     </div>
   </div>
 </div>
