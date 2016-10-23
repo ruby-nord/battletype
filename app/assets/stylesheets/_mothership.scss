@@ -31,6 +31,15 @@
         -webkit-animation-iteration-count: 3;
         animation-iteration-count: 3;
       }
+      
+      &.destroyed {
+        -webkit-animation: mothership_hit .3s ease infinite;
+        -moz-animation: mothership_hit .3s ease infinite;
+        animation: mothership_hit .3s ease infinite;
+//
+//        -webkit-animation-iteration-count: 3;
+//        animation-iteration-count: 3;
+      }
 
       #Mothership {
         -webkit-animation: levitate 2s ease infinite;

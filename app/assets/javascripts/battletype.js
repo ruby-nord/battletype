@@ -84,6 +84,7 @@
         } else {
           // TODO
           console.log(":( You lose!");
+          this.mothership.destroyed = true;
         }
         break;
       case "player_joined":
