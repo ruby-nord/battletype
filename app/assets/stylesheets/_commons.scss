@@ -15,14 +15,41 @@ header {
   justify-content: space-between;
   height: 70px;
 
-  a {
-    margin: 0;
-    padding: 0;
-    line-height: 0;
+  .partners {
+    width: 20%;
+    text-align: right;
+
+    a {
+      margin: 0;
+      padding: 0;
+      line-height: 0;
+    }
   }
 
   .logo {
     display: inline-block;
+    width: 20%;
+    text-align: left;
+  }
+
+  .log {
+    display: inline-block;
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+
+    p {
+      display: inline-block;
+      font-family: Consolas, monaco, monospace;
+      color: $white;
+      font-size: .9em;
+      font-weight: normal;
+      background: $word_label;
+      line-height: normal;
+      border-radius: 4px;
+      padding: 6px 10px;
+      margin: 0;
+    }
   }
 
   .rampage {
@@ -370,6 +397,13 @@ header {
     }
   }
 }
+
+.launchpad {
+  .log {
+    display: none;
+  }
+}
+
 
 .typed-cursor{
   opacity: 1;
