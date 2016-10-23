@@ -55,6 +55,9 @@
       case "Enter":
         this._dispatchWordTypedEvent();
         break;
+      case "Tab":
+        this._dispatchSwitchModeEvent();
+        break;
       }
     },
     _keyCodeToKeyValue: function (keyCode) {
@@ -64,6 +67,10 @@
     },
     _dispatchWordTypedEvent: function () {
       var event = new CustomEvent("entry", { detail: this.currentEntry() });
+      this.ps2Port.dispatchEvent(event);
+    },
+    _dispatchSwitchModeEvent: function () {
+      var event = new CustomEvent("switch", {});
       this.ps2Port.dispatchEvent(event);
     }
   };

@@ -25,6 +25,7 @@
       Dockyard.registerTemplate("large", document.getElementById("large_ship_template"));
       
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
+      this._eventsRelay.addEventListener("switch", function (e) { this.switchMode(e.detail); }.bind(this), false);
       this._stdin = Object.create(Stdin, {
         inputDevice: { value: options.inputDevice },
         ps2Port: { value: this._eventsRelay }
@@ -60,6 +61,16 @@
       this.defenseFrequency.querySelector("[name='perfectTyping']").value = entry.perfectTyping;
       
       $(this.defenseFrequency).trigger("submit.rails");
+    },
+    switchMode: function (detail) {
+      Battletype.attacking = !Battletype.attacking;
+      console.log("Switched mode to Battletype.attacking = "+Battletype.attacking);
+      if(Battletype.attacking) {
+        $("#game").removeClass("defense_mode").addClass("attack_mode");
+      }
+      else {
+        $("#game").removeClass("attack_mode").addClass("defense_mode");
+      }
     },
   };
 }).call(this);
