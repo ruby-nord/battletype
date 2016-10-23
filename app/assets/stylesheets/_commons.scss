@@ -272,7 +272,6 @@ header {
         line-height: normal;
         margin: 0;
         padding: 0;
-        vertical-align: middle;
       }
 
       input[type="text"] {
@@ -292,9 +291,8 @@ header {
         height: 40px;
         text-align: left;
         outline: none;
-        padding: 10px 10px 8px 0;
+        padding: 10px 10px 10px 0;
         width: 300px;
-        vertical-align: middle;
       }
 
       .button {
