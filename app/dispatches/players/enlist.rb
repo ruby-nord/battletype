@@ -33,7 +33,8 @@ module Players
     def successful_payload
       {
         code:       'player_joined',
-        player_id:  player.id
+        player_id:  player.id,
+        nickname:   player.nickname
       }
     end
   end

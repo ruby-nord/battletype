@@ -14,6 +14,18 @@
           
           return this._hit;
         }
+      },
+      destroyed: {
+        get: function () { return this._destroyed; },
+        set: function (v) {
+          this._destroyed = Boolean(v);
+          
+          if (this._destroyed) {
+            $(this).find("#target_mothership").addClass("destroyed");
+          }
+          
+          return this._hit;
+        }
       }
     },
     build: function (template) {

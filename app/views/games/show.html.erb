@@ -36,8 +36,8 @@
         <li class="life_bar"><%= render "games/hud/life" %></li>
         <li class="life_bar"><%= render "games/hud/life" %></li>
       </ul>
-      <h1 class="opponent"><%= @opponent.nickname.presence || 'waiting player' %></h1>
-
+      <h1 class="opponent" id="opponent_nickname"><%= @opponent.nickname.presence || 'waiting player' %></h1>
+      
       <div class="bonus_bar">
         <div class="bonus_percentage"></div>
       </div>
