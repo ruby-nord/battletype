@@ -59,12 +59,25 @@ RSpec.describe "Games", type: :request do
 
     context "player is not signed in" do
       context "game is not full" do
-        before { get "/games/#{game.to_param}" }
+        before :each do
+          allow(ActionCable.server).to receive(:broadcast)
+          get "/games/#{game.to_param}"
+        end
 
         it { expect(response).to have_http_status(200) }
         it { expect(Player.count).to eq(1) }
         it { expect(response.body).to include(game.name) }
         it { expect(Player.last.game).to eq(game) }
+
+        it 'broadcasts a player joined payload' do
+          expect(ActionCable.server).to have_received(:broadcast).with(
+            anything,
+            {
+              code:       'player_joined',
+              player_id:  Player.last.id
+            }
+          )
+        end
       end
 
       context "game is already full" do
