@@ -1,0 +1,52 @@
+.rocket {
+  text-align: center;
+  position: absolute;
+  display: block;
+  right: -150px;   //FIXME (positionnement en JS ?)
+  top: 330px;      //FIXME (positionnement en JS ?)
+
+  .ship {
+    display: block;
+
+    svg {
+      height: 40px;
+      width: 70px;
+
+      #fire01 {
+        -webkit-animation: shake01 .1s ease infinite;
+        -moz-animation: shake01 .1s ease infinite;
+        animation: shake01 .1s ease infinite;
+      }
+
+      #fire02 {
+        -webkit-animation: shake02 .1s ease infinite;
+        -moz-animation: shake02 .1s ease infinite;
+        animation: shake02 .1s ease infinite;
+      }
+
+      #Rocket {
+        -webkit-animation: levitate 3s ease infinite;
+        -moz-animation: levitate 3s ease infinite;
+        animation: levitate 3s ease infinite;
+        -webkit-animation: levitate 2s ease infinite;
+        -moz-animation: levitate 2s ease infinite;
+        animation: levitate 2s ease infinite;
+      }
+
+      #fuselage, #lights, #pulsar, #fire {
+        -webkit-animation: levitate_slow_left .2s ease infinite;
+        -moz-animation: levitate_slow_left .2s ease infinite;
+        animation: levitate_slow_left .2s ease infinite;
+      }
+
+      .light {
+        -webkit-animation: opacity 2s ease infinite;
+        -moz-animation: opacity 2s ease infinite;
+        animation: opacity 2s ease infinite;
+
+        &.circle01 {animation-delay: .2s}
+        &.circle02 {animation-delay: .4s}
+      }
+    }
+  }
+}
