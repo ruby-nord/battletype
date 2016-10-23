@@ -43,13 +43,18 @@
       </div>
 
       <%= text_field_tag :stdin %>
+      
       <%= form_tag(attacks_path, id: "attack", data: { remote: true }) do %>
         <%= hidden_field_tag :word %>
         <%= hidden_field_tag :game_id, @game.id %>
       <% end %>
-      <%= form_tag(attacks_path, id: "defense") do %>
+      <%= form_tag(attacks_path, id: "defense", data: { remote: true }) do %>
         <%= hidden_field_tag :word %>
         <%= hidden_field_tag :perfect_typing %>
+        <%= hidden_field_tag :game_id, @game.id %>
+      <% end %>
+      <%= form_tag bombings_path, id: "bombing_frequency", data: { remote: true } do %>
+        <%= hidden_field_tag :word %>
         <%= hidden_field_tag :game_id, @game.id %>
       <% end %>
     </div>

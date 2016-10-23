@@ -8,7 +8,12 @@
 // SHIP MOVE
 @keyframes movingleft{
   0%{right:-150px;}
-  100%{right:1400px;}
+  100%{right:1000px;}
+}
+
+@keyframes exitingleft {
+  0%{right:1000px;}
+  100% { right:1400px; }
 }
 
 // LEVITATE

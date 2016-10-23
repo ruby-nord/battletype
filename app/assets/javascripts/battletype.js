@@ -20,7 +20,9 @@
       
       this.attackFrequency  = options.attackFrequency;
       this.defenseFrequency = options.defenseFrequency;
+      this.bombingFrequency = document.getElementById("bombing_frequency");
       
+      Dockyard.ps2Port = this._eventsRelay;
       Dockyard.registerTemplate("small", document.getElementById("small_ship_template"));
       Dockyard.registerTemplate("medium", document.getElementById("medium_ship_template"));
       Dockyard.registerTemplate("large", document.getElementById("large_ship_template"));
@@ -30,6 +32,8 @@
       
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("switchMode", function (e) { this.switchMode(e.detail); }.bind(this), false);
+      this._eventsRelay.addEventListener("bombDropped", function (e) { this._transmitBombing(e.detail); }.bind(this), false);
+      
       this._stdin = Object.create(Stdin, {
         inputDevice: { value: options.inputDevice },
         ps2Port: { value: this._eventsRelay }
@@ -41,7 +45,7 @@
       switch(payload.code) {
       case "successful_attack":
         if (payload.player_id != this.playerId) { // TODO: comparer plutôt à opponentId
-          Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.$combatZone);
+          Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.$combatZone, this._eventsRelay);
         }
         break;
       case "failed_attack":
@@ -74,6 +78,15 @@
       this.defenseFrequency.querySelector("[name='perfectTyping']").value = entry.perfectTyping;
       
       $(this.defenseFrequency).trigger("submit.rails");
+    },
+    _transmitBombing: function (ship) {
+      ship.className += " leaving"; // The bombing ship leaves the scene
+      this.mothership.hit = true;   // The mothership takes a hit
+      
+      this.bombingFrequency.elements["word"].value = ship.word;
+      $(this.bombingFrequency).trigger("submit.rails");
+      
+      console.log("_transmitBombing", ship);
     },
     switchMode: function () {
       Battletype.attacking = !Battletype.attacking;
