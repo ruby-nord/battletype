@@ -105,6 +105,10 @@ RSpec.describe "Games", type: :request do
 
       it { expect(Game.count).to eq(1) }
       it { expect(Game.last.name).to eq("foobar") }
+
+      it 'sets state of created game to awaiting_opponent' do
+        expect(Game.last.state).to eq('awaiting_opponent')
+      end
     end
 
     context "game already exist" do
