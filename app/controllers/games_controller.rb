@@ -19,8 +19,10 @@ class GamesController < ApplicationController
     if enlist.game_full?
       return render FullGame.new
     else # try to enter the game
-      enlist.assign_game_to_player!
+      payload = enlist.assign_game_to_player!
       set_current_player(enlist.player)
+
+      ActionCable.server.broadcast "game_#{current_player.game_id}", payload
     end
   end
 

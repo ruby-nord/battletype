@@ -11,7 +11,7 @@ module Games
     end
 
     def new_game
-      Game.create!(name: name, slug: slug)
+      Game.create!(name: name, slug: slug, state: 'awaiting_opponent')
     end
 
     def slug

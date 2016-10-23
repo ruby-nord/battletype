@@ -76,3 +76,13 @@
   75% { -webkit-transform: translateX(-3px); }
   100%{ -webkit-transform: translateX(0px); }
 }
+
+// MOTHERSHIP HIT
+
+@keyframes mothership_hit {
+  0% { -webkit-filter: hue-rotate(0); transform: translateY(0); }
+  25% { -webkit-filter: hue-rotate(320deg) saturate(1); transform: translateY(-2px);}
+  50% { -webkit-filter: hue-rotate(0); transform: translateY(0); }
+  75% { -webkit-filter: hue-rotate(320deg) saturate(1); transform: translateY(-2px);}
+  100% { -webkit-filter: hue-rotate(0); transform: translateY(0); }
+}

@@ -15,6 +15,9 @@ module Players
 
     def assign_game_to_player!
       @player = Player.create!(nickname: nickname, game: game)
+      @game.update(state: 'running')
+
+      return successful_payload
     end
 
     def game_full?
@@ -25,6 +28,13 @@ module Players
 
     def nickname
       player&.nickname || Haikunator.haikunate(0)
+    end
+
+    def successful_payload
+      {
+        code:       'player_joined',
+        player_id:  player.id
+      }
     end
   end
 end
