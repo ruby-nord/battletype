@@ -9,9 +9,13 @@
         attackFrequency: document.getElementById("attack"),
         defenseFrequency: document.getElementById("defense")
       });
+
+      $('#current_player_nickname').on('focus', function() {
+        $(this).select();
+      });
     }
   };
-  
+
   $(document).ready(start);
   $(document).on("page:load", start);
 }).call(this);
