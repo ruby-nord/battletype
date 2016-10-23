@@ -4,7 +4,7 @@ var ready = function () {
   ambiance = new Howl({
     src: ['/sounds/ambiance.mp3'],
     loop: true,
-    autoplay: false
+    autoplay: true
   });
 }
 
