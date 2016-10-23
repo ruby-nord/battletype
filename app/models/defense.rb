@@ -15,7 +15,7 @@ class Defense
   end
 
   def ship
-    @ship ||= player.game.ships.joins(:word).where("LOWER(words.value) = LOWER(?)", word).first
+    @ship ||= ships.where("LOWER(words.value) = LOWER(?)", word).first
   end
 
   def strike_gauge
@@ -42,7 +42,7 @@ class Defense
   end
 
   def matching_case_sensitive
-    matching_insensitive = player.game.ships.joins(:word).where.not(player_id: player.id).where("LOWER(words.value) = LOWER(:word) AND words.value != :word", word: word).exists?
+    matching_insensitive = ships.where.not(player_id: player.id).where("LOWER(words.value) = LOWER(:word) AND words.value != :word", word: word).exists?
 
     if matching_insensitive
       errors.add(:word, "wrong_case")
@@ -50,10 +50,14 @@ class Defense
   end
 
   def not_matching_own_ship
-    matching = player.game.ships.joins(:word).where(player_id: player.id).where(words: { value: word }).exists?
+    matching = ships.where(player_id: player.id).where(words: { value: word }).exists?
 
     if matching
       errors.add(:word, "player_ship")
     end
+  end
+
+  def ships
+    player.game.ships.joins(:word)
   end
 end
