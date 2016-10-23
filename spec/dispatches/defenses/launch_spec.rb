@@ -22,8 +22,20 @@ RSpec.describe "Defenses::Launch", type: :dispatch do
         expect(attacker_ship.state).to eq('destroyed')
       end
 
-      it 'returns a Defense object' do
-        expect(dispatch.call(player: player, word: word, perfect_typing: '1')).to be_instance_of(Defense)
+      it 'returns a payload' do
+        expect(dispatch.call(player: player, word: word, perfect_typing: '1')).to be_instance_of(Hash)
+      end
+
+      it 'returns a successful payload with strike infos' do
+        expect(dispatch.call(player: player, word: word, perfect_typing: '1')).to include(
+          code:       'successful_defense',
+          player_id:  player.id,
+          word:       word,
+          strike: {
+            gauge:    8,
+            unlocked: nil
+          }
+        )
       end
 
       context "when word was perfectly typed" do
@@ -60,8 +72,17 @@ RSpec.describe "Defenses::Launch", type: :dispatch do
         expect(attacker_ship.state).to eq('engaged')
       end
 
-      it 'returns a Defense object' do
-        expect(dispatch.call(player: player, word: word, perfect_typing: '1')).to be_instance_of(Defense)
+      it 'returns a payload' do
+        expect(dispatch.call(player: player, word: word, perfect_typing: '1')).to be_instance_of(Hash)
+      end
+
+      it 'returns a failed payload with error infos' do
+        expect(dispatch.call(player: player, word: word, perfect_typing: '1')).to include(
+          code:       'failed_defense',
+          player_id:  player.id,
+          word:       word,
+          error_codes: ['not_found']
+        )
       end
     end
   end

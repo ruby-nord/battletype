@@ -1,4 +1,8 @@
 class Defense
+  include ActiveModel::Validations
+
+  validate :attacker_ship_exists
+
   private
   attr_reader :player, :perfect_typing, :word
 
@@ -26,15 +30,29 @@ class Defense
     [current_strike, next_strike].compact.max { |strike| Strike::ALL.index(strike.to_s) }
   end
 
-  def valid?
-    @ship ||= look_for_attacker_ship
-
-    @ship.present?
-  end
-
   private
 
-  def look_for_attacker_ship
-    player.game.ships.joins(:word).where.not(player_id: player.id).where(words: { value: word }).first
+  def attacker_ship_exists
+    return if @ship
+
+    ships = player.game.ships.joins(:word)
+    @ship = ships.where.not(player_id: player.id).where(words: { value: word }).first
+    return if @ship
+
+    if matching_case_sensitive?
+      errors.add(:word, "wrong_case")
+    elsif matching_own_ship?
+      errors.add(:word, "player_ship")
+    else
+      errors.add(:word, "not_found")
+    end
+  end
+
+  def matching_case_sensitive?
+    player.game.ships.joins(:word).where.not(player_id: player.id).where("LOWER(words.value) = LOWER(?)", word).exists?
+  end
+
+  def matching_own_ship?
+    player.game.ships.joins(:word).where(player_id: player.id).where(words: { value: word }).exists?
   end
 end

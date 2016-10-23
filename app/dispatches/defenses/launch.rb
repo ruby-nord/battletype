@@ -17,19 +17,26 @@ module Defenses
 
     def call
       @defense = Defense.new(player: player, word: word, perfect_typing: perfect_typing)
+      return failed_payload unless defense.valid?
 
-      if defense.valid?
-        destroy_ship
-        update_strike
-      end
+      destroy_ship
+      update_strike
 
-      return defense
+      return successful_payload
     end
 
     private
 
     def destroy_ship
       defense.ship.update(state: 'destroyed')
+    end
+
+    def failed_payload
+      { code: 'failed_defense', player_id: player.id, word: word, error_codes: defense.errors[:word] }
+    end
+
+    def successful_payload
+      { code: 'successful_defense', player_id: player.id, word: word, strike: { gauge: player.strike_gauge, unlocked: player.unlocked_strike }}
     end
 
     def update_strike
