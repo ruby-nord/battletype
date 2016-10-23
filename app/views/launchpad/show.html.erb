@@ -1,9 +1,24 @@
-<h1>Battletype 🚀</h1>
+<div class="row">
+  <div class="wrapper">
+    <h1>Create a game and invite a friend !</h1>
 
-<p>Create a game and invite a friend !</p>
+    <%= form_for(@game) do |f| %>
+      <p>battle-type.com/</p>
+      <%= f.text_field :name, value: "", autofocus: "true" %>
+      <%= f.submit class: "button" %>
+    <% end %>
 
-<%= form_for(@game) do |f| %>
-  battle-type.com/<%= f.text_field :name, value: "your_name" %>
-  <br>
-  <%= f.submit %>
-<% end %>
+    <script>
+      $(function(){
+        $("#game_name").typed({
+          strings: ["My party^500", "William Adama^1000", "Obi-Wan Kenobi^500", "Ruby Rampage^1000"],
+          typeSpeed: 10
+        });
+
+        $('#game_name').on('click', function(e){
+          $(this).data('typed').reset();
+        });
+      });
+    </script>
+  </div>
+</div>

@@ -1,87 +1,86 @@
 
+<div class="wrapper">
+  <div class="combat_zone attack_mode" id="game">
+    <%= render "stars" %>
 
-<div class="combat_zone attack_mode" id="game">
-  <%= render "stars" %>
+    <div class="hud">
+      <h1 class="room">ROOM: <%= @game.name %></h1>
 
-  <div class="hud">
-    <h1 class="room">ROOM: <%= @game.name %></h1>
+      <ul id="life_player">
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+      </ul>
+      <!-- <h1 class="player">Casimir</h1> -->
+      <div id="current_player" data-player-id="<%= current_player.id %>" data-player-nickname="<%= current_player.nickname %>"></div>
+        <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
+          <%= f.text_field :nickname %>
+        <% end %>
+      </div>
 
-    <ul id="life_player">
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-    </ul>
+      <ul id="life_opponent">
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <li class="life_bar"><%= render "games/hud/life" %></li>
+      </ul>
+      <h1 class="opponent">Calimero</h1>
 
-    <div id="current_player" data-player-id="<%= current_player.id %>" data-player-nickname="<%= current_player.nickname %>"></div>
-      <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
-        <%= f.text_field :nickname %>
+      <div class="player_bonus">
+        <img src="<%= image_path('speed_bonus.svg') %>"/>
+        <p>Speed +20% (Use SPACE)</p>
+      </div>
+
+      <div class="bonus_bar">
+        <div class="bonus_percentage"></div>
+      </div>
+
+      <%= text_field_tag :stdin %>
+      <%= form_tag(attacks_path, id: "attack", data: { remote: true }) do %>
+        <%= hidden_field_tag :word %>
+        <%= hidden_field_tag :game_id, @game.id %>
+      <% end %>
+      <%= form_tag(attacks_path, id: "defense") do %>
+        <%= hidden_field_tag :word %>
+        <%= hidden_field_tag :perfect_typing %>
+        <%= hidden_field_tag :game_id, @game.id %>
       <% end %>
     </div>
 
-    <ul id="life_opponent">
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-      <li class="life_bar"><%= render "games/hud/life" %></li>
-    </ul>
-    <div id="opponent" data-player-id="<%= opponent.id %>" data-player-nickname="<%= opponent.nickname %>"></div>
-      <h1 class="opponent"><%= opponent.nickname %></h1>
-    </div>
+    <div id="components">
 
-    <div class="player_bonus">
-      <img src="<%= image_path('speed_bonus.svg') %>"/>
-      <p>Speed +20% (Use SPACE)</p>
-    </div>
-    
-    <div class="bonus_bar">
-      <div class="bonus_percentage"></div>
-    </div>
-
-    <%= text_field_tag :stdin %>
-    <%= form_tag(attacks_path, id: "attack", data: { remote: true }) do %>
-      <%= hidden_field_tag :word %>
-      <%= hidden_field_tag :game_id, @game.id %>
-    <% end %>
-    <%= form_tag(attacks_path, id: "defense") do %>
-      <%= hidden_field_tag :word %>
-      <%= hidden_field_tag :perfect_typing %>
-      <%= hidden_field_tag :game_id, @game.id %>
-    <% end %>
-  </div>
-
-  <div id="components">
-
-    <div id="small_ship">
-      <p class="word">yay</p>
-      <div class="ship">
-        <%= render "games/ships/svg/small_ship" %>
+      <div id="small_ship">
+        <p class="word">yay</p>
+        <div class="ship">
+          <%= render "games/ships/svg/small_ship" %>
+        </div>
       </div>
-    </div>
 
-    <div id="medium_ship">
-      <p class="word">potatoe</p>
-      <div class="ship">
-        <%= render "games/ships/svg/medium_ship" %>
+      <div id="medium_ship">
+        <p class="word">potatoe</p>
+        <div class="ship">
+          <%= render "games/ships/svg/medium_ship" %>
+        </div>
       </div>
-    </div>
 
-    <div id="big_ship">
-      <p class="word">established</p>
-      <div class="ship">
-        <%= render "games/ships/svg/big_ship" %>
+      <div id="big_ship">
+        <p class="word">established</p>
+        <div class="ship">
+          <%= render "games/ships/svg/big_ship" %>
+        </div>
       </div>
     </div>
   </div>
