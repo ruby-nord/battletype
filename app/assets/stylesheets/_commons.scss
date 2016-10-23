@@ -269,9 +269,17 @@ header {
 
 .row {
   text-align: center;
-  background: #21252F;
+  background-color: #21252F;
+  background-image: -webkit-linear-gradient(rgba(255,255,255,0), #353E56 100%);
+  background-image: -o-linear-gradient(rgba(255,255,255,0), #353E56 100%);
+  background-image: linear-gradient(rgba(255,255,255,0), #353E56 100%);
   width: 100%;
-  padding: 100px 40px;
+  padding: 40px;
+  overflow: hidden;
+
+  &:nth-child(odd) {
+    background: $body_bg;
+  }
 
   .wrapper {
 
@@ -341,22 +349,48 @@ header {
   }
 }
 
+.join_us {
+  .mothership {
+    position: relative;
+    display: block;
+    top: initial;
+    left: initial;
+
+    .word {
+      display: inline-block;
+      background: $life;
+      margin-bottom: 10px;
+    }
+
+    .ship {
+
+      svg {
+        width: 200px;
+        height: 180px;
+      }
+    }
+  }
+}
+
 .typed-cursor{
   opacity: 1;
   -webkit-animation: blink 0.7s infinite;
   -moz-animation: blink 0.7s infinite;
   animation: blink 0.7s infinite;
 }
-@keyframes blink{
+
+@keyframes blink {
   0% { opacity:1; }
   50% { opacity:0; }
   100% { opacity:1; }
 }
-@-webkit-keyframes blink{
+
+@-webkit-keyframes blink {
   0% { opacity:1; }
   50% { opacity:0; }
   100% { opacity:1; }
 }
+
 @-moz-keyframes blink{
   0% { opacity:1; }
   50% { opacity:0; }
