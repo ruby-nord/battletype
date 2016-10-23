@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_game
-    Game.find_by(slug: params[:id])
+    Game.find_by(slug: params[:id].parameterize)
   end
 
   def opponent

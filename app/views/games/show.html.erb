@@ -18,9 +18,12 @@
       <li class="life_bar"><%= render "games/hud/life" %></li>
       <li class="life_bar"><%= render "games/hud/life" %></li>
     </ul>
-    <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
-      <%= f.text_field :nickname %>
-    <% end %>
+
+    <div id="current_player" data-user-id="<%= current_player.id %>" data-user-nickname="<%= current_player.nickname %>"></div>
+      <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
+        <%= f.text_field :nickname %>
+      <% end %>
+    </div>
 
     <ul id="life_opponent">
       <li class="life_bar"><%= render "games/hud/life" %></li>
@@ -34,7 +37,9 @@
       <li class="life_bar"><%= render "games/hud/life" %></li>
       <li class="life_bar"><%= render "games/hud/life" %></li>
     </ul>
-    <h1 class="opponent"><%= opponent.nickname %></h1>
+    <div id="opponent" data-user-id="<%= opponent.id %>" data-user-nickname="<%= opponent.nickname %>"></div>
+      <h1 class="opponent"><%= opponent.nickname %></h1>
+    </div>
 
     <div class="player_bonus">
       <img src="<%= image_path('speed_bonus.svg') %>"/>

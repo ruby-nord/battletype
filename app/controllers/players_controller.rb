@@ -5,7 +5,7 @@ class PlayersController < ApplicationController
     return render json: {error: "Cannot update another user"}, status: 401 if @player != current_player
 
     @player.update(player_params)
-    render json: {statsu: :ok}, status: 200
+    render json: {status: :ok}, status: 200
   end
 
   private
