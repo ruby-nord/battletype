@@ -24,7 +24,7 @@ RSpec.describe "Games", type: :request do
 
         before { get "/games/#{game.to_param}" }
 
-        it { expect(response.body).to include("This game is already full, please start a new game") }
+        it { expect(response.body).to include("already full") }
         it { expect(player.reload.game).to_not eq(game) }
       end
 
@@ -37,7 +37,7 @@ RSpec.describe "Games", type: :request do
           get "/games/#{game.to_param}"
         end
 
-        it { expect(response.body).to_not include("This game is already full, please start a new game") }
+        it { expect(response.body).to_not include("already full") }
         it { expect(player.reload.game).to eq(game) }
       end
 
@@ -45,15 +45,16 @@ RSpec.describe "Games", type: :request do
         let(:other_game) { Game.create!(name: 'Other game', slug: 'other-game') }
 
         before :each do
-          player.update(game: game, nickname: "Rico")
+          player.update(game: game, nickname: "Rico", life: 3)
           get "/games/#{other_game.to_param}"
         end
 
         it { expect(Player.count).to eq(2) }
         it { expect(Player.last.id).not_to eq(player.id) }
         it { expect(Player.last.nickname).to eq("Rico") }
+        it { expect(Player.last.life).to eq(10) }
         it { expect(response).to have_http_status(200) }
-        it { expect(response.body).to_not include("This game is already full, please start a new game") }
+        it { expect(response.body).to_not include("already full") }
       end
     end
 
@@ -69,6 +70,7 @@ RSpec.describe "Games", type: :request do
         it { expect(Player.count).to eq(1) }
         it { expect(response.body).to include(game.name) }
         it { expect(Player.last.game).to eq(game) }
+        it { expect(Player.last.life).to eq(10) }
 
         it 'sets game state to running' do
           expect(game.reload.state).to eq('running')
@@ -92,7 +94,7 @@ RSpec.describe "Games", type: :request do
 
         it { expect(response).to have_http_status(200) }
         it { expect(Player.count).to eq(2) }
-        it { expect(response.body).to include("This game is already full, please start a new game") }
+        it { expect(response.body).to include("already full") }
       end
     end
 
