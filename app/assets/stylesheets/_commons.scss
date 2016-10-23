@@ -293,7 +293,6 @@ a {
     background-size: 172px 45px;
     bottom: 0;
     display: flex;
-    justify-content: space-around;
     list-style-type:none;
     margin: 0;
     padding: 5px 26px 5px 5px;
@@ -304,7 +303,7 @@ a {
       display: block;
       width: 10px;
       height: 28px;
-      margin: 0;
+      margin: 0 4px 0 0;
       padding: 0;
     }
 

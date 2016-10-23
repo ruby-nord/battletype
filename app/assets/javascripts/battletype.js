@@ -1,10 +1,11 @@
-/* global Stdin, PS2EventRelay, CombatZone, Dockyard, Ship */
+/* global Stdin, PS2EventRelay, CombatZone, Dockyard, Ship, LifeOMeter */
 
 //= require battletype/stdin
 //= require battletype/ps2_event_relay
 //= require battletype/combat_zone
 //= require battletype/dockyard
 //= require battletype/ship
+//= require battletype/life_o_meter
 
 (function () {
   this.Battletype = {
@@ -29,7 +30,10 @@
       Dockyard.registerTemplate("mothership", document.getElementById("mothership_template"));
 
       this.mothership = Dockyard.launchMothership(this.$combatZone);
-
+      
+      this.playerLifeOMeter   = LifeOMeter.activate(document.getElementById("life_player"));
+      this.opponentLifeOMeter = LifeOMeter.activate(document.getElementById("life_opponent"));
+      
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("switchMode", function (e) { this.switchMode(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("bombDropped", function (e) { this._transmitBombing(e.detail); }.bind(this), false);
@@ -47,12 +51,17 @@
       case "successful_attack":
         if (payload.player_id != this.playerId) { // TODO: comparer plutôt à opponentId
           Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.$combatZone, this._eventsRelay);
+        } else {
+          // TODO
         }
+        
         break;
       case "failed_attack":
         if (payload.player_id == this.playerId) {
           console.log("Failed attack with word", payload.word);
           console.log("Error code", payload.error_codes);
+        } else {
+          // TODO
         }
         break;
       case "successful_defense":
@@ -60,7 +69,12 @@
           var ship = Ship.locate(payload.word);
           if (ship) { this.$combatZone.get(0).removeChild(ship); }
           // TODO: update gauge & unlock strike
+        } else {
+          // TODO
         }
+        break;
+      case "successful_bombing":
+        
         break;
       }
     },
