@@ -1,18 +1,21 @@
 class Defense
   include ActiveModel::Validations
 
-  validate :attacker_ship_exists
+  validate :attacker_ship_exists, :matching_case_sensitive, :not_matching_own_ship
 
   private
   attr_reader :player, :perfect_typing, :word
 
   public
-  attr_reader :ship
 
   def initialize(player:, word:, perfect_typing:)
     @player         = player
     @word           = word
     @perfect_typing = ['1', true].include?(perfect_typing)
+  end
+
+  def ship
+    @ship ||= player.game.ships.joins(:word).where("LOWER(words.value) = LOWER(?)", word).first
   end
 
   def strike_gauge
@@ -33,26 +36,24 @@ class Defense
   private
 
   def attacker_ship_exists
-    return if @ship
-
-    ships = player.game.ships.joins(:word)
-    @ship = ships.where.not(player_id: player.id).where(words: { value: word }).first
-    return if @ship
-
-    if matching_case_sensitive?
-      errors.add(:word, "wrong_case")
-    elsif matching_own_ship?
-      errors.add(:word, "player_ship")
-    else
+    unless ship
       errors.add(:word, "not_found")
     end
   end
 
-  def matching_case_sensitive?
-    player.game.ships.joins(:word).where.not(player_id: player.id).where("LOWER(words.value) = LOWER(?)", word).exists?
+  def matching_case_sensitive
+    matching_insensitive = player.game.ships.joins(:word).where.not(player_id: player.id).where("LOWER(words.value) = LOWER(:word) AND words.value != :word", word: word).exists?
+
+    if matching_insensitive
+      errors.add(:word, "wrong_case")
+    end
   end
 
-  def matching_own_ship?
-    player.game.ships.joins(:word).where(player_id: player.id).where(words: { value: word }).exists?
+  def not_matching_own_ship
+    matching = player.game.ships.joins(:word).where(player_id: player.id).where(words: { value: word }).exists?
+
+    if matching
+      errors.add(:word, "player_ship")
+    end
   end
 end
