@@ -6,8 +6,8 @@
   };
 
   this.Stdin = {
-    inputDevice: { writable: true },
-    ps2Port: { writable: true },
+    // inputDevice: { writable: true },
+    // ps2Port: { writable: true },
 
     powerOn: function () {
       this.reset();
@@ -21,6 +21,12 @@
     reset: function () {
       this._typingMistake    = false,
       this.inputDevice.value = "";
+    },
+    indicateAttackMode: function () {
+      $(this.inputDevice).removeClass("defense").addClass("attack");
+    },
+    indicateDefenseMode: function () {
+      $(this.inputDevice).removeClass("attack").addClass("defense");
     },
     perfectTyping: function () {
       return ! this._typingMistake;
