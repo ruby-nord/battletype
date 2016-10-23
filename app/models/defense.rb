@@ -1,7 +1,7 @@
 class Defense
   include ActiveModel::Validations
 
-  validate :ship_exists, :matching_case_sensitive, :not_matching_own_ship
+  validate :ship_exists, :matching_case_sensitive, :not_matching_own_ship, :ship_not_destroyed_yet, :mission_not_accomplished_yet
 
   private
   attr_reader :player, :perfect_typing, :word
@@ -34,6 +34,18 @@ class Defense
   end
 
   private
+
+  def ship_not_destroyed_yet
+    if ship&.state == 'destroyed'
+      errors.add(:word, "already_destroyed")
+    end
+  end
+
+  def mission_not_accomplished_yet
+    if ship&.state == 'mission_accomplished'
+      errors.add(:word, "bomb_already_dropped")
+    end
+  end
 
   def matching_case_sensitive
     matching_insensitive = ships.where.not(player_id: player.id).where("LOWER(words.value) = LOWER(:word) AND words.value != :word", word: word).exists?
