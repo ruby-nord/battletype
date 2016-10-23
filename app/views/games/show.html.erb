@@ -19,7 +19,7 @@
       <li class="life_bar"><%= render "games/hud/life" %></li>
     </ul>
 
-    <div id="current_player" data-user-id="<%= current_player.id %>" data-user-nickname="<%= current_player.nickname %>"></div>
+    <div id="current_player" data-player-id="<%= current_player.id %>" data-player-nickname="<%= current_player.nickname %>"></div>
       <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
         <%= f.text_field :nickname %>
       <% end %>
@@ -37,7 +37,7 @@
       <li class="life_bar"><%= render "games/hud/life" %></li>
       <li class="life_bar"><%= render "games/hud/life" %></li>
     </ul>
-    <div id="opponent" data-user-id="<%= opponent.id %>" data-user-nickname="<%= opponent.nickname %>"></div>
+    <div id="opponent" data-player-id="<%= opponent.id %>" data-player-nickname="<%= opponent.nickname %>"></div>
       <h1 class="opponent"><%= opponent.nickname %></h1>
     </div>
 
