@@ -51,7 +51,7 @@
         <%= hidden_field_tag :word %>
         <%= hidden_field_tag :game_id, @game.id %>
       <% end %>
-      <%= form_tag(attacks_path, id: "defense", data: { remote: true }) do %>
+      <%= form_tag(defenses_path, id: "defense", data: { remote: true }) do %>
         <%= hidden_field_tag :word %>
         <%= hidden_field_tag :perfect_typing %>
         <%= hidden_field_tag :game_id, @game.id %>
