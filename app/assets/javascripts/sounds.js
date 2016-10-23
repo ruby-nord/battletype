@@ -1,28 +1,25 @@
-function hit() {
-  playAudio('hit.mp3', false);
+function audio_hit() {
+  playAudio('hit.mp3', 0);
 }
 
-function explosion() {
-  playAudio('explosion.mp3', false);
+function audio_explosion() {
+  playAudio('explosion.mp3', 0);
 }
 
-function spaceship() {
-  playAudio('spaceship.mp3', false);
-}
-
-function ambiance() {
-  playAudio('ambiance.mp3', true);
-}
-
-function playAudio(audioFile, loop) {
-  var myAudio = new Audio('/sounds/'+audioFile);
-
-  if(loop) {
-    myAudio.addEventListener('ended', function() {
-      this.currentTime = 0;
-      this.play();
-    }, false);
+function audio_spaceship(position) {
+  if(position == "left") {
+      x = -1;
   }
+  else {
+    x = 1;
+  }
+  playAudio('spaceship.mp3', x);
+}
 
-  myAudio.play();
+function playAudio(audioFile, x) {
+  new Howl({
+    src: ['/sounds/'+audioFile],
+    pos: (x, 0, 0),
+    autoplay: true
+  });
 }

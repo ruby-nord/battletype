@@ -19,3 +19,4 @@
 
 //= require game
 //= require sounds
+//= require howler

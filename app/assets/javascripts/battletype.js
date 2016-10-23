@@ -50,6 +50,7 @@
       switch(payload.code) {
       case "successful_attack":
         if (payload.player_id != this.playerId) { // TODO: comparer plutôt à opponentId
+          audio_spaceship("right");
           Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.$combatZone, this._eventsRelay);
         } else {
           // TODO
@@ -83,8 +84,8 @@
       this._stdin.reset();
     },
     _transmitAttack: function (entry) {
+      audio_spaceship("left");
       this.attackFrequency.elements["word"].value = entry.word;
-
       $(this.attackFrequency).trigger("submit.rails");
     },
     _transmitDefense: function (entry) {
