@@ -45,7 +45,7 @@
         <div class="bonus_percentage"></div>
       </div>
 
-      <%= text_field_tag :stdin %>
+      <%= text_field_tag :stdin, "", class: "attack" %>
 
       <%= form_tag(attacks_path, id: "attack", data: { remote: true }) do %>
         <%= hidden_field_tag :word %>
