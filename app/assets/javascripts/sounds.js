@@ -11,15 +11,15 @@ var ready = function () {
 $(document).ready(ready);
 $(document).on("page:load", ready);
 
-function hit() {
+function audio_hit() {
   playAudio('hit.mp3', 0);
 }
 
-function explosion() {
+function audio_explosion() {
   playAudio('explosion.mp3', 0);
 }
 
-function spaceship(position) {
+function audio_spaceship(position) {
   if(position == "left") {
       x = -1;
   }
@@ -29,11 +29,11 @@ function spaceship(position) {
   playAudio('spaceship.mp3', x);
 }
 
-function playAmbiance() {
+function audio_playAmbiance() {
   ambiance.play();
 }
 
-function pauseAmbiance() {
+function audio_pauseAmbiance() {
   ambiance.pause();
 }
 
