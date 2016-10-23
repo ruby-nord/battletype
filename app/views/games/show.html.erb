@@ -4,7 +4,7 @@
     <%= render "stars" %>
 
     <div class="hud">
-      <h1 class="room">ROOM: <%= @game.name %></h1>
+      <%= content_tag :h1, "ROOM: #{@game.name}", class: "room", id: "game_title", data: { game_id: @game.id } %>
 
       <ul id="life_player">
         <li class="life_bar"><%= render "games/hud/life" %></li>

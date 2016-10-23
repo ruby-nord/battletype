@@ -11,6 +11,7 @@
     
     init: function(options) {
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
+      this.playerId         = options.playerId;
       
       this._stdin = Object.create(Stdin, {
         inputDevice: { value: options.inputDevice },
