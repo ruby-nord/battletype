@@ -2,10 +2,8 @@
 <div class="wrapper">
   <div class="combat_zone attack_mode" id="combat_zone">
     <%= render "stars" %>
-
     <div class="hud">
       <%= content_tag :h1, "ROOM: #{@game.name}", class: "room", id: "game_title", data: { game_id: @game.id } %>
-
       <ul id="life_player">
         <li class="life_bar"><%= render "games/hud/life" %></li>
         <li class="life_bar"><%= render "games/hud/life" %></li>
@@ -20,11 +18,9 @@
       </ul>
       <!-- <h1 class="player">Casimir</h1> -->
       <div id="current_player" data-player-id="<%= current_player.id %>" data-player-nickname="<%= current_player.nickname %>"></div>
-        <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
-          <%= f.text_field :nickname %>
-        <% end %>
-      </div>
-
+      <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
+        <%= f.text_field :nickname %>
+      <% end %>
       <ul id="life_opponent">
         <li class="life_bar"><%= render "games/hud/life" %></li>
         <li class="life_bar"><%= render "games/hud/life" %></li>
@@ -38,12 +34,10 @@
         <li class="life_bar"><%= render "games/hud/life" %></li>
       </ul>
       <h1 class="opponent">Calimero</h1>
-
       <div class="player_bonus">
         <img src="<%= image_path('speed_bonus.svg') %>"/>
         <p>Speed +20% (Use SPACE)</p>
       </div>
-
       <div class="bonus_bar">
         <div class="bonus_percentage"></div>
       </div>
