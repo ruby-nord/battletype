@@ -1,3 +1,4 @@
+/* globals Ship */
 (function () {
   this.Ship = {
     _properties: {
@@ -5,8 +6,8 @@
         get: function () { return this._word; },
         set: function (w) {
           this._word = w;
-          this.attr("id", "ship_" + this._word);
-          this.find("p.word").text(this._word);
+          this.id = Ship._shipIdFromWord(this._word);
+          this.querySelector("p.word").textContent = this._word;
         }
       },
       velocity: {
@@ -24,12 +25,18 @@
     },
     
     build: function (template, attributes) {
-      var ship = Object.defineProperties($(template).clone(), this._properties);
+      var ship = Object.defineProperties($(template).clone().get(0), this._properties);
       ship.word = attributes.word;
       ship.velocity = attributes.velocity;
       ship.damage = attributes.damage;
       
       return ship;
+    },
+    locate: function (word, combatZone) {
+      return $("#" + this._shipIdFromWord(word), combatZone).get(0);
+    },
+    _shipIdFromWord: function (word) {
+      return "ship_" + word;
     }
   };
 }).call(this);

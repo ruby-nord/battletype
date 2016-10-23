@@ -1,9 +1,10 @@
-/* global Stdin, PS2EventRelay, CombatZone, Dockyard */
+/* global Stdin, PS2EventRelay, CombatZone, Dockyard, Ship */
 
 //= require battletype/stdin
 //= require battletype/ps2_event_relay
 //= require battletype/combat_zone
 //= require battletype/dockyard
+//= require battletype/ship
 
 (function () {
   this.Battletype = {
@@ -15,7 +16,7 @@
       this.playerId         = options.playerId;
       this.opponentId       = options.playerId;
       
-      this.combatZone       = CombatZone.locate();
+      this.$combatZone       = CombatZone.locate();
       
       this.attackFrequency  = options.attackFrequency;
       this.defenseFrequency = options.defenseFrequency;
@@ -25,7 +26,7 @@
       Dockyard.registerTemplate("large", document.getElementById("large_ship_template"));
       Dockyard.registerTemplate("mothership", document.getElementById("mothership_template"));
       
-      this.mothership = Dockyard.launchMothership(this.combatZone);
+      this.mothership = Dockyard.launchMothership(this.$combatZone);
       
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("switchMode", function (e) { this.switchMode(e.detail); }.bind(this), false);
@@ -40,7 +41,7 @@
       switch(payload.code) {
       case "successful_attack":
         if (payload.player_id != this.playerId) { // TODO: comparer plutôt à opponentId
-          Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.combatZone);
+          Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.$combatZone);
         }
         break;
       case "failed_attack":
@@ -48,6 +49,15 @@
           console.log("Failed attack with word", payload.word);
           console.log("Error code", payload.error_codes);
         }
+        break;
+      case "successful_defense":
+        // { code: 'successful_defense', player_id: player.id, word: word, strike: { gauge: player.strike_gauge, unlocked: player.unlocked_strike }}
+        if (payload.player_id == this.playerId) {
+          var ship = Ship.locate(payload.word);
+          if (ship) { this.$combatZone.get(0).removeChild(ship); }
+          // TODO: update gauge & unlock strike
+        }
+        break;
       }
     },
     transmitEntry: function (entry) {
@@ -65,14 +75,14 @@
       
       $(this.defenseFrequency).trigger("submit.rails");
     },
-    switchMode: function (detail) {
+    switchMode: function () {
       Battletype.attacking = !Battletype.attacking;
       console.log("Switched mode to Battletype.attacking = "+Battletype.attacking);
-      if(Battletype.attacking) {
-        $("#game").removeClass("defense_mode").addClass("attack_mode");
+      if (Battletype.attacking) {
+        this.$combatZone.removeClass("defense_mode").addClass("attack_mode");
       }
       else {
-        $("#game").removeClass("attack_mode").addClass("defense_mode");
+        this.$combatZone.removeClass("attack_mode").addClass("defense_mode");
       }
     },
   };

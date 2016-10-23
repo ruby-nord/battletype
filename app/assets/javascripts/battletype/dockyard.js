@@ -10,7 +10,7 @@
       var newShip = Ship.build(this._templates[attributes.ship.type], attributes);
       
       newShip.positionY = combatZone.randomFreeVerticalSlot;
-      newShip.appendTo(combatZone);
+      $(newShip).appendTo(combatZone); // TODO: do without jQuery
       console.log(newShip);
     },
     launchMothership: function (combatZone) {
