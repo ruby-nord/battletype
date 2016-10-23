@@ -36,13 +36,13 @@ class Defense
   private
 
   def ship_not_destroyed_yet
-    if ship && ship.state == 'destroyed'
+    if ship&.state == 'destroyed'
       errors.add(:word, "already_destroyed")
     end
   end
 
   def mission_not_accomplished_yet
-    if ship && ship.state == 'mission_accomplished'
+    if ship&.state == 'mission_accomplished'
       errors.add(:word, "bomb_already_dropped")
     end
   end
