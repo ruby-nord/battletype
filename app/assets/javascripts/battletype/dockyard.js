@@ -29,8 +29,6 @@
       return function () {
         var event = new CustomEvent("bombDropped", { detail: ship });
         this.ps2Port.dispatchEvent(event);
-        
-        console.log("Bomb dropped by", ship);
       }.bind(this);
     }
   };

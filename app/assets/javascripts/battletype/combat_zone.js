@@ -3,7 +3,7 @@
     _properties: {
       randomFreeVerticalSlot: {
         get: function () {
-          return Math.floor(Math.random() * this.height() - 30) + 30;
+          return Math.floor(Math.random() * this.height() - 80) + 80;
         }
       }
     },

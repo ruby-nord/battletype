@@ -75,7 +75,11 @@
         }
         break;
       case "successful_bombing":
-        // 
+        if (payload.played_id != this.playerId) {
+          this.playerLifeOMeter.life = payload.bombed_mothership.life;
+        } else {
+          this.opponentLifeOMeter.life = payload.bombed_mothership.life;
+        }
         break;
       case "game_won":
         if (payload.player_id == this.playerId) {
