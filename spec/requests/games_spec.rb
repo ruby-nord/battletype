@@ -59,12 +59,30 @@ RSpec.describe "Games", type: :request do
 
     context "player is not signed in" do
       context "game is not full" do
-        before { get "/games/#{game.to_param}" }
+        before :each do
+          game.update(state: 'awaiting_opponent')
+          allow(ActionCable.server).to receive(:broadcast)
+          get "/games/#{game.to_param}"
+        end
 
         it { expect(response).to have_http_status(200) }
         it { expect(Player.count).to eq(1) }
         it { expect(response.body).to include(game.name) }
         it { expect(Player.last.game).to eq(game) }
+
+        it 'sets game state to running' do
+          expect(game.reload.state).to eq('running')
+        end
+
+        it 'broadcasts a player joined payload' do
+          expect(ActionCable.server).to have_received(:broadcast).with(
+            anything,
+            {
+              code:       'player_joined',
+              player_id:  Player.last.id
+            }
+          )
+        end
       end
 
       context "game is already full" do
@@ -92,6 +110,10 @@ RSpec.describe "Games", type: :request do
 
       it { expect(Game.count).to eq(1) }
       it { expect(Game.last.name).to eq("foobar") }
+
+      it 'sets state of created game to awaiting_opponent' do
+        expect(Game.last.state).to eq('awaiting_opponent')
+      end
     end
 
     context "game already exist" do
