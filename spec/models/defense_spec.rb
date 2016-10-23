@@ -8,10 +8,12 @@ RSpec.describe "Defense", type: :model do
   let(:attacker_word)   { Word.create!(value: 'HaCkeR', game: game) }
   let(:perfect_typing)  { '1' }
   let(:player)          { Player.create!(game: game) }
+  let(:player_word)     { Word.create!(value: 'own', game: game) }
   let(:word)            { attacker_word.value }
 
   before :each do
     attacker.ships.create!(word: attacker_word, state: 'engaged')
+    player.ships.create!(word: player_word, state: 'engaged')
   end
 
   describe '#strike_gauge' do
@@ -78,6 +80,32 @@ RSpec.describe "Defense", type: :model do
       it 'remains saboteur if unlocked' do
         player.unlocked_strike = 'saboteur'
         expect(defense.unlocked_strike).to eq('saboteur')
+      end
+    end
+  end
+
+  describe '#ship' do
+    context "when word does not match any ship" do
+      let(:word) { 'unknown' }
+
+      it 'returns nil' do
+        expect(defense.ship).to eq(nil)
+      end
+    end
+
+    context "when word matches a ship case insensitive" do
+      let(:word) { 'hacker' }
+
+      it "returns the ship" do
+        expect(defense.ship).to eq(game.ships.where(player: attacker).first)
+      end
+    end
+
+    context "when word matches a ship case sensitive" do
+      let(:word) { 'HaCkeR' }
+
+      it "returns the ship" do
+        expect(defense.ship).to eq(game.ships.where(player: attacker).first)
       end
     end
   end
