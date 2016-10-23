@@ -17,7 +17,7 @@ class GamesController < ApplicationController
     enlist = Players::Enlist.new(game: @game, player: current_player)
 
     if enlist.game_full?
-      return render FullGame.new
+      return render FullGame.template_path
     else # try to enter the game
       payload = enlist.assign_game_to_player!
       set_current_player(enlist.player)

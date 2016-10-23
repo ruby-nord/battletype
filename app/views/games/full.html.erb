@@ -1,0 +1,17 @@
+
+<div class="row">
+  <%= render "games/stars" %>
+  <div class="wrapper">
+    <div class="join_us">
+      <div class="mothership">
+        <div class="ship">
+          <%= render "games/ships/svg/mothership" %>
+        </div>
+      </div>
+    </div>
+    <h1>Too late! Game is already full.</h1>
+
+    <p>Sstart a new game right now!</p>
+    <%= link_to "Start Game", root_path, class: "button" %>
+  </div>
+</div>

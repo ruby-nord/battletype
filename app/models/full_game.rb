@@ -1,5 +1,5 @@
 class FullGame < Game
-  def to_partial_path
+  def self.template_path
     "games/full"
   end
 end
