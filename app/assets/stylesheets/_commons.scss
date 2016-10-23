@@ -36,22 +36,18 @@ header {
 
   .log {
     display: inline-block;
-    width: 60%;
+    width: auto;
     margin: 0 auto;
     text-align: center;
-
-    p {
-      display: inline-block;
-      font-family: Consolas, monaco, monospace;
-      color: $white;
-      font-size: .9em;
-      font-weight: normal;
-      background: $word_label;
-      line-height: normal;
-      border-radius: 4px;
-      padding: 6px 10px;
-      margin: 0;
-    }
+    display: inline-block;
+    font-family: Consolas, monaco, monospace;
+    color: #fff;
+    font-size: .9em;
+    font-weight: normal;
+    background: $word_label;
+    line-height: normal;
+    border-radius: 4px;
+    padding: 6px 10px;
   }
 
   .rampage {
