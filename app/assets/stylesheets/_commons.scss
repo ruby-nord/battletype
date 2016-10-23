@@ -129,7 +129,7 @@ header {
     left: 10px;
   }
 
-  .player, .opponent {
+  .opponent {
     display: inline-block;
     font-family: Consolas, monaco, monospace;
     text-transform: uppercase;
@@ -141,14 +141,40 @@ header {
     margin: 0;
     position: absolute;
     bottom: 60px;
-  }
-
-  .player {
-    left: 10px;
-  }
-
-  .opponent {
     right: 10px;
+  }
+
+  .edit_player {
+    display: inline-block;
+    font-family: Consolas, monaco, monospace;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    bottom: 42px;
+    left: 10px;
+
+    input[type="text"] {
+      -moz-appearance: none;
+      -moz-box-sizing: border-box;
+      -webkit-appearance: none;
+      -webkit-box-sizing: border-box;
+      appearance: none;
+      background-color: transparent;
+      text-transform: uppercase;
+      border: 0;
+      box-sizing: border-box;
+      color: $white;
+      font-family: Consolas, monaco, monospace;
+      font-size: 1.2em;
+      line-height: 0;
+      margin: 0 auto;
+      text-align: left;
+      outline: none;
+      padding: 0;
+      width: 300px;
+      background-position: -1000px -1000px !important;
+    }
   }
 
   .player_bonus {
