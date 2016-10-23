@@ -75,7 +75,28 @@
         }
         break;
       case "successful_bombing":
-        
+        // 
+        break;
+      case "game_won":
+        if (payload.player_id == this.playerId) {
+          // TODO
+          console.log("\o/ You won!");
+        } else {
+          // TODO
+          console.log(":( You lose!");
+        }
+        break;
+      case "player_joined":
+        if (payload.player_id != this.playerId) {
+          var nickname = payload.nickname;
+          
+          $("#log_system > p")
+            .text(nickname + " has joined the game!")
+            .delay(1500)
+            .fadeOut("slow"); // TODO tell-dont-ask & remove jQuery
+          
+          this.$combatZone.find("#opponent_nickname").text(nickname); // TODO tell-dont-ask
+        }
         break;
       }
     },
