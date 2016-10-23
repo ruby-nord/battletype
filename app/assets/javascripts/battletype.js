@@ -18,8 +18,8 @@
 
       this.$combatZone       = CombatZone.locate();
 
-      this.attackFrequency  = options.attackFrequency;
-      this.defenseFrequency = options.defenseFrequency;
+      this.attackFrequency  = document.getElementById("attack");
+      this.defenseFrequency = document.getElementById("defense");
       this.bombingFrequency = document.getElementById("bombing_frequency");
 
       Dockyard.ps2Port = this._eventsRelay;
@@ -34,8 +34,9 @@
       this._eventsRelay.addEventListener("switchMode", function (e) { this.switchMode(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("bombDropped", function (e) { this._transmitBombing(e.detail); }.bind(this), false);
 
+      // TODO: factory pattern
       this._stdin = Object.create(Stdin, {
-        inputDevice: { value: options.inputDevice },
+        inputDevice: { value: document.getElementById("stdin") },
         ps2Port: { value: this._eventsRelay }
       });
       this._stdin.powerOn();
@@ -55,7 +56,6 @@
         }
         break;
       case "successful_defense":
-        // { code: 'successful_defense', player_id: player.id, word: word, strike: { gauge: player.strike_gauge, unlocked: player.unlocked_strike }}
         if (payload.player_id == this.playerId) {
           var ship = Ship.locate(payload.word);
           if (ship) { this.$combatZone.get(0).removeChild(ship); }
@@ -69,13 +69,13 @@
       this._stdin.reset();
     },
     _transmitAttack: function (entry) {
-      this.attackFrequency.querySelector("[name='word']").value = entry.word;
+      this.attackFrequency.elements["word"].value = entry.word;
 
       $(this.attackFrequency).trigger("submit.rails");
     },
     _transmitDefense: function (entry) {
-      this.defenseFrequency.querySelector("[name='word']").value = entry.word;
-      this.defenseFrequency.querySelector("[name='perfectTyping']").value = entry.perfectTyping;
+      this.defenseFrequency.elements["word"].value = entry.word;
+      this.defenseFrequency.elements["perfect_typing"].value = entry.perfectTyping;
 
       $(this.defenseFrequency).trigger("submit.rails");
     },
@@ -85,19 +85,16 @@
 
       this.bombingFrequency.elements["word"].value = ship.word;
       $(this.bombingFrequency).trigger("submit.rails");
-
-      console.log("_transmitBombing", ship);
     },
     switchMode: function () {
       Battletype.attacking = !Battletype.attacking;
-      console.log("Switched mode to Battletype.attacking = "+Battletype.attacking);
       
       if (Battletype.attacking) {
-        this.$combatZone.removeClass("defense_mode").addClass("attack_mode");
+        this.$combatZone.removeClass("defense_mode").addClass("attack_mode"); // TODO tell-dont-ask
         this._stdin.indicateAttackMode();
       }
       else {
-        this.$combatZone.removeClass("attack_mode").addClass("defense_mode");
+        this.$combatZone.removeClass("attack_mode").addClass("defense_mode"); // TODO tell-dont-ask
         this._stdin.indicateDefenseMode();
       }
     },
