@@ -60,6 +60,7 @@ RSpec.describe "Games", type: :request do
     context "player is not signed in" do
       context "game is not full" do
         before :each do
+          game.update(state: 'awaiting_opponent')
           allow(ActionCable.server).to receive(:broadcast)
           get "/games/#{game.to_param}"
         end
@@ -68,6 +69,10 @@ RSpec.describe "Games", type: :request do
         it { expect(Player.count).to eq(1) }
         it { expect(response.body).to include(game.name) }
         it { expect(Player.last.game).to eq(game) }
+
+        it 'sets game state to running' do
+          expect(game.reload.state).to eq('running')
+        end
 
         it 'broadcasts a player joined payload' do
           expect(ActionCable.server).to have_received(:broadcast).with(

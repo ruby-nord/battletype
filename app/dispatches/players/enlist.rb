@@ -15,6 +15,7 @@ module Players
 
     def assign_game_to_player!
       @player = Player.create!(nickname: nickname, game: game)
+      @game.update(state: 'running')
 
       return successful_payload
     end
