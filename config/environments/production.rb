@@ -41,7 +41,7 @@ Rails.application.configure do
 
   # Action Cable endpoint configuration
   config.action_cable.url = "wss://#{ENV["HOST"]}/cable"
-  config.action_cable.allowed_request_origins = [ENV["HOST"], "battletype.com"].map do |e|
+  config.action_cable.allowed_request_origins = [ENV["HOST"], "battletype.com", "www.battletype.com"].map do |e|
                                                   ["https://#{e}", /https:\/\/#{e}.*/]
                                                 end.flatten
 
