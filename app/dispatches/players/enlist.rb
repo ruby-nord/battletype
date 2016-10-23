@@ -1,10 +1,15 @@
-module Users
+module Players
   class Enlist
     MAX_PLAYERS = 2
+
+    private
+    attr_reader :game
+
+    public
     attr_reader :player
 
     def initialize(game:, player:)
-      @game = game
+      @game   = game
       @player = player
     end
 
@@ -17,7 +22,6 @@ module Users
     end
 
     private
-    attr_reader :game
 
     def nickname
       player&.nickname || Haikunator.haikunate(0)
