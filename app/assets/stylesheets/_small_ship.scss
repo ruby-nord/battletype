@@ -33,13 +33,13 @@
   .ship {
     display: block;
     padding: 0 6px;
-    background: url(ship_selected.svg);
+    background: asset-url("ship_selected.svg");
     background-size: 0% auto;
     background-repeat: no-repeat;
     background-position: center;
 
     &.targeted_ship {
-      background: url(ship_selected.svg);
+      background: asset-url("ship_selected.svg");
       background-size: 100% auto;
       background-repeat: no-repeat;
       background-position: center;
