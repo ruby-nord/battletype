@@ -1,7 +1,9 @@
 /* global Stdin, PS2EventRelay */
+/* global Stdin, PS2EventRelay, Dockyard */
 
 //= require battletype/stdin
 //= require battletype/ps2_event_relay
+//= require battletype/dockyard
 
 (function () {
   this.Battletype = {
@@ -13,6 +15,9 @@
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
       this.playerId         = options.playerId;
       
+      Dockyard.registerTemplate("small", document.getElementById("small_ship"));
+      Dockyard.registerTemplate("medium", document.getElementById("medium_ship"));
+      Dockyard.registerTemplate("large", document.getElementById("large_ship"));
       this._stdin = Object.create(Stdin, {
         inputDevice: { value: options.inputDevice },
         ps2Port: { value: this._eventsRelay }
