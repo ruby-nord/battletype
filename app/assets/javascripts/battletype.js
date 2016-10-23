@@ -25,7 +25,7 @@
       Dockyard.registerTemplate("large", document.getElementById("large_ship_template"));
       
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
-      this._eventsRelay.addEventListener("switch", function (e) { this.switchMode(e.detail); }.bind(this), false);
+      this._eventsRelay.addEventListener("switchMode", function (e) { this.switchMode(e.detail); }.bind(this), false);
       this._stdin = Object.create(Stdin, {
         inputDevice: { value: options.inputDevice },
         ps2Port: { value: this._eventsRelay }

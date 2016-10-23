@@ -1,7 +1,8 @@
 (function () {
   var KEY_CODES_AND_VALUES_MAP = {
     "Backspace": 8,
-    "Enter": 13
+    "Enter": 13,
+    "Tab": 9
   };
 
   this.Stdin = {
@@ -10,10 +11,12 @@
 
     powerOn: function () {
       this.reset();
-      this.inputDevice.addEventListener("keydown", this, { passive: true });
+      this.inputDevice.addEventListener("keydown", this, { capture: true }); // Let's only care for keyups for now
+      this.inputDevice.addEventListener("keyup", this, { capture: true }); // Let's only care for keyups for now
     },
     powerOff: function () {
       this.inputDevice.removeEventListener("keydown", this, { passive: true });
+      this.inputDevice.removeEventListener("keyup", this, { passive: true });
     },
     reset: function () {
       this._typingMistake    = false,
@@ -26,52 +29,54 @@
       return { word: this.inputDevice.value, perfectTyping: this.perfectTyping() };
     },
     handleEvent: function (e) {
-      var pressedKey;
-
-      switch(e.type) {
-      case "keydown":
-        if (e.key !== undefined) {
-          pressedKey = e.key;
-        } else if (e.keyIdentifier !== undefined) {
-          if (KEY_CODES_AND_VALUES_MAP[e.keyIdentifier]) {
-            pressedKey = e.keyIdentifier;
-          } else {
-            var keyCode = parseInt(e.keyIdentifier.substr(2), 16); // Extract the code in base16 and convert it to base10
-            pressedKey = this._keyCodeToKeyValue(keyCode);
-          }
-        } else if (e.keyCode !== undefined) {
-          pressedKey = this._keyCodeToKeyValue(e.keyCode);
+      switch (this._normalizedKey(e)) {
+      case "Backspace":
+        if (e.type == "keydown") {
+          this._typingMistake = true;
         }
         break;
-      case "keyup":
-        // some code here...
-        break;
-      }
-
-      switch(pressedKey) {
-      case "Backspace":
-        this._typingMistake = true;
-        break;
       case "Enter":
-        this._dispatchWordTypedEvent();
+        if (e.type == "keydown") {
+          this._dispatchWordTypedEvent();
+        }
+        
+        e.preventDefault();
         break;
       case "Tab":
-        this._dispatchSwitchModeEvent();
+        if (e.type == "keyup") {
+          this._dispatchSwitchModeEvent();
+        }
+        
+        e.preventDefault();
         break;
       }
-    },
-    _keyCodeToKeyValue: function (keyCode) {
-      return Object.keys(KEY_CODES_AND_VALUES_MAP).find(function (k) {
-        return KEY_CODES_AND_VALUES_MAP[k] == keyCode;
-      });
     },
     _dispatchWordTypedEvent: function () {
       var event = new CustomEvent("entry", { detail: this.currentEntry() });
       this.ps2Port.dispatchEvent(event);
     },
     _dispatchSwitchModeEvent: function () {
-      var event = new CustomEvent("switch", {});
+      var event = new CustomEvent("switchMode", {});
       this.ps2Port.dispatchEvent(event);
+    },
+    _normalizedKey: function (e) {
+      if (e.key !== undefined) {
+        return e.key;
+      } else if (e.keyIdentifier !== undefined) {
+        if (KEY_CODES_AND_VALUES_MAP[e.keyIdentifier]) {
+          return e.keyIdentifier;
+        } else {
+          var keyCode = parseInt(e.keyIdentifier.substr(2), 16); // Extract the code in base16 and convert it to base10
+          return this._keyCodeToKeyValue(keyCode);
+        }
+      } else if (e.keyCode !== undefined) {
+        return this._keyCodeToKeyValue(e.keyCode);
+      }
+    },
+    _keyCodeToKeyValue: function (keyCode) {
+      return Object.keys(KEY_CODES_AND_VALUES_MAP).find(function (k) {
+        return KEY_CODES_AND_VALUES_MAP[k] == keyCode;
+      });
     }
   };
 }).call(this);
