@@ -3,7 +3,7 @@
 
 (function () {
   this.Dockyard = {
-    _templates: [],
+    _templates: {},
     
     launch: function (attributes, space) {
       var newShip = Ship.build(this._templates[attributes.ship.type], attributes);

@@ -17,9 +17,9 @@
       this.attackFrequency  = options.attackFrequency;
       this.defenseFrequency = options.defenseFrequency;
       
-      Dockyard.registerTemplate("small", document.getElementById("small_ship"));
-      Dockyard.registerTemplate("medium", document.getElementById("medium_ship"));
-      Dockyard.registerTemplate("large", document.getElementById("large_ship"));
+      Dockyard.registerTemplate("small", document.getElementById("small_ship_template"));
+      Dockyard.registerTemplate("medium", document.getElementById("medium_ship_template"));
+      Dockyard.registerTemplate("large", document.getElementById("large_ship_template"));
       
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
       this._stdin = Object.create(Stdin, {
