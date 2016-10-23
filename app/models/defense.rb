@@ -37,7 +37,7 @@ class Defense
 
   def attacker_ship_exists
     unless ship
-      errors.add(:word, "not_found")
+      errors.add(:word, "ship_not_found")
     end
   end
 

@@ -81,7 +81,7 @@ RSpec.describe "Defenses::Launch", type: :dispatch do
           code:       'failed_defense',
           player_id:  player.id,
           word:       word,
-          error_codes: ['not_found']
+          error_codes: ['ship_not_found']
         )
       end
     end

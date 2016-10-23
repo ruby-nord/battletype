@@ -28,7 +28,7 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'unknown' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'failed_defense', player_id: player.id, word: 'unknown', error_codes: ['not_found']
+          code: 'failed_defense', player_id: player.id, word: 'unknown', error_codes: ['ship_not_found']
         )
       end
     end
