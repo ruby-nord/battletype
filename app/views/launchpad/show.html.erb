@@ -10,7 +10,10 @@
         </div>
       </div>
     </div>
-    <h1>Create a game and invite a friend !</h1>
+
+    <div class="title">
+      <h1>Create a game and invite a friend !</h1>
+    </div>
 
     <%= form_for(@game) do |f| %>
       <p>battle-type.com/</p>
@@ -33,7 +36,18 @@
   </div>
 </div>
 <div class="row">
-  <div class="wrapper">
-
+  <div class="wrapper explanations">
+    <p><span>Battle type</span> is a multiplayer typing game: you have to choose between typing words to send attacks at your opponent, or typing word to defend your mothership.</p>
+    <h1>How to play?</h1>
+    <p>Choose a cool name for your game</p>
+    <p>Send the url to a friend</p>
+    <p>Once your friend has joined, select the text field at the bottom of the screen and start typing, english words only!</p>
+    <p>Your opponent will also be sending words against you, use <span>TAB</span> to switch to defense mode</p>
+    <p>In defense mode, you type words to destroy ships before they reach your mothership!</p>
+    <p>The words with two letters and more are allowed</p>
+    <p><span>ENJOY! (and vote for us guys! button on top!)</span></p>
+    <br><br>
+    <p>Project made in space (during two days) for the <span>2016 Ruby Rampage.</span></p>
+    <p>Created by <span>Cecile Veneziani</span>, <span>Ronan Limon Duparcmeur</span>, <span>Vincent Daubry</span> and <span>Sebastien Wozny</span></p>
   </div>
 </div>
