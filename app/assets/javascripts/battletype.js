@@ -20,6 +20,7 @@
       
       this.attackFrequency  = options.attackFrequency;
       this.defenseFrequency = options.defenseFrequency;
+      this.bombingFrequency = document.getElementById("bombing_frequency");
       
       Dockyard.ps2Port = this._eventsRelay;
       Dockyard.registerTemplate("small", document.getElementById("small_ship_template"));
@@ -79,9 +80,12 @@
       $(this.defenseFrequency).trigger("submit.rails");
     },
     _transmitBombing: function (ship) {
-      ship.className += " leaving";
-      this.mothership.hit = true;
-        
+      ship.className += " leaving"; // The bombing ship leaves the scene
+      this.mothership.hit = true;   // The mothership takes a hit
+      
+      this.bombingFrequency.elements["word"].value = ship.word;
+      $(this.bombingFrequency).trigger("submit.rails");
+      
       console.log("_transmitBombing", ship);
     },
     switchMode: function () {
