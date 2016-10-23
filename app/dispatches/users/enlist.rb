@@ -9,8 +9,7 @@ module Users
     end
 
     def assign_game_to_player!
-      @player = Player.create!(nickname: nickname) if player.nil?
-      @player.update(game: game)
+      @player = Player.create!(nickname: nickname, game: game)
     end
 
     def game_full?
@@ -21,7 +20,7 @@ module Users
     attr_reader :game
 
     def nickname
-      "Player #{game.players.count+1}"
+      player&.nickname || "Player #{game.players.count+1}"
     end
   end
 end

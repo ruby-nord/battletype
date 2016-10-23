@@ -11,15 +11,6 @@ RSpec.describe "Games", type: :request do
         allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
       end
 
-      context "game is not full" do
-        before { get "/games/#{game.to_param}" }
-
-        it { expect(response).to have_http_status(200) }
-        it { expect(Player.count).to eq(1) }
-        it { expect(response.body).to include(game.name) }
-        it { expect(player.reload.game).to eq(game) }
-      end
-
       context "game is full" do
         before { 2.times { Player.create(game: game) } }
 
@@ -27,6 +18,27 @@ RSpec.describe "Games", type: :request do
 
         it { expect(response.body).to include("This game is already full, please start a new game") }
         it { expect(player.reload.game).to_not eq(game) }
+      end
+
+      context  "user refresh page" do
+        let!(:opponent) { Player.create(game: game) }
+        before { player.update(game: game) }
+
+        before { get "/games/#{game.to_param}" }
+
+        it { expect(response.body).to_not include("This game is already full, please start a new game") }
+        it { expect(player.reload.game).to eq(game) }
+      end
+
+      context "user changes game" do
+        before { player.update(game: game, nickname: "Rico") }
+
+        before { get "/games/new_game" }
+
+        it { expect(Player.count).to eq(2) }
+        it { expect(Player.last.nickname).to eq("Rico") }
+        it { expect(response).to have_http_status(200) }
+        it { expect(response.body).to_not include("This game is already full, please start a new game") }
       end
     end
 
