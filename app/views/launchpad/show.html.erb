@@ -1,5 +1,15 @@
+
 <div class="row">
+  <%= render "games/stars" %>
   <div class="wrapper">
+    <div class="join_us">
+      <div class="mothership">
+        <p class="word">Join the battle! Now!</p>
+        <div class="ship">
+          <%= render "games/ships/svg/mothership" %>
+        </div>
+      </div>
+    </div>
     <h1>Create a game and invite a friend !</h1>
 
     <%= form_for(@game) do |f| %>
@@ -20,5 +30,10 @@
         });
       });
     </script>
+  </div>
+</div>
+<div class="row">
+  <div class="wrapper">
+
   </div>
 </div>
