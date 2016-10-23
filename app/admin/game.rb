@@ -63,7 +63,7 @@ ActiveAdmin.register Game do
     panel 'Ships' do
       table_for game.ships do
         column :player do |ship|
-          link_to ship.player.nickname, admin_player_path(ship.player)
+          link_to ship.player&.nickname, admin_player_path(ship.player)
         end
 
         column :word do |ship|

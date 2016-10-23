@@ -4,6 +4,12 @@ RSpec.describe "Games", type: :request do
   let(:game)            { Game.create!(name: 'Starship Battle', slug: 'starship-battle') }
 
   describe "GET show" do
+
+    context "url is not parametrized" do
+      before { get "/games/Starship%20Battle" }
+      it { expect(Game.count).to eq(1) }
+    end
+
     context "player is signed in" do
       let(:player) { Player.create! }
 

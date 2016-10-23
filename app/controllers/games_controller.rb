@@ -16,7 +16,7 @@ class GamesController < ApplicationController
 
   private
   def set_game
-    @game = Game.find_by(slug: params[:id]) || Games::Create.new(params[:id]).call
+    @game = current_game || Games::Create.new(params[:id]).call
   end
 
   def enlist
