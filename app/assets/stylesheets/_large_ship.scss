@@ -13,12 +13,12 @@
     -webkit-animation-delay: .1s;
     -moz-animation-delay: .1s;
     animation-delay: .1s;
-    
+
     -webkit-animation: exitingleft 4s ease-in;
     -moz-animation: exitingleft 4s ease-in;
     animation: exitingleft 4s ease-in;
   }
-  
+
   .word {
     background: $word_label;
     border-radius: 4px;
@@ -26,15 +26,30 @@
     display: inline-block;
     font-family: Consolas, monaco, monospace;
     font-size: .8em;
-    margin: 0;
+    margin: 0 0 5px 0;
     padding: 3px 5px;
   }
 
   .ship {
     display: block;
+    padding: 0 6px;
+    background: url(ship_selected.svg);
+    background-size: 0% auto;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &.targeted_ship {
+      background: url(ship_selected.svg);
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      background-position: center;
+      -webkit-transition: background-size .2s ease-out;
+       -moz-transition: background-size .2s ease-out;
+            transition: background-size .2s ease-out;
+    }
 
     svg {
-      height: 90px;
+      height: 120px;
 
       #Ship02 {
         -webkit-animation: levitate 3s ease infinite;

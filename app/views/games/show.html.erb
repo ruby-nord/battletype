@@ -37,13 +37,13 @@
         <li class="life_bar"><%= render "games/hud/life" %></li>
       </ul>
       <h1 class="opponent"><%= @opponent.nickname.presence || 'waiting player' %></h1>
-      
+
       <div class="bonus_bar">
         <div class="bonus_percentage"></div>
       </div>
-      
+
       <%= text_field_tag :stdin, "", class: "attack" %>
-      
+
       <%= form_tag(attacks_path, id: "attack", data: { remote: true }) do %>
         <%= hidden_field_tag :word %>
         <%= hidden_field_tag :game_id, @game.id %>
