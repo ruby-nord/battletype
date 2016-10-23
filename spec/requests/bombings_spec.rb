@@ -142,7 +142,7 @@ RSpec.describe "Bombings", type: :request do
         expect(response).to have_http_status(200)
       end
 
-      it 'broadcasts a successful bombing payload with no life anymore' do
+      it 'broadcasts successful bombing and game won payloads' do
         allow(ActionCable.server).to receive(:broadcast)
         post "/bombings", params: { word: 'BOMB' }
 
@@ -159,13 +159,6 @@ RSpec.describe "Bombings", type: :request do
             }
           }
         )
-      end
-
-      it 'broadcasts a game over payload' do
-        allow(ActionCable.server).to receive(:broadcast)
-        post "/bombings", params: { word: 'BOMB' }
-
-        expect(ActionCable.server).to have_received(:broadcast).with(anything).once
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
           {

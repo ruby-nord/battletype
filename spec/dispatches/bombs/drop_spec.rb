@@ -32,6 +32,10 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
         expect(dispatch.call(player: attacker, word: word)).to all(be_an(Hash))
       end
 
+      it 'returns 1 payload' do
+        expect(dispatch.call(player: attacker, word: word).count).to eq(1)
+      end
+
       it 'returns a successful payload with attacked player infos' do
         payload = dispatch.call(player: attacker, word: word).first
 
@@ -104,9 +108,23 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
           attacked_player.update(life: 1)
         end
 
-        it 'sets player like to 0' do
+        it 'sets player life to 0' do
           dispatch.call(player: attacker, word: word)
           expect(attacked_player.reload.life).to eq(0)
+        end
+
+        it 'sets attacker as winner' do
+          dispatch.call(player: attacker, word: word)
+          expect(attacker.won).to eq(true)
+        end
+
+        it 'finishes the game' do
+          dispatch.call(player: attacker, word: word)
+          expect(game.state).to eq('finished')
+        end
+
+        it 'returns 2 payloads' do
+          expect(dispatch.call(player: attacker, word: word).count).to eq(2)
         end
 
         it 'returns a successful payload with no life anymore' do
@@ -121,6 +139,15 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
               strike_gauge:     0,
               unlocked_strike:  nil
             }
+          })
+        end
+
+        it 'returns a game won payload' do
+          payload = dispatch.call(player: attacker, word: word).last
+
+          expect(payload).to eq({
+            code:       'game_won',
+            player_id:  attacker.id,
           })
         end
       end
@@ -143,6 +170,10 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
 
       it 'returns an Array of payloads' do
         expect(dispatch.call(player: attacker, word: word)).to all(be_an(Hash))
+      end
+
+      it 'returns 1 payload' do
+        expect(dispatch.call(player: attacker, word: word).count).to eq(1)
       end
 
       it 'returns a failed payload with attacked player infos' do
