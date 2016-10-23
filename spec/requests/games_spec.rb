@@ -6,36 +6,49 @@ RSpec.describe "Games", type: :request do
   describe "GET show" do
     context "player is signed in" do
       let(:player) { Player.create! }
+
       before :each do
         allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
       end
 
-      before { get "/games/#{game.to_param}" }
+      context "game is not full" do
+        before { get "/games/#{game.to_param}" }
 
-      it { expect(response).to have_http_status(200) }
-      it { expect(Player.count).to eq(1) }
-      it { expect(response.body).to include(game.name) }
+        it { expect(response).to have_http_status(200) }
+        it { expect(Player.count).to eq(1) }
+        it { expect(response.body).to include(game.name) }
+        it { expect(player.reload.game).to eq(game) }
+      end
+
+      context "game is full" do
+        before { 2.times { Player.create(game: game) } }
+
+        before { get "/games/#{game.to_param}" }
+
+        it { expect(response.body).to include("This game is already full, please start a new game") }
+        it { expect(player.reload.game).to_not eq(game) }
+      end
     end
 
     context "player is not signed in" do
-      before { get "/games/#{game.to_param}" }
+      context "game is not full" do
+        before { get "/games/#{game.to_param}" }
 
-      it { expect(response).to have_http_status(200) }
-      it { expect(Player.count).to eq(1) }
-      it { expect(response.body).to include(game.name) }
-    end
-
-    context "game is already full" do
-      before do
-        Player.create!(game: game)
-        Player.create!(game: game)
+        it { expect(response).to have_http_status(200) }
+        it { expect(Player.count).to eq(1) }
+        it { expect(response.body).to include(game.name) }
+        it { expect(Player.last.game).to eq(game) }
       end
 
-      before { get "/games/#{game.to_param}" }
+      context "game is already full" do
+        before { 2.times { Player.create!(game: game) } }
 
-      it { expect(response).to have_http_status(200) }
-      it { expect(Player.count).to eq(2) }
-      it { expect(response.body).to include("This game is already full, please start a new game") }
+        before { get "/games/#{game.to_param}" }
+
+        it { expect(response).to have_http_status(200) }
+        it { expect(Player.count).to eq(2) }
+        it { expect(response.body).to include("This game is already full, please start a new game") }
+      end
     end
 
     context "Game doesn't exist" do

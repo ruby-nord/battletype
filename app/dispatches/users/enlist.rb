@@ -1,22 +1,24 @@
 module Users
   class Enlist
     MAX_PLAYERS = 2
+    attr_reader :player
 
-   def initialize(game)
+    def initialize(game:, player:)
       @game = game
+      @player = player
     end
 
-    def call
-      Player.create!(nickname: nickname)
+    def assign_game_to_player!
+      @player = Player.create!(nickname: nickname) if player.nil?
+      @player.update(game: game)
     end
 
     def game_full?
       game.players.count >= MAX_PLAYERS
     end
 
-    attr_reader :game
-
     private
+    attr_reader :game
 
     def nickname
       "Player #{game.players.count+1}"

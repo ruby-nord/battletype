@@ -2,12 +2,11 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show]
 
   def show
-    unless current_player
-      return render FullGame.new if enlist.game_full?
+    return render FullGame.new if enlist.game_full?
 
-      player = enlist.call
-      session[:player_id] = player.id
-    end
+    enlist.assign_game_to_player!
+
+    session[:player_id] = enlist.player.id unless current_player
   end
 
   def create
@@ -21,7 +20,7 @@ class GamesController < ApplicationController
   end
 
   def enlist
-    @enlist ||= Users::Enlist.new(@game)
+    @enlist ||= Users::Enlist.new(game: @game, player: current_player)
   end
 
   def game_params
