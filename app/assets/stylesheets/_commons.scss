@@ -269,10 +269,9 @@ header {
 
 .row {
   text-align: center;
-  background-color: #21252F;
-  background-image: -webkit-linear-gradient(rgba(255,255,255,0), #353E56 100%);
-  background-image: -o-linear-gradient(rgba(255,255,255,0), #353E56 100%);
-  background-image: linear-gradient(rgba(255,255,255,0), #353E56 100%);
+  background-image: -webkit-linear-gradient(#21252F, #353E56 100%);
+  background-image: -o-linear-gradient(#21252F, #353E56 100%);
+  background-image: linear-gradient(#21252F, #353E56 100%);
   width: 100%;
   padding: 40px;
   overflow: hidden;
