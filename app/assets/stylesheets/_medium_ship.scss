@@ -5,10 +5,20 @@
   right: -150px;   //FIXME (positionnement en JS ?)
   top: 150px;      //FIXME (positionnement en JS ?)
 
-  -webkit-animation: movingleft 30s linear infinite;
-  -moz-animation: movingleft 30s linear infinite;
-  animation: movingleft 30s linear infinite;
-
+  -webkit-animation: movingleft 30s linear  0 1 normal forwards;
+  -moz-animation: movingleft 30s linear  0 1 normal forwards;
+  animation: movingleft 30s linear  0 1 normal forwards;
+  
+  &.leaving {
+    -webkit-animation-delay: .1s;
+    -moz-animation-delay: .1s;
+    animation-delay: .1s;
+    
+    -webkit-animation: exitingleft 3s ease-in;
+    -moz-animation: exitingleft 3s ease-in;
+    animation: exitingleft 3s ease-in;
+  }
+  
   .word {
     background: $word_label;
     border-radius: 4px;
