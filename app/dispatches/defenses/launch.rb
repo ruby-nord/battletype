@@ -19,7 +19,7 @@ module Defenses
       @defense = Defense.new(player: player, word: word, perfect_typing: perfect_typing)
       return failed_payload unless defense.valid?
 
-      destroy_ship
+      shot_down_ship
       update_strike
 
       return successful_payload
@@ -27,8 +27,8 @@ module Defenses
 
     private
 
-    def destroy_ship
-      defense.ship.update(state: 'destroyed')
+    def shot_down_ship
+      defense.ship.update(state: 'down')
     end
 
     def failed_payload
