@@ -1,5 +1,6 @@
-/* globals Ship */
+/* globals Ship, Mothership */
 //= require battletype/ship
+//= require battletype/mothership
 
 (function () {
   this.Dockyard = {
@@ -11,6 +12,10 @@
       newShip.positionY = combatZone.randomFreeVerticalSlot;
       newShip.appendTo(combatZone);
       console.log(newShip);
+    },
+    launchMothership: function (combatZone) {
+      var mothership = Mothership.build(this._templates["mothership"]);
+      mothership.appendTo(combatZone);
     },
     registerTemplate: function (name, element) {
       this._templates[name] = element;

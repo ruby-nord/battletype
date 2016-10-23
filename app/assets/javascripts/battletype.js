@@ -23,6 +23,9 @@
       Dockyard.registerTemplate("small", document.getElementById("small_ship_template"));
       Dockyard.registerTemplate("medium", document.getElementById("medium_ship_template"));
       Dockyard.registerTemplate("large", document.getElementById("large_ship_template"));
+      Dockyard.registerTemplate("mothership", document.getElementById("mothership_template"));
+      
+      this.mothership = Dockyard.launchMothership(this.combatZone);
       
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("switchMode", function (e) { this.switchMode(e.detail); }.bind(this), false);
