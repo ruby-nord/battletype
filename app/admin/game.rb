@@ -1,10 +1,9 @@
 ActiveAdmin.register Game do
-  permit_params :name, :invitation_token
+  permit_params :name
 
   form do |f|
     inputs 'Details' do
       input :name
-      input :invitation_token
     end
 
     actions
@@ -37,7 +36,6 @@ ActiveAdmin.register Game do
     attributes_table do
       row :id
       row :name
-      row :invitation_token
       row :state
       row :created_at
       row :updated_at
