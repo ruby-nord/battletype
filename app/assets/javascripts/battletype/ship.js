@@ -5,7 +5,8 @@
         get: function () { return this._word; },
         set: function (w) {
           this._word = w;
-          $(this).find("p.word").text(this._word);
+          this.attr("id", "ship_" + this._word);
+          this.find("p.word").text(this._word);
         }
       },
       velocity: {
@@ -15,6 +16,10 @@
       damage: {
         get: function () { return this._damage; },
         set: function (d) { this._damage = d; }
+      },
+      positionY: {
+        get: function () { /* TODO */ },
+        set: function (y) { $(this).css({ top: y + "px" }); }
       }
     },
     
