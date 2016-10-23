@@ -1,13 +1,9 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show]
+  before_action :set_game,  only: [:show]
+  before_action :join_game, only: [:show], unless: :player_in_game?
 
   def show
-    return render :show if current_player&.game == @game
-    return render FullGame.new if enlist.game_full?
-
-    enlist.assign_game_to_player!
-    session[:player_id] = enlist.player.id
-    @current_player = enlist.player
+    @opponent ||= @game.players.where.not(id: current_player.id).first || NilPlayer.new
   end
 
   def create
@@ -16,12 +12,25 @@ class GamesController < ApplicationController
   end
 
   private
-  def set_game
-    @game = current_game || Games::Create.new(params[:id]).call
+
+  def join_game
+    enlist = Players::Enlist.new(game: @game, player: current_player)
+
+    if enlist.game_full?
+      return render FullGame.new
+    else # try to enter the game
+      enlist.assign_game_to_player!
+      set_current_player(enlist.player)
+    end
   end
 
-  def enlist
-    @enlist ||= Users::Enlist.new(game: @game, player: current_player)
+  def player_in_game?
+    current_player && current_player.game == @game
+  end
+
+  def set_game
+    @game = Game.find_by(slug: params[:id].parameterize)
+    redirect_to root_path unless @game
   end
 
   def game_params

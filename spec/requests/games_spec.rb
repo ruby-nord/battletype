@@ -1,12 +1,14 @@
 require "rails_helper"
 
 RSpec.describe "Games", type: :request do
-  let(:game)            { Game.create!(name: 'Starship Battle', slug: 'starship-battle') }
+  let(:game) { Game.create!(name: 'Starship Battle', slug: 'starship-battle') }
 
   describe "GET show" do
-
     context "url is not parametrized" do
-      before { get "/games/Starship%20Battle" }
+      before :each do
+        get URI::encode("/games/#{game.name}")
+      end
+
       it { expect(Game.count).to eq(1) }
     end
 
@@ -26,22 +28,29 @@ RSpec.describe "Games", type: :request do
         it { expect(player.reload.game).to_not eq(game) }
       end
 
-      context  "user refresh page" do
+      context  "player joined the game and refresh the page" do
         let!(:opponent) { Player.create(game: game) }
-        before { player.update(game: game) }
 
-        before { get "/games/#{game.to_param}" }
+        before :each do
+          player.update(game: game)
+
+          get "/games/#{game.to_param}"
+        end
 
         it { expect(response.body).to_not include("This game is already full, please start a new game") }
         it { expect(player.reload.game).to eq(game) }
       end
 
-      context "user changes game" do
-        before { player.update(game: game, nickname: "Rico") }
+      context "user switch to other game" do
+        let(:other_game) { Game.create!(name: 'Other game', slug: 'other-game') }
 
-        before { get "/games/new_game" }
+        before :each do
+          player.update(game: game, nickname: "Rico")
+          get "/games/#{other_game.to_param}"
+        end
 
         it { expect(Player.count).to eq(2) }
+        it { expect(Player.last.id).not_to eq(player.id) }
         it { expect(Player.last.nickname).to eq("Rico") }
         it { expect(response).to have_http_status(200) }
         it { expect(response.body).to_not include("This game is already full, please start a new game") }
@@ -72,9 +81,8 @@ RSpec.describe "Games", type: :request do
     context "Game doesn't exist" do
       before { get "/games/foo" }
 
-      it { expect(response).to have_http_status(200) }
-      it { expect(Game.count).to eq(1) }
-      it { expect(Game.last.name).to eq("foo") }
+      it { expect(response).to redirect_to(root_path) }
+      it { expect(Game.count).to eq(0) }
     end
   end
 

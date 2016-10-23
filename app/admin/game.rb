@@ -18,9 +18,19 @@ ActiveAdmin.register Game do
     column :players do |game|
       player_1, player_2 = game.players
 
-      a player_1.nickname, href: admin_player_path(player_1)
-      text_node "VS"
-      a player_2.nickname, href: admin_player_path(player_2)
+      if player_1
+        a player_1.nickname, href: admin_player_path(player_1)
+      else
+        text_node '-'
+      end
+
+      text_node " VS "
+
+      if player_2
+        a player_2.nickname, href: admin_player_path(player_2)
+      else
+        text_node '-'
+      end
     end
 
     column :ships do |game|
@@ -80,4 +90,11 @@ ActiveAdmin.register Game do
 
     active_admin_comments
   end
+
+  controller do
+    def find_resource
+      scoped_collection.find_by_slug(params[:id]) || super
+    end
+  end
+
 end
