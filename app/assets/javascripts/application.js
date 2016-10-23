@@ -18,3 +18,4 @@
 //= require typed
 
 //= require game
+//= require sounds
