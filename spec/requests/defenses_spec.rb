@@ -28,7 +28,12 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'unknown' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'failed_defense', player_id: player.id, word: 'unknown', error_codes: ['ship_not_found']
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'unknown',
+            error_codes: ['ship_not_found']
+          }
         )
       end
     end
@@ -49,7 +54,12 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'own' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'failed_defense', player_id: player.id, word: 'own', error_codes: ['player_ship']
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'own',
+            error_codes: ['player_ship']
+          }
         )
       end
     end
@@ -70,7 +80,66 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'comet' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'failed_defense', player_id: player.id, word: 'comet', error_codes: ['wrong_case']
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'comet',
+            error_codes: ['wrong_case']
+          }
+        )
+      end
+    end
+
+    context 'when word matching ship has already been destroyed' do
+      before :each do
+        attacker_word = Word.create!(value: 'down')
+        attacker.ships.create!(word: attacker_word, state: 'destroyed')
+      end
+
+      it "returns 200 HTTP status" do
+        post "/defenses", params: { word: 'down', perfect_typing: '1' }
+        expect(response).to have_http_status(200)
+      end
+
+      it 'broadcasts a failure defense payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/defenses", params: { word: 'down', perfect_typing: '1' }
+
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'down',
+            error_codes: ['already_destroyed']
+          }
+        )
+      end
+    end
+
+    context 'when word matching ship has already accomplissed its mission' do
+      before :each do
+        attacker_word = Word.create!(value: 'DONE')
+        attacker.ships.create!(word: attacker_word, state: 'mission_accomplished')
+      end
+
+      it "returns 200 HTTP status" do
+        post "/defenses", params: { word: 'DONE', perfect_typing: '1' }
+        expect(response).to have_http_status(200)
+      end
+
+      it 'broadcasts a failure defense payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/defenses", params: { word: 'DONE', perfect_typing: '1' }
+
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'DONE',
+            error_codes: ['bomb_already_dropped']
+          }
         )
       end
     end
@@ -91,7 +160,15 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'HacKeR', perfect_typing: '1' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'successful_defense', player_id: player.id, word: 'HacKeR', strike: { gauge: 6, unlocked: nil }
+          {
+            code:      'successful_defense',
+            player_id: player.id,
+            word:      'HacKeR',
+            strike: {
+              gauge:    6,
+              unlocked: nil
+            }
+          }
         )
       end
     end
@@ -112,7 +189,15 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'flaw' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'successful_defense', player_id: player.id, word: 'flaw', strike: { gauge: 0, unlocked: nil }
+          {
+            code:      'successful_defense',
+            player_id: player.id,
+            word:      'flaw',
+            strike: {
+              gauge:    0,
+              unlocked: nil
+            }
+          }
         )
       end
     end

@@ -135,6 +135,26 @@ RSpec.describe "Defense", type: :model do
       end
     end
 
+    context "when word matches a ship that is already destroyed" do
+      before :each do
+        attacker.ships.last.update(state: 'destroyed')
+      end
+
+      it 'returns false' do
+        expect(defense.valid?).to eq(false)
+      end
+    end
+
+    context "when word matches a ship that already accomplissed its mission" do
+      before :each do
+        attacker.ships.last.update(state: 'mission_accomplished')
+      end
+
+      it 'returns false' do
+        expect(defense.valid?).to eq(false)
+      end
+    end
+
     context "when word matches one of attacker's ships" do
       let(:word) { 'HaCkeR' }
 
