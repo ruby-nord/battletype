@@ -5,9 +5,9 @@
   right: -150px;   //FIXME (positionnement en JS ?)
   top: 330px;      //FIXME (positionnement en JS ?)
 
-  -webkit-animation: movingleft 18s linear 0 1 normal forwards;
-  -moz-animation: movingleft 18s linear 0 1 normal forwards;
-  animation: movingleft 18s linear 0 1 normal forwards;
+  -webkit-animation: movingleft 18s linear normal;
+  -moz-animation: movingleft 18s linear normal;
+  animation: movingleft 18s linear normal;
 
   &.leaving {
     -webkit-animation-delay: .1s;

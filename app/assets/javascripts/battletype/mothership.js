@@ -9,7 +9,7 @@
           if (this._hit) {
             var $hitTarget = $(this).find("#target_mothership");
             $hitTarget.addClass("hit");
-            window.setTimeout(function () { $hitTarget.removeClass("hit"); }, 1500);
+            window.setTimeout(function () { $hitTarget.removeClass("hit"); }, 900);
           }
           
           return this._hit;
