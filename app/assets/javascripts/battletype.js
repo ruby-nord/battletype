@@ -91,13 +91,14 @@
     switchMode: function () {
       Battletype.attacking = !Battletype.attacking;
       console.log("Switched mode to Battletype.attacking = "+Battletype.attacking);
+      
       if (Battletype.attacking) {
         this.$combatZone.removeClass("defense_mode").addClass("attack_mode");
-        $("#stdin").removeClass("defense").addClass("attack");
+        this._stdin.indicateAttackMode();
       }
       else {
         this.$combatZone.removeClass("attack_mode").addClass("defense_mode");
-        $("#stdin").removeClass("attack").addClass("defense");
+        this._stdin.indicateDefenseMode();
       }
     },
   };
