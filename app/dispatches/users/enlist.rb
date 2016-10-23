@@ -20,7 +20,7 @@ module Users
     attr_reader :game
 
     def nickname
-      player&.nickname || "Player #{game.players.count+1}"
+      player&.nickname || Haikunator.haikunate(0)
     end
   end
 end

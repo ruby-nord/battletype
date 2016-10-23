@@ -16,6 +16,7 @@ gem 'jbuilder',     '~> 2.5'
 gem 'oj',           '~> 2.12.14' # Used by rollbar
 gem 'rollbar',      '~> 2.13.3'
 gem 'redis'
+gem 'haikunator'
 
 # Assets
 gem 'sass-rails',   '~> 5.0'
