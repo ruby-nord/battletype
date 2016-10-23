@@ -28,7 +28,12 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'unknown' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'failed_defense', player_id: player.id, word: 'unknown', error_codes: ['ship_not_found']
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'unknown',
+            error_codes: ['ship_not_found']
+          }
         )
       end
     end
@@ -49,7 +54,12 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'own' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'failed_defense', player_id: player.id, word: 'own', error_codes: ['player_ship']
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'own',
+            error_codes: ['player_ship']
+          }
         )
       end
     end
@@ -70,7 +80,12 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'comet' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'failed_defense', player_id: player.id, word: 'comet', error_codes: ['wrong_case']
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'comet',
+            error_codes: ['wrong_case']
+          }
         )
       end
     end
@@ -91,7 +106,15 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'HacKeR', perfect_typing: '1' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'successful_defense', player_id: player.id, word: 'HacKeR', strike: { gauge: 6, unlocked: nil }
+          {
+            code:      'successful_defense',
+            player_id: player.id,
+            word:      'HacKeR',
+            strike: {
+              gauge:    6,
+              unlocked: nil
+            }
+          }
         )
       end
     end
@@ -112,7 +135,15 @@ RSpec.describe "Defenses", type: :request do
         post "/defenses", params: { word: 'flaw' }
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'successful_defense', player_id: player.id, word: 'flaw', strike: { gauge: 0, unlocked: nil }
+          {
+            code:      'successful_defense',
+            player_id: player.id,
+            word:      'flaw',
+            strike: {
+              gauge:    0,
+              unlocked: nil
+            }
+          }
         )
       end
     end
