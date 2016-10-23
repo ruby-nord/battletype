@@ -11,7 +11,7 @@
     <script>
       $(function(){
         $("#game_name").typed({
-          strings: ["My party^500", "William Adama^1000", "Obi-Wan Kenobi^500", "Ruby Rampage^1000"],
+          strings: "<%= @random_names.join(",") %>".split(','),
           typeSpeed: 10
         });
 
