@@ -160,9 +160,20 @@ RSpec.describe "Bombings", type: :request do
           }
         )
       end
-    end
 
-    # NEXT:
-    # - life can't go below 0
+      it 'broadcasts a game over payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/bombings", params: { word: 'BOMB' }
+
+        expect(ActionCable.server).to have_received(:broadcast).with(anything).once
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          {
+            code:       'game_won',
+            player_id:  attacker.id
+          }
+        )
+      end
+    end
   end
 end

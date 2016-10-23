@@ -8,10 +8,14 @@ class BombingsController < ApplicationController
       attacked_player = current_player
       attacker        = current_player.game.players.where.not(id: current_player.id).first
 
-      payload = Bombs::Drop.call(player: attacker, word: word)
+      payloads = Bombs::Drop.call(player: attacker, word: word)
 
-      ActionCable.server.broadcast "game_#{current_player.game_id}", payload
+      payloads.each do |payload|
+        ActionCable.server.broadcast "game_#{current_player.game_id}", payload
+      end
+
       head 200
     end
   end
 end
+

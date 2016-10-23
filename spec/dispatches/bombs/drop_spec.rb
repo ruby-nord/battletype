@@ -28,12 +28,14 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
         expect(attacked_player.reload.life).to eq(8)
       end
 
-      it 'returns a payload' do
-        expect(dispatch.call(player: attacker, word: word)).to be_instance_of(Hash)
+      it 'returns an Array of payloads' do
+        expect(dispatch.call(player: attacker, word: word)).to all(be_an(Hash))
       end
 
       it 'returns a successful payload with attacked player infos' do
-        expect(dispatch.call(player: attacker, word: word)).to eq({
+        payload = dispatch.call(player: attacker, word: word).first
+
+        expect(payload).to eq({
           code:       'successful_bombing',
           player_id:  attacker.id,
           word:       'BOMB',
@@ -56,7 +58,9 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
         end
 
         it 'returns a successful payload with no strike gauge anymore' do
-          expect(dispatch.call(player: attacker, word: word)).to eq({
+          payload = dispatch.call(player: attacker, word: word).first
+
+          expect(payload).to eq({
             code:       'successful_bombing',
             player_id:  attacker.id,
             word:       'BOMB',
@@ -80,7 +84,9 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
         end
 
         it 'returns a successful payload with the existing strike' do
-          expect(dispatch.call(player: attacker, word: word)).to eq({
+          payload = dispatch.call(player: attacker, word: word).first
+
+          expect(payload).to eq({
             code:       'successful_bombing',
             player_id:  attacker.id,
             word:       'BOMB',
@@ -104,7 +110,9 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
         end
 
         it 'returns a successful payload with no life anymore' do
-          expect(dispatch.call(player: attacker, word: word)).to eq({
+          payload = dispatch.call(player: attacker, word: word).first
+
+          expect(payload).to eq({
             code:       'successful_bombing',
             player_id:  attacker.id,
             word:       'BOMB',
@@ -118,7 +126,6 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
       end
 
 # - CHANGE state to won (true)
-# - life can't go below 0
     end
 
     context 'when word is not valid' do
@@ -134,12 +141,14 @@ RSpec.describe "Bombs::Drop", type: :dispatch do
         expect(attacked_player.life).to eq(10)
       end
 
-      it 'returns a payload' do
-        expect(dispatch.call(player: attacker, word: word)).to be_instance_of(Hash)
+      it 'returns an Array of payloads' do
+        expect(dispatch.call(player: attacker, word: word)).to all(be_an(Hash))
       end
 
       it 'returns a failed payload with attacked player infos' do
-        expect(dispatch.call(player: attacker, word: word)).to eq({
+        payload = dispatch.call(player: attacker, word: word).first
+
+        expect(payload).to eq({
           code:         'failed_bombing',
           player_id:    attacker.id,
           word:         'unknown',

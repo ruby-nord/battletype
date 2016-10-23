@@ -18,12 +18,12 @@ module Bombs
 
     def call
       @bomb = Bomb.new(player: player, word: word)
-      return failed_payload unless bomb.valid?
+      return [failed_payload] unless bomb.valid?
 
       downgrade_attacked_player
       mission_accomplished!
 
-      successful_payload
+      [successful_payload]
     end
 
     private
