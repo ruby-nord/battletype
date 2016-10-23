@@ -43,7 +43,7 @@ Rails.application.configure do
   config.action_cable.url = "ws://#{ENV["HOST"]}/cable"
   config.action_cable.allowed_request_origins = [ENV["HOST"], "battletype.com"].map do |e|
                                                   ["https://#{e}", /https:\/\/#{e}.*/,
-                                                   "http://#{e}", /http:\/\/#{e}.*/]
+                                                   "http://#{e}", /http:\/\/#{e}.*/]w
                                                 end.flatten
 
 
