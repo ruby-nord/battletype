@@ -9,13 +9,15 @@
     ps2Port: { writable: true },
 
     powerOn: function () {
-      this._typingMistake = false,
-
-      this.inputDevice.value = "";
+      this.reset();
       this.inputDevice.addEventListener("keydown", this, { passive: true });
     },
     powerOff: function () {
       this.inputDevice.removeEventListener("keydown", this, { passive: true });
+    },
+    reset: function () {
+      this._typingMistake    = false,
+      this.inputDevice.value = "";
     },
     perfectTyping: function () {
       return ! this._typingMistake;
