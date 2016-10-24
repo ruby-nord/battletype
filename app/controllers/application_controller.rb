@@ -1,4 +1,13 @@
 class ApplicationController < ActionController::Base
+
+  #TODO: remove after juding - Force redirect from battletype.2016.rubyrampage.com TO battle-type.com
+  before_action :redirect_to_custom_domain
+  def redirect_to_custom_domain
+    if request.host == 'battletype.2016.rubyrampage.com'
+      redirect_to "https://battle-type.com#{request.fullpath}", status: 301
+    end
+  end
+
   protect_from_forgery with: :exception
   helper_method :current_player
   after_action :set_current_user_ip
