@@ -4,7 +4,7 @@ RSpec.describe "Games", type: :request do
   let(:game) { Game.create!(name: 'Starship Battle', slug: 'starship-battle') }
 
   describe "GET show" do
-    context "url is not parametrized" do
+    context "url is not parameterized" do
       before :each do
         get URI::encode("/games/#{game.name}")
       end
@@ -107,15 +107,42 @@ RSpec.describe "Games", type: :request do
     end
 
     context "when game is finished" do
+      let(:rico)  { Player.create!(nickname: "Rico") }
+      let(:zim)   { Player.create!(nickname: "Zim") }
+
       before :each do
         game.update(state: "finished")
-        Player.create!(nickname: "Zim", game: game)
-        Player.create!(nickname: "Rico", game: game, won: true)
 
-        get "/games/#{game.to_param}"
+        rico.update!(game: game, won: true)
+        zim.update!(game: game, won: false)
       end
 
-      it { expect(response.body).to include("finished") }
+      it 'displays that game is finished' do
+        get "/games/#{game.to_param}"
+        expect(response.body).to include("finished")
+      end
+
+      context 'wen signed in player won the game' do
+        before :each do
+          allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(rico)
+        end
+
+        it 'displays that user won the game' do
+          get "/games/#{game.to_param}"
+          expect(response.body).to include("WON")
+        end
+      end
+
+      context 'when signed in player lost the game' do
+        before :each do
+          allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(zim)
+        end
+
+        it 'displays that user lost the game' do
+          get "/games/#{game.to_param}"
+          expect(response.body).to include("LOSE")
+        end
+      end
     end
   end
 

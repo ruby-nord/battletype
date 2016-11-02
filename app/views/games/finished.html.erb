@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="too_late">
-      <% if @game.players.include?(current_player) && current_player.won == false %>
+      <% if @game.players.include?(current_player) && current_player.won %>
         <h1>Game Finished, Congratulations! You WON!</h1>
         <p>
           You're the master of the <strong><%= @game.name %></strong> room
@@ -29,7 +29,8 @@
           <strong><%= @game.players.last.nickname %></strong> had an epic fight deep in the space.
         </p>
       <% end %>
-        <p>In total, the battle involved <strong><%= @game.ships.count %> ships</strong> and <strong><%= @game.ships.sum(:damage) %> damages</strong>.</p>
+
+      <p>In total, the battle involved <strong><%= @game.ships.count %> ships</strong> and <strong><%= @game.ships.sum(:damage) %> damages</strong>.</p>
 
       <%= render 'components/social_links' %>
     </div>
