@@ -24,7 +24,7 @@
   var ERROR_CODES_AND_MESSAGES_MAP = {
     "attack": {
       "english_word":                 "Must be an English word",
-      "long_enough":                  "Word is not long enought",
+      "long_enough":                  "Word is not long enough",
       "unique_case_insensitive_word": "Word must be unique"
     },
     "bomb": {
