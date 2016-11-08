@@ -4,14 +4,7 @@ class PlayersController < ApplicationController
   def update
     return render json: { error: "Cannot update another user" }, status: 401 if @player != current_player
 
-    @player.update(player_params)
-
-    payload = {
-      code:      "successful_player_nickname_update",
-      player_id: @player.id,
-      nickname:  @player.nickname
-    }
-
+    payload = Players::ChangeNickname.call(player: @player, nickname: params[:player][:nickname])
     ActionCable.server.broadcast "game_#{current_player.game_id}", payload
     head 200
   end
@@ -20,9 +13,5 @@ class PlayersController < ApplicationController
 
   def set_player
     @player = Player.find(params[:id])
-  end
-
-  def player_params
-    params.require(:player).permit(:nickname)
   end
 end

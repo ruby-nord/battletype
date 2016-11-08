@@ -24,7 +24,7 @@ RSpec.describe "Players", type: :request do
         put "/players/#{player.id}", params: { player: { nickname: "Zim" }}
         expect(ActionCable.server).to have_received(:broadcast).with(
           anything,
-          code: 'successful_player_nickname_update', player_id: player.id, nickname: 'Zim'
+          code: 'player_nickname_changed', player_id: player.id, nickname: 'Zim'
         )
       end
     end
