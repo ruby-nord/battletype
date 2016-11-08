@@ -117,28 +117,28 @@ RSpec.describe "Games", type: :request do
         zim.update!(game: game, won: false)
       end
 
-      it 'displays that game is finished' do
+      it 'tells that the game is finished' do
         get "/games/#{game.to_param}"
         expect(response.body).to include("finished")
       end
 
-      context 'wen signed in player won the game' do
+      context 'when the signed-in player won the game' do
         before :each do
           allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(rico)
         end
 
-        it 'displays that user won the game' do
+        it 'tells the user that he won' do
           get "/games/#{game.to_param}"
           expect(response.body).to include("WON")
         end
       end
 
-      context 'when signed in player lost the game' do
+      context 'when the signed-in player lost the game' do
         before :each do
           allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(zim)
         end
 
-        it 'displays that user lost the game' do
+        it 'tells the user that he lost' do
           get "/games/#{game.to_param}"
           expect(response.body).to include("LOSE")
         end
