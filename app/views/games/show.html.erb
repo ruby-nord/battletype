@@ -20,7 +20,7 @@
         <li class="life_bar"><%= render "games/hud/life" %></li>
       </ul>
       <div id="current_player" data-player-id="<%= current_player.id %>" data-player-nickname="<%= current_player.nickname %>"></div>
-      <%= form_for(current_player, url: player_path(current_player), class: "player") do |f|%>
+      <%= form_for(current_player, url: player_path(current_player), data: { remote: true }, class: "player") do |f| %>
         <%= f.text_field :nickname, id: 'current_player_nickname' %>
       <% end %>
       <ul id="life_opponent">

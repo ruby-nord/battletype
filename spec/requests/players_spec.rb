@@ -7,11 +7,26 @@ RSpec.describe "Players", type: :request do
     context 'update current_player' do
       before :each do
         allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
-        put "/players/#{player.id}", params: { player: { nickname: "Zim" }}
       end
 
-      it { expect(response).to have_http_status(200) }
-      it { expect(player.reload.nickname).to eq("Zim") }
+      it "returns 200 HTTP status" do
+        put "/players/#{player.id}", params: { player: { nickname: "Zim" }}
+        expect(response).to have_http_status(200)
+      end
+
+      it "updates player nickname" do
+        put "/players/#{player.id}", params: { player: { nickname: "Zim" }}
+        expect(player.reload.nickname).to eq("Zim")
+      end
+
+      it 'broadcasts a player nickname updated payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        put "/players/#{player.id}", params: { player: { nickname: "Zim" }}
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          code: 'successful_player_nickname_update', player_id: player.id, nickname: 'Zim'
+        )
+      end
     end
 
     context 'update another player' do

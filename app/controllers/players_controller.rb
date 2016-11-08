@@ -5,7 +5,15 @@ class PlayersController < ApplicationController
     return render json: { error: "Cannot update another user" }, status: 401 if @player != current_player
 
     @player.update(player_params)
-    render json: { status: :ok }, status: 200
+
+    payload = {
+      code:      "successful_player_nickname_update",
+      player_id: @player.id,
+      nickname:  @player.nickname
+    }
+
+    ActionCable.server.broadcast "game_#{current_player.game_id}", payload
+    head 200
   end
 
   private
