@@ -1,9 +1,13 @@
 class NilPlayer
-  def nickname
-    ""
-  end
-
   def id
     nil
+  end
+
+  def life
+    Player::LIFE
+  end
+
+  def nickname
+    ""
   end
 end

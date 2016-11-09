@@ -8,32 +8,18 @@
     <div class="hud">
       <%= content_tag :h1, "ROOM: #{@game.name}", class: "room", id: "game_title", data: { game_id: @game.id } %>
       <ul id="life_player">
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <% @game.current_player.life.times do %>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+        <% end %>
       </ul>
       <div id="current_player" data-player-id="<%= game.current_player.id %>" data-player-nickname="<%= game.current_player.nickname %>"></div>
       <%= form_for(game.current_player, url: player_path(game.current_player), data: { remote: true }, class: "player") do |f| %>
         <%= f.text_field :nickname, id: 'current_player_nickname' %>
       <% end %>
       <ul id="life_opponent">
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
+        <% @game.opponent.life.times do %>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+        <% end %>
       </ul>
 
       <h1 class="opponent" id="opponent_nickname"><%= game.opponent.nickname.presence || 'waiting player' %></h1>
