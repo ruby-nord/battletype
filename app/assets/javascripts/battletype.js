@@ -39,11 +39,9 @@
       this._eventsRelay.addEventListener("switchMode", function (e) { this.switchMode(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("bombDropped", function (e) { this._transmitBombing(e.detail); }.bind(this), false);
 
-      // TODO: factory pattern
-      this._logs = Object.create(Logs, {
-        boxTag: { value: document.getElementById("log_system") },
-      });
+      this._logs = Logs.activate(document.getElementById("log_system"));
 
+      // TODO: factory pattern
       this._stdin = Object.create(Stdin, {
         inputDevice:  { value: document.getElementById("stdin") },
         ps2Port:      { value: this._eventsRelay },

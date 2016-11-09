@@ -62,6 +62,9 @@
     },
     reset: function () {
       this.boxTag.innerHTML = '';
+    },
+    activate: function(node) {
+      return Object.create(Logs, { boxTag: { value: document.getElementById("log_system") }});
     }
   };
 
