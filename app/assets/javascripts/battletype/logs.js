@@ -1,24 +1,26 @@
 (function () {
   var LOG_CODES_AND_TYPES_MAP = {
-    "failed_attack":      "attack",
-    "failed_bombing":     "attack",
-    "failed_defense":     "defense",
-    "game_won":           "game",
-    "player_joined":      "player",
-    "successful_attack":  "attack",
-    "successful_bombing": "bomb",
-    "successful_defense": "defense",
+    "failed_attack":           "attack",
+    "failed_bombing":          "attack",
+    "failed_defense":          "defense",
+    "game_won":                "game",
+    "player_joined":           "player",
+    "player_nickname_changed": "player",
+    "successful_attack":       "attack",
+    "successful_bombing":      "bomb",
+    "successful_defense":      "defense",
   };
 
   var LOG_CODES_AND_MESSAGES_MAP = {
-    "failed_attack":      "OOPS! Attack failed",
-    "failed_bombing":     "OOPS! Bombing failed",
-    "failed_defense":     "OOPS! Defense failed",
-    "game_won":           "Game finished!",
-    "player_joined":      "Opponent joined",
-    "successful_attack":  "New ship launched!",
-    "successful_bombing": "Mothership hit!",
-    "successful_defense": "Ship destroyed!",
+    "failed_attack":           "OOPS! Attack failed",
+    "failed_bombing":          "OOPS! Bombing failed",
+    "failed_defense":          "OOPS! Defense failed",
+    "game_won":                "Game finished!",
+    "player_joined":           "Opponent joined",
+    "player_nickname_changed": "Nickname changed",
+    "successful_attack":       "New ship launched!",
+    "successful_bombing":      "Mothership hit!",
+    "successful_defense":      "Ship destroyed!",
   };
 
   var ERROR_CODES_AND_MESSAGES_MAP = {

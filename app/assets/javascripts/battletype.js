@@ -6,6 +6,7 @@
 //= require battletype/combat_zone
 //= require battletype/dockyard
 //= require battletype/ship
+//= require battletype/player
 //= require battletype/life_o_meter
 
 (function () {
@@ -31,6 +32,9 @@
       Dockyard.registerTemplate("mothership", document.getElementById("mothership_template"));
 
       this.mothership = Dockyard.launchMothership(this.$combatZone);
+
+      this.player   = Player.build(document.getElementById("current_player_nickname"));
+      this.opponent = Player.build(document.getElementById("opponent_nickname"));
 
       this.playerLifeOMeter   = LifeOMeter.activate(document.getElementById("life_player"));
       this.opponentLifeOMeter = LifeOMeter.activate(document.getElementById("life_opponent"));
@@ -118,9 +122,18 @@
       case "player_joined":
         if (payload.player_id != this.playerId) {
           var nickname = payload.nickname;
-
-          this.$combatZone.find("#opponent_nickname").text(nickname); // TODO tell-dont-ask
+          Battletype.opponent.nickname = payload.nickname;
           this._logs.displayMessage(payload.code);
+        }
+        break;
+      case "player_nickname_changed":
+        var nickname = payload.nickname;
+
+        if (payload.player_id == this.playerId) {
+          Battletype.player.nickname = payload.nickname;
+          this._logs.displayMessage(payload.code);
+        } else {
+          Battletype.opponent.nickname = payload.nickname;
         }
         break;
       }
