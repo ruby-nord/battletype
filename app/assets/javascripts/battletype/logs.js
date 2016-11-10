@@ -4,6 +4,7 @@
     "failed_bombing":          "attack",
     "failed_defense":          "defense",
     "game_won":                "game",
+    "game_lost":               "game",
     "player_joined":           "player",
     "player_nickname_changed": "player",
     "successful_attack":       "attack",
@@ -15,7 +16,8 @@
     "failed_attack":           "OOPS! Attack failed",
     "failed_bombing":          "OOPS! Bombing failed",
     "failed_defense":          "OOPS! Defense failed",
-    "game_won":                "Game finished!",
+    "game_won":                "YOU WON!",
+    "game_lost":               "YOU LOSE!",
     "player_joined":           "Opponent joined",
     "player_nickname_changed": "Nickname changed",
     "successful_attack":       "New ship launched!",
@@ -44,7 +46,14 @@
 
   this.Logs = {
     boxTag: { writable: true },
-    displayMessage: function (code, errorCodes) {
+    displayMessage: function (message) {
+      $(this.boxTag)
+        .text(message)
+        .fadeIn("slow")
+        .delay(1500)
+        .fadeOut("slow"); // TODO tell-dont-ask & remove jQuery
+    },
+    displayCodeMessage: function (code, errorCodes) {
       this.reset();
 
       var type      = LOG_CODES_AND_TYPES_MAP[code]
@@ -56,11 +65,7 @@
         logMesage = logMesage + ' - ' + logError
       }
 
-      $(this.boxTag)
-        .text(logMesage)
-        .fadeIn("slow")
-        .delay(1500)
-        .fadeOut("slow"); // TODO tell-dont-ask & remove jQuery
+      this.displayMessage(logMesage);
     },
     reset: function () {
       this.boxTag.innerHTML = '';

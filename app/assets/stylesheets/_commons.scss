@@ -148,6 +148,20 @@ a {
       background-image: linear-gradient(rgba(255,255,255,0), #00B7AF 100%);
     }
 
+    &.lost_mode {
+      background-color: $game_bg_lost;
+      background-image: -webkit-linear-gradient(rgba(255,255,255,0), $game_bg_lost_gradient 100%);
+      background-image: -o-linear-gradient(rgba(255,255,255,0), $game_bg_lost_gradient 100%);
+      background-image: linear-gradient(rgba(255,255,255,0), $game_bg_lost_gradient 100%);
+    }
+
+    &.won_mode {
+      background-color: $game_bg_won;
+      background-image: -webkit-linear-gradient(rgba(255,255,255,0),$game_bg_won_gradient 100%);
+      background-image: -o-linear-gradient(rgba(255,255,255,0), $game_bg_won_gradient 100%);
+      background-image: linear-gradient(rgba(255,255,255,0), $game_bg_won_gradient 100%);
+    }
+
     .bonus_bar {
       height: 5px;
       background: #2B3142;
@@ -204,6 +218,9 @@ a {
   height: 100%;
   position: relative;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .room {
     display: inline-block;
@@ -353,6 +370,16 @@ a {
   #life_opponent {
     right: 0;
     transform: scaleX(-1)
+  }
+
+  #alert_box {
+    display: none;
+    padding: 2em;
+    background-color: $body_bg;
+
+    .title {
+      font-weight: bold;
+    }
   }
 }
 
