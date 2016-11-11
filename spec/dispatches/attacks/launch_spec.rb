@@ -2,13 +2,16 @@ require "rails_helper"
 
 RSpec.describe "Attacks::Launch", type: :dispatch do
   subject(:dispatch)  { Attacks::Launch }
-  let(:game)          { Game.create! }
+  let(:game)          { Game.create!(state: 'running') }
   let(:player)        { Player.create!(game: game, nickname: "Rico") }
 
   describe ".call" do
     context 'when word is valid' do
       let(:word) { 'curry' }
-      before { allow_words(word) }
+
+      before :each do
+        allow_words(word)
+      end
 
       it 'saves the Word' do
         expect { dispatch.call(player: player, word: word) }.to change { Word.where(value: word, game: game).count }.from(0).to(1)
@@ -64,6 +67,7 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
       let(:word) { 'duplicate' }
 
       before :each do
+        allow_words(word)
         Word.create!(game: game, value: word)
       end
 
@@ -82,7 +86,7 @@ RSpec.describe "Attacks::Launch", type: :dispatch do
       end
 
       it "returns a payload with the invalid word and the attacker's id" do
-        expect(dispatch.call(player: player, word: word)).to include(code: 'failed_attack', word: "duplicate", player_id: player.id, error_codes: ["unique_case_insensitive_word", "english_word"])
+        expect(dispatch.call(player: player, word: word)).to include(code: 'failed_attack', word: "duplicate", player_id: player.id, error_codes: ["unique_case_insensitive_word"])
       end
     end
   end

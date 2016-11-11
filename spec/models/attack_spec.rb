@@ -2,9 +2,10 @@ require "rails_helper"
 
 RSpec.describe "Attack", type: :model do
   subject(:attack)  { Attack.new(game: game, word: word, player: player) }
-  let(:game)        { Game.create! }
+  let(:game)        { Game.create!(state: 'running') }
   let(:word)        { 'attack' }
   let(:player)      { Player.new }
+
   before { allow_words("attack") }
 
   describe '.reward_for' do
@@ -96,6 +97,17 @@ RSpec.describe "Attack", type: :model do
       it { expect(Attack.new(game: game, word: "animal", player: player).valid?).to be true }
       it { expect(Attack.new(game: game, word: "AniMal", player: player).valid?).to be true }
       it { expect(Attack.new(game: game, word: "animal12", player: player).valid?).to be false }
+    end
+
+    context 'when game is finished' do
+      before :each do
+        allow_words("finished")
+        game.update(state: 'finished')
+      end
+
+      it 'returns false' do
+        expect(attack.valid?).to eq(false)
+      end
     end
   end
 end

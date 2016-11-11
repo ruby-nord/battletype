@@ -27,6 +27,7 @@
     "attack": {
       "english_word":                 "Must be an English word",
       "long_enough":                  "Word is not long enough",
+      "not_running":                  "Game is not running!",
       "unique_case_insensitive_word": "Word must be unique"
     },
     "bomb": {

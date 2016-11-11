@@ -2,7 +2,7 @@ class Attack
   include ActiveModel::Validations
   MIN_WORD_SIZE = 2
 
-  validate :unique_case_insensitive_word?, :english_word?, :long_enough?
+  validate :game_running?, :unique_case_insensitive_word?, :english_word?, :long_enough?
 
   private
   attr_reader :game, :word, :player
@@ -29,6 +29,12 @@ class Attack
   end
 
   private
+
+  def game_running?
+    unless game.state == 'running'
+      errors.add(:game, "not_running")
+    end
+  end
 
   def unique_case_insensitive_word?
     unless Word.where(game: game).where('LOWER(value) = LOWER(?)', word).empty?
