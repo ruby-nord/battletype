@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Defenses", type: :request do
-  let(:game)      { Game.create!(name: 'Starship Battle') }
+  let(:game)      { Game.create!(name: 'Starship Battle', state: 'running') }
   let(:attacker)  { game.players.create! }
   let(:player)    { game.players.create! }
 
@@ -197,6 +197,33 @@ RSpec.describe "Defenses", type: :request do
               gauge:    0,
               unlocked: nil
             }
+          }
+        )
+      end
+    end
+
+    context 'when game is finished' do
+      before :each do
+        attacker_word = Word.create!(value: 'finished')
+        attacker.ships.create!(word: attacker_word)
+        game.update(state: 'finished')
+      end
+
+      it "returns 200 HTTP status" do
+        post "/defenses", params: { word: 'finished', perfect_typing: '0' }
+        expect(response).to have_http_status(200)
+      end
+
+      it 'broadcasts a failed defense payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/defenses", params: { word: 'finished' }
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          {
+            code:        'failed_defense',
+            player_id:   player.id,
+            word:        'finished',
+            error_codes: ['not_running']
           }
         )
       end

@@ -38,6 +38,7 @@
       "already_destroyed":    "Ship is already destroyed!",
       "bomb_already_dropped": "Bomb already dropped",
       "player_ship":          "It's your own ship!",
+      "not_running":          "Game is not running!",
       "ship_not_found":       "Ship not found",
       "wrong_case":           "Words are case sensitive"
     }
