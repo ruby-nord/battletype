@@ -32,6 +32,7 @@
     },
     "bomb": {
       "attacked_player_ship": "You tried to bomb your mothership!!",
+      "not_running":          "Game is not running!",
       "ship_not_found":       "Ship to bomb not found"
     },
     "defense": {
