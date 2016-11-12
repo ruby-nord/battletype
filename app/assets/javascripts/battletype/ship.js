@@ -11,7 +11,7 @@
         }
       },
       velocity: {
-        get: function () { return this._word; },
+        get: function () { return this._velocity; },
         set: function (v) { this._velocity = v; }
       },
       damage: {
@@ -26,25 +26,26 @@
         get: function () { return this._targeted; },
         set: function (t) {
           this._targeted = Boolean(t);
-          
+
           var s = this.querySelector(".ship");
           if (this._targeted) {
             s.classList.add("targeted_ship");
           } else if (s.classList.contains("targeted_ship")) {
             s.classList.remove("targeted_ship");
           }
-          
+
           return this._targeted;
         }
       }
     },
-    
+
     build: function (template, attributes) {
       var ship = Object.defineProperties($(template).clone().get(0), this._properties);
-      ship.word = attributes.word;
-      ship.velocity = attributes.velocity;
-      ship.damage = attributes.damage;
-      
+
+      ship.word     = attributes.word;
+      ship.velocity = attributes.ship.velocity;
+      ship.damage   = attributes.ship.damage;
+
       return ship;
     },
     locate: function (word, combatZone) {
