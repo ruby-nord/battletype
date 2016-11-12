@@ -3,7 +3,10 @@
     _properties: {
       randomFreeVerticalSlot: {
         get: function () {
-          return Math.floor(Math.random() * this.height()) - 80;
+          var hudHeight = 60;
+          var maxHeight = this.height() - hudHeight;
+
+          return Math.floor(Math.random() * maxHeight);
         }
       },
       ships: {
@@ -15,7 +18,7 @@
     locate: function () {
       var zone = $("#combat_zone");
       Object.defineProperties(zone, this._properties);
-      
+
       return zone;
     }
   };
