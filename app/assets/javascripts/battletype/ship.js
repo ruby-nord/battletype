@@ -1,57 +1,54 @@
-/* globals Ship */
 (function () {
-  this.Ship = {
-    _properties: {
+  this.Ship = function (element, attributes) {
+    var WORD_ELEMENT_SELECTOR = "p.word";
+    var SHIP_ELEMENT_SELECTOR = ".ship";
+    var TARGETED_CLASS        = "targeted_ship";
+    var ID_ROOT               = "ship_";
+    
+    var word, targeted;
+    var wordElement = element.querySelector(WORD_ELEMENT_SELECTOR);
+    var shipElement = element.querySelector(SHIP_ELEMENT_SELECTOR);
+    
+    Object.defineProperties(element, {
       word: {
-        get: function () { return this._word; },
-        set: function (w) {
-          this._word = w;
-          this.id = Ship._shipIdFromWord(this._word);
-          this.querySelector("p.word").textContent = this._word;
+        get: function () {
+          return word;
+        },
+        set: function (newWord) {
+          word = newWord;
+          
+          if (wordElement) {
+            element.id = ID_ROOT + word;
+            wordElement.textContent = word;
+          }
         }
+      },
+      type: {
+        value: attributes.type
       },
       velocity: {
-        get: function () { return this._word; },
-        set: function (v) { this._velocity = v; }
-      },
-      damage: {
-        get: function () { return this._damage; },
-        set: function (d) { this._damage = d; }
+        value: attributes.velocity
       },
       positionY: {
-        get: function () { /* TODO */ },
-        set: function (y) { $(this).css({ top: y + "px" }); }
+        get: function () { return element.style.top; },
+        set: function (y) { element.style.top = y + "px"; }
       },
       targeted: {
-        get: function () { return this._targeted; },
+        get: function () {
+          return targeted;
+        },
         set: function (t) {
-          this._targeted = Boolean(t);
+          targeted = Boolean(t);
           
-          var s = this.querySelector(".ship");
-          if (this._targeted) {
-            s.classList.add("targeted_ship");
-          } else if (s.classList.contains("targeted_ship")) {
-            s.classList.remove("targeted_ship");
+          if (shipElement) {
+            targeted ? shipElement.classList.add(TARGETED_CLASS) : shipElement.classList.remove(TARGETED_CLASS);
           }
-          
-          return this._targeted;
         }
       }
-    },
+    });
     
-    build: function (template, attributes) {
-      var ship = Object.defineProperties($(template).clone().get(0), this._properties);
-      ship.word = attributes.word;
-      ship.velocity = attributes.velocity;
-      ship.damage = attributes.damage;
-      
-      return ship;
-    },
-    locate: function (word, combatZone) {
-      return $("#" + this._shipIdFromWord(word), combatZone).get(0);
-    },
-    _shipIdFromWord: function (word) {
-      return "ship_" + word;
-    }
+    element.word = attributes.word;
+    
+    return element;
   };
 }).call(this);

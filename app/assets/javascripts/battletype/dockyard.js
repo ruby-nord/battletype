@@ -8,7 +8,7 @@
     _templates: {},
     
     launch: function (attributes, combatZone) {
-      var newShip = Ship.build(this._templates[attributes.ship.type], attributes);
+      var newShip = Ship(this._templates[attributes.ship.type], attributes);
       
       newShip.addEventListener("animationend", this._bombingEventDispatcherFor(newShip), false);
       newShip.positionY = combatZone.randomFreeVerticalSlot;

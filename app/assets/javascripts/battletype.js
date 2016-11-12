@@ -78,9 +78,9 @@
         break;
       case "successful_defense":
         if (payload.player_id == this.playerId) {
-          var ship = Ship.locate(payload.word);
+          var ship = this.$combatZone.find("#ship_" + payload.word).get(0); // FIXME: Battletype shouldn't locate the ships itself
           if (ship) { this.$combatZone.get(0).removeChild(ship); }
-
+          
           this._logs.displayMessage(payload.code);
           // TODO: update gauge & unlock strike
         } else {
@@ -140,7 +140,7 @@
     },
     scanForShip: function (text) {
       if (!this.attacking) {
-        var target = this.$combatZone.find("[id^='" + Ship._shipIdFromWord(text) + "']");
+        var target = this.$combatZone.find("[id^='ship_" + text + "']");  // FIXME: Battletype shouldn't locate the ships itself
         if (target) {
           return {
             target: target.get(0),
