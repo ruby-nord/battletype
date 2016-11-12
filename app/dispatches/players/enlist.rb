@@ -1,7 +1,5 @@
 module Players
   class Enlist
-    MAX_PLAYERS = 2
-
     private
     attr_reader :game
 
@@ -15,13 +13,13 @@ module Players
 
     def assign_game_to_player!
       @player = Player.create!(nickname: nickname, game: game, life: Player::LIFE)
-      @game.update(state: 'running')
+      game.update(state: 'running')
 
       return successful_payload
     end
 
-    def game_full?
-      game.players.count >= MAX_PLAYERS
+    def available?
+      game.state == 'awaiting_opponent' && !game.full?
     end
 
     private

@@ -1,10 +1,9 @@
 class GamesController < ApplicationController
-  before_action :set_game,  only: [:show]
-  before_action :join_game, only: [:show], unless: :player_in_game?
+  before_action :set_game, only: [:show]
 
   def show
     @opponent ||= @game.players.where.not(id: current_player&.id).first || NilPlayer.new
-    return render FinishedGame.template_path if @game.state == 'finished'
+    render game_template || :show
   end
 
   def create
@@ -14,14 +13,20 @@ class GamesController < ApplicationController
 
   private
 
-  def join_game
-    return if @game.state == 'finished'
-    enlist  = Players::Enlist.new(game: @game, player: current_player)
+  def game_params
+    params.require(:game).permit(:name)
+  end
 
-    if enlist.game_full?
-      return render FullGame.template_path
-    else
-      return render AwaitingOpponentGame.template_path
+  def game_template
+    case @game.state
+    when 'awaiting_opponent'
+      return if player_in_game?
+      AwaitingOpponentGame.template_path
+    when 'running'
+      return if player_in_game?
+      FullGame.template_path
+    when 'finished'
+      FinishedGame.template_path
     end
   end
 
@@ -32,9 +37,5 @@ class GamesController < ApplicationController
   def set_game
     @game = Game.find_by(slug: params[:id].parameterize)
     redirect_to root_path unless @game
-  end
-
-  def game_params
-    params.require(:game).permit(:name)
   end
 end

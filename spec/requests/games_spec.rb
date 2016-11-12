@@ -4,14 +4,6 @@ RSpec.describe "Games", type: :request do
   let(:game) { Game.create!(name: 'Starship Battle', slug: 'starship-battle') }
 
   describe "GET show" do
-    context "url is not parameterized" do
-      before :each do
-        get URI::encode("/games/#{game.name}")
-      end
-
-      it { expect(Game.count).to eq(1) }
-    end
-
     context "player is signed in" do
       let(:player) { Player.create! }
 
@@ -19,19 +11,33 @@ RSpec.describe "Games", type: :request do
         allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
       end
 
-      context "game is full" do
-        before { 2.times { Player.create(game: game) } }
+      context "url is not parameterized" do
+        before :each do
+          game.update(state: 'awaiting_opponent')
+          allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
+          get URI::encode("/games/#{game.name}")
+        end
 
-        before { get "/games/#{game.to_param}" }
+        it { expect(Game.count).to eq(1) }
+      end
+
+      context "game is full" do
+        before :each do
+          game.update(state: 'running')
+          2.times { Player.create(game: game) }
+          get "/games/#{game.to_param}"
+        end
+
 
         it { expect(response.body).to include("already full") }
         it { expect(player.reload.game).to_not eq(game) }
       end
 
-      context  "player joined the game and refresh the page" do
+      context "player joined the game and refresh the page" do
         let!(:opponent) { Player.create(game: game) }
 
         before :each do
+          game.update(state: 'running')
           player.update(game: game)
 
           get "/games/#{game.to_param}"
@@ -45,6 +51,7 @@ RSpec.describe "Games", type: :request do
         let(:other_game) { Game.create!(name: 'Other game', slug: 'other-game') }
 
         before :each do
+          other_game.update(state: 'awaiting_opponent')
           player.update(game: game, nickname: "Rico", life: 3)
           get "/games/#{other_game.to_param}"
         end
@@ -84,9 +91,11 @@ RSpec.describe "Games", type: :request do
       end
 
       context "game is already full" do
-        before { 2.times { Player.create!(game: game) } }
-
-        before { get "/games/#{game.to_param}" }
+        before :each do
+          game.update(state: 'running')
+          2.times { Player.create!(game: game) }
+          get "/games/#{game.to_param}"
+        end
 
         it { expect(response).to have_http_status(200) }
         it { expect(Player.count).to eq(2) }
