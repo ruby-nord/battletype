@@ -56,7 +56,7 @@
         if (e.type == "keyup") {
           var scannerResults = this.scanner(this.inputDevice.value);
           
-          if (scannerResults != false) {
+          if (scannerResults) {
             scannerResults.$all.each(function () { this.targeted = false; });
             scannerResults.target.targeted = true;
           }
