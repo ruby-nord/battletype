@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   resources :attacks,   only: [:create]
   resources :bombings,  only: [:create]
   resources :defenses,  only: [:create]
-  resources :games,     only: [:show, :create]
+
+  resources :games,     only: [:show, :create] do
+    resource :opponent, only: [:create], controller: 'opponent'
+  end
+
   resources :players,   only: [:update]
 
   #Lets's encrypt

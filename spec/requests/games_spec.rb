@@ -49,12 +49,23 @@ RSpec.describe "Games", type: :request do
           get "/games/#{other_game.to_param}"
         end
 
-        it { expect(Player.count).to eq(2) }
-        it { expect(Player.last.id).not_to eq(player.id) }
-        it { expect(Player.last.nickname).to eq("Rico") }
-        it { expect(Player.last.life).to eq(10) }
         it { expect(response).to have_http_status(200) }
-        it { expect(response.body).to_not include("already full") }
+        it { expect(response.body).to include("Join Game") }
+
+        it { expect(Player.last.id).to eq(player.id) }
+        it { expect(Player.last.nickname).to eq("Rico") }
+
+        it 'does not create a new player' do
+          expect(Player.count).to eq(1)
+        end
+
+        it "does not update player's life" do
+          expect(Player.last.life).to eq(3)
+        end
+
+        it 'does not change game of current player' do
+          expect(Player.last.game).to eq(game)
+        end
       end
     end
 
@@ -62,30 +73,14 @@ RSpec.describe "Games", type: :request do
       context "game is not full" do
         before :each do
           game.update(state: 'awaiting_opponent')
-          allow(ActionCable.server).to receive(:broadcast)
           get "/games/#{game.to_param}"
         end
 
         it { expect(response).to have_http_status(200) }
-        it { expect(Player.count).to eq(1) }
         it { expect(response.body).to include(game.name) }
-        it { expect(Player.last.game).to eq(game) }
-        it { expect(Player.last.life).to eq(10) }
-
-        it 'sets game state to running' do
-          expect(game.reload.state).to eq('running')
-        end
-
-        it 'broadcasts a player joined payload' do
-          expect(ActionCable.server).to have_received(:broadcast).with(
-            anything,
-            {
-              code:       'player_joined',
-              player_id:  Player.last.id,
-              nickname:   Player.last.nickname
-            }
-          )
-        end
+        it { expect(response.body).to include("Join Game") }
+        it { expect(Player.count).to eq(0) }
+        it { expect(game.reload.state).to eq('awaiting_opponent') }
       end
 
       context "game is already full" do

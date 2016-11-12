@@ -16,15 +16,12 @@ class GamesController < ApplicationController
 
   def join_game
     return if @game.state == 'finished'
-    enlist = Players::Enlist.new(game: @game, player: current_player)
+    enlist  = Players::Enlist.new(game: @game, player: current_player)
 
     if enlist.game_full?
       return render FullGame.template_path
-    else # try to enter the game
-      payload = enlist.assign_game_to_player!
-      set_current_player(enlist.player)
-
-      ActionCable.server.broadcast "game_#{current_player.game_id}", payload
+    else
+      return render AwaitingOpponentGame.template_path
     end
   end
 
