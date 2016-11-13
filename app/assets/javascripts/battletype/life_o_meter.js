@@ -1,31 +1,27 @@
 (function () {
-  this.LifeOMeter = {
-    _properties: {
+  var STARTING_LIFE = 10;
+  
+  this.LifeOMeter = function (element) {
+    var life = STARTING_LIFE;
+    
+    Object.defineProperties(element, {
       life: {
-        get: function () { return this._life; },
-        set: function (l) {
-          this._life = l;
+        get: function () { return life; },
+        set: function (newLife) {
+          life = newLife;
           
           var turningOff = window.setInterval(function () {
-            if (this.leds.length > this._life) {
-              this.removeChild(this.leds[this.leds.length - 1]);
+            var leds = element.querySelectorAll(".life_bar");
+            if (leds.length > life) {
+              element.removeChild(leds[leds.length - 1]);
             } else {
               window.clearInterval(turningOff);
             }
-          }.bind(this), 100);
-        }
-      },
-      leds: {
-        get: function () {
-          return this.querySelectorAll(".life_bar");
+          }, 100);
         }
       }
-    },
-    activate: function (node) {
-      var lifeOMeter = Object.defineProperties(node, this._properties);
-      lifeOMeter.life = lifeOMeter.leds.length;
-      
-      return lifeOMeter;
-    }
+    });
+    
+    return element;
   };
 }).call(this);

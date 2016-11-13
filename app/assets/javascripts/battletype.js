@@ -33,9 +33,9 @@
       this.player   = Player.build(document.getElementById("current_player_nickname"));
       this.opponent = Player.build(document.getElementById("opponent_nickname"));
 
-      this.playerLifeOMeter   = LifeOMeter.activate(document.getElementById("life_player"));
-      this.opponentLifeOMeter = LifeOMeter.activate(document.getElementById("life_opponent"));
-
+      this.playerLifeOMeter   = LifeOMeter(document.getElementById("life_player"));
+      this.opponentLifeOMeter = LifeOMeter(document.getElementById("life_opponent"));
+      
       this._eventsRelay.addEventListener("entry", function (e) { this.transmitEntry(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("switchMode", function (e) { this.switchMode(e.detail); }.bind(this), false);
       this._eventsRelay.addEventListener("bombDropped", function (e) { this._transmitBombing(e.detail); }.bind(this), false);
