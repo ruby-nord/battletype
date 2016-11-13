@@ -18,7 +18,7 @@ describe("Stdin", function() {
   var inputDevice = document.createElement("input");
   
   beforeEach(function() {
-    stdin = Object.create(Stdin, { inputDevice: { value: inputDevice }, ps2Port: { value: ps2Port } });
+    stdin = Stdin(inputDevice, ps2Port);
     stdin.powerOn();
   });
   

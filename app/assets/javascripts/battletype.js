@@ -44,12 +44,8 @@
       this._logs = Object.create(Logs, {
         boxTag: { value: document.getElementById("log_system") },
       });
-
-      this._stdin = Object.create(Stdin, {
-        inputDevice:  { value: document.getElementById("stdin") },
-        ps2Port:      { value: this._eventsRelay },
-        scanner:      { value: this.scanForShip.bind(this) }
-      });
+      
+      this._stdin = Stdin(document.getElementById("stdin"), this._eventsRelay, this.scanForShip.bind(this));
       this._stdin.powerOn();
     },
     incomingTransmission: function (payload) {
