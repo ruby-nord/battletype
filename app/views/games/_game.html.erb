@@ -61,26 +61,26 @@
   </div>
 </div>
 
-<div id="dockyard">
-  <div id="mothership_template" class="mothership">
+<template id="dockyard">
+  <div data-ship-type="mothership" class="mothership">
     <p class="word"></p>
     <div class="ship">
       <%= render "games/ships/svg/mothership" %>
     </div>
   </div>
-  <div id="small_ship_template" class="ship small_ship">
+  <div class="ship small_ship" data-ship-type="small">
     <p class="word"></p>
     <div class="ship">
       <%= render "games/ships/svg/small_ship" %>
     </div>
   </div>
-  <div id="medium_ship_template" class="ship medium_ship">
+  <div data-ship-type="medium" class="ship medium_ship">
     <p class="word"></p>
     <div class="ship">
       <%= render "games/ships/svg/medium_ship" %>
     </div>
   </div>
-  <div id="large_ship_template" class="ship large_ship">
+  <div data-ship-type="large" class="ship large_ship">
     <p class="word"></p>
     <div class="ship">
       <%= render "games/ships/svg/large_ship" %>
@@ -91,4 +91,4 @@
       <%= render "games/ships/svg/rocket" %>
     </div>
   </div>
-</div>
+</template>

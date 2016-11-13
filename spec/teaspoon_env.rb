@@ -1,4 +1,5 @@
 Teaspoon.configure do |config|
+  config.driver = :selenium
   config.mount_at = "/jasmine"
   config.root = nil
   config.asset_paths = ["spec/javascripts", "spec/javascripts/stylesheets"]

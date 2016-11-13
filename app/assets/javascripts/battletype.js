@@ -25,13 +25,9 @@
       this.defenseFrequency = document.getElementById("defense");
       this.bombingFrequency = document.getElementById("bombing_frequency");
 
-      Dockyard.ps2Port = this._eventsRelay;
-      Dockyard.registerTemplate("small", document.getElementById("small_ship_template"));
-      Dockyard.registerTemplate("medium", document.getElementById("medium_ship_template"));
-      Dockyard.registerTemplate("large", document.getElementById("large_ship_template"));
-      Dockyard.registerTemplate("mothership", document.getElementById("mothership_template"));
+      this.dockyard = Dockyard(document.getElementById("dockyard"), this._eventsRelay);
 
-      this.mothership = Dockyard.launchMothership(this.$combatZone);
+      this.mothership = this.dockyard.launchMothership(this.$combatZone);
 
       this.player   = Player.build(document.getElementById("current_player_nickname"));
       this.opponent = Player.build(document.getElementById("opponent_nickname"));
@@ -63,7 +59,12 @@
         }
         else { // TODO: comparer plutôt à opponentId
           audio_spaceship("right");
-          Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.$combatZone, this._eventsRelay);
+          var newShip = this.dockyard.build({
+            word: payload.word,
+            type: payload.launched_ship.type,
+            velocity: payload.launched_ship.velocity
+          });
+          this.dockyard.launch(newShip, this.$combatZone.get(0), this._eventsRelay);
         }
         break;
       case "failed_attack":
