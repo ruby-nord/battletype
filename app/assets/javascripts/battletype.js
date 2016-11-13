@@ -27,7 +27,8 @@
 
       this.dockyard = Dockyard(document.getElementById("dockyard"), this._eventsRelay);
 
-      this.mothership = this.dockyard.launchMothership(this.$combatZone);
+      this.mothership = this.dockyard.buildMothership();
+      this.dockyard.launchMothership(this.mothership, this.$combatZone.get(0));
 
       this.player   = Player.build(document.getElementById("current_player_nickname"));
       this.opponent = Player.build(document.getElementById("opponent_nickname"));

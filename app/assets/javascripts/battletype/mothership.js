@@ -1,36 +1,26 @@
 (function () {
-  this.Mothership = {
-    _properties: {
-      hit: {
-        get: function () { return this._hit; },
-        set: function (v) {
-          this._hit = Boolean(v);
-          
-          if (this._hit) {
-            var $hitTarget = $(this).find("#target_mothership");
-            $hitTarget.addClass("hit");
-            window.setTimeout(function () { $hitTarget.removeClass("hit"); }, 900);
-          }
-          
-          return this._hit;
+  this.Mothership = function (element) {
+    var HIT_TARGET_ELEMENT_SELECTOR = "#target_mothership";
+    var HIT_CLASS = "hit";
+    var DESTROYED_CLASS = "destroyed";
+    var HIT_ANIMATION_LENGTH = 900;
+    
+    var hitTarget = element.querySelector(HIT_TARGET_ELEMENT_SELECTOR);
+    
+    Object.assign(element, {
+      hasBeenHit: function () {
+        if (hitTarget) {
+          hitTarget.classList.add(HIT_CLASS);
+          window.setTimeout(function () { hitTarget.classList.remove(HIT_CLASS); }, HIT_ANIMATION_LENGTH);
         }
       },
-      destroyed: {
-        get: function () { return this._destroyed; },
-        set: function (v) {
-          this._destroyed = Boolean(v);
-          
-          if (this._destroyed) {
-            $(this).find("#target_mothership").addClass("destroyed");
-          }
-          
-          return this._hit;
+      hasBeenDestroyed: function () {
+        if (hitTarget) {
+          hitTarget.classList.add(DESTROYED_CLASS);
         }
       }
-    },
-    build: function (template) {
-      var ship = Object.defineProperties($(template).clone().get(0), this._properties);
-      return ship;
-    }
+    });
+    
+    return element;
   };
 }).call(this);

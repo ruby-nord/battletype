@@ -21,6 +21,10 @@
         
         return ship;
       },
+      // TODO: handle missing template
+      buildMothership: function () {
+        return Mothership(shipTemplates["mothership"]);
+      },
       launch: function (ship, combatZone) {
         ship.positionY = combatZone.randomFreeVerticalSlot;
         launchedShips[ship.identifier] = ship;
@@ -30,11 +34,8 @@
       locateShip: function (word) {
         return launchedShips[word];
       },
-      launchMothership: function (combatZone) {
-        var mothership = Mothership.build(shipTemplates["mothership"]);
-        $(mothership).appendTo(combatZone); // TODO: do without jQuery
-      
-        return mothership;
+      launchMothership: function (mothership, combatZone) {
+        combatZone.appendChild(mothership);
       },
       registerTemplate: function (name, element) {
         shipTemplates[name] = element;
