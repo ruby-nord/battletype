@@ -19,7 +19,7 @@
       this.playerId         = options.playerId;
       this.opponentId       = options.playerId;
 
-      this.$combatZone       = CombatZone.locate();
+      this.combatZone = CombatZone(document.getElementById("combat_zone"));
 
       this.attackFrequency  = document.getElementById("attack");
       this.defenseFrequency = document.getElementById("defense");
@@ -28,7 +28,7 @@
       this.dockyard = Dockyard(document.getElementById("dockyard"), this._eventsRelay);
 
       this.mothership = this.dockyard.buildMothership();
-      this.dockyard.launchMothership(this.mothership, this.$combatZone.get(0));
+      this.dockyard.launchMothership(this.mothership, this.combatZone);
 
       this.player   = Player.build(document.getElementById("current_player_nickname"));
       this.opponent = Player.build(document.getElementById("opponent_nickname"));
@@ -65,7 +65,7 @@
             type: payload.launched_ship.type,
             velocity: payload.launched_ship.velocity
           });
-          this.dockyard.launch(newShip, this.$combatZone.get(0), this._eventsRelay);
+          this.dockyard.launch(newShip, this.combatZone, this._eventsRelay);
         }
         break;
       case "failed_attack":
@@ -80,8 +80,8 @@
         break;
       case "successful_defense":
         if (payload.player_id == this.playerId) {
-          var ship = this.$combatZone.find("#ship_" + payload.word).get(0); // FIXME: Battletype shouldn't locate the ships itself
-          if (ship) { this.$combatZone.get(0).removeChild(ship); }
+          var ship = this.combatZone.querySelector("#ship_" + payload.word); // FIXME: Battletype shouldn't locate the ships itself
+          if (ship) { this.combatZone.removeChild(ship); }
           
           this._logs.displayMessage(payload.code);
           // TODO: update gauge & unlock strike
@@ -142,11 +142,11 @@
     },
     scanForShip: function (text) {
       if (!this.attacking) {
-        var target = this.$combatZone.find("[id^='ship_" + text + "']");  // FIXME: Battletype shouldn't locate the ships itself
+        var target = this.combatZone.querySelector("[id^='ship_" + text + "']");  // FIXME: Battletype shouldn't locate the ships itself
         if (target) {
           return {
-            target: target.get(0),
-            $all: this.$combatZone.ships
+            target: target,
+            $all: this.combatZone.querySelectorAll(".small_ship, .medium_ship, .large_ship") // FIXME
           };
         }
       }
@@ -177,11 +177,13 @@
       Battletype.attacking = !Battletype.attacking;
 
       if (Battletype.attacking) {
-        this.$combatZone.removeClass("defense_mode").addClass("attack_mode"); // TODO tell-dont-ask
+        this.combatZone.classList.remove("defense_mode")
+        this.combatZone.classList.add("attack_mode"); // TODO tell-dont-ask
         this._stdin.indicateAttackMode();
       }
       else {
-        this.$combatZone.removeClass("attack_mode").addClass("defense_mode"); // TODO tell-dont-ask
+        this.combatZone.classList.remove("attack_mode")
+        this.combatZone.classList.add("defense_mode"); // TODO tell-dont-ask
         this._stdin.indicateDefenseMode();
       }
     },

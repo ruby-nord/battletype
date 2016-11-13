@@ -57,7 +57,7 @@
           var scannerResults = this.scanner(this.inputDevice.value);
           
           if (scannerResults) {
-            scannerResults.$all.each(function () { this.targeted = false; });
+            scannerResults.$all.forEach(function () { this.targeted = false; });
             scannerResults.target.targeted = true;
           }
         }
