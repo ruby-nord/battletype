@@ -5,13 +5,15 @@ class GameExhibit < SimpleDelegator
   end
   
   def to_partial_path
-    case state
-    when "finished"
+    case
+    when finished?
       "games/finished_game"
-    when "awaiting_opponent"
-      player_in_game? ? super : "games/awaiting_opponent_game"
-    when "running"
-      player_in_game? ? super : "games/full_game"
+    when awaiting_opponent? && player_is_not_part_of_the_game?
+      "games/awaiting_opponent_game"
+    when running? && player_is_not_part_of_the_game?
+       "games/full_game"
+     else
+       super
     end
   end
   
@@ -25,7 +27,11 @@ class GameExhibit < SimpleDelegator
   
   private
   
-  def player_in_game?
-    @current_player && @current_player.game == __getobj__
+  def player_is_not_part_of_the_game?
+    ! player_is_part_of_the_game?
+  end
+  
+  def player_is_part_of_the_game?
+    @current_player&.plays_in?(__getobj__)
   end
 end
