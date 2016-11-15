@@ -2,8 +2,7 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show]
 
   def show
-    @opponent ||= @game.players.where.not(id: current_player&.id).first || NilPlayer.new
-    render game_template || :show
+    @game = GameExhibit.new(@game, current_player)
   end
 
   def create
@@ -15,23 +14,6 @@ class GamesController < ApplicationController
 
   def game_params
     params.require(:game).permit(:name)
-  end
-
-  def game_template
-    case @game.state
-    when 'awaiting_opponent'
-      return if player_in_game?
-      AwaitingOpponentGame.template_path
-    when 'running'
-      return if player_in_game?
-      FullGame.template_path
-    when 'finished'
-      FinishedGame.template_path
-    end
-  end
-
-  def player_in_game?
-    current_player && current_player.game == @game
   end
 
   def set_game

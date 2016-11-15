@@ -1,0 +1,39 @@
+<div class="row">
+  <%= render "games/stars" %>
+  <div class="wrapper">
+    <div class="join_us">
+      <div class="mothership">
+        <div class="ship">
+          <%= render "games/ships/svg/mothership" %>
+        </div>
+      </div>
+    </div>
+    <div class="too_late">
+      <% case finished_game.current_player
+         when finished_game.winner %>
+        <h1>Game Finished, Congratulations! You WON!</h1>
+        <p>
+          You're the master of the <strong><%= finished_game.name %></strong> room
+          where you defeated <strong><%= finished_game.opponent.nickname %></strong>.
+        </p>
+      <% when finished_game.loser %>
+        <h1>Game Finished, You LOSE!</h1>
+        <p>
+          Today wasn't a good day for you in the <strong><%= finished_game.name %></strong> room.
+          Looks like <strong><%= finished_game.opponent.nickname %></strong> ruled this finished_game.
+        </p>
+      <% else %>
+        <h1>Too late! This finished is already finished_game.</h1>
+        <p>
+          You're currently in the <strong><%= finished_game.name %></strong> room
+          where <strong><%= finished_game.players.first.nickname %></strong> and
+          <strong><%= finished_game.players.last.nickname %></strong> had an epic fight deep in the space.
+        </p>
+      <% end %>
+
+      <p>In total, the battle involved <strong><%= finished_game.ships.count %> ships</strong> and <strong><%= finished_game.ships.sum(:damage) %> damages</strong>.</p>
+
+      <%= render 'components/social_links' %>
+    </div>
+  </div>
+</div>

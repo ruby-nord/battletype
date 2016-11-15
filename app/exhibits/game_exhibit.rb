@@ -17,10 +17,21 @@ class GameExhibit < SimpleDelegator
     end
   end
   
-  def to_model
-    __getobj__
+  def current_player
+    @current_player
   end
   
+  def opponent
+    players.where.not(id: current_player&.id).first || NilPlayer.new
+  end
+  
+   # this method must **not** be delegated to the underlying model; otherwise,
+   # when the object is rendered by `ActionView::PartialRenderer` (eg. when calling `render` from a view), 
+   # `to_partial_path` will be sent to the actual model instead of the exhibit
+  def to_model
+    self
+  end
+
   def class
     __getobj__.class
   end

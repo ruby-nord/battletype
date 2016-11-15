@@ -10,9 +10,9 @@
     </div>
     <div class="too_late">
       <h1>You've been challenged to a battle!</h1>
-      <p>Your opponent is waiting for you. Join the room <strong><%= @game.name %></strong> right now!</p>
+      <p>Your opponent is waiting for you. Join the room <strong><%= awaiting_opponent_game.name %></strong> right now!</p>
 
-      <%= form_tag game_opponent_path(@game), method: :post do %>
+      <%= form_tag game_opponent_path(awaiting_opponent_game), method: :post do %>
         <%= submit_tag "Join Game", class: "button green" %>
       <% end %>
     </div>
