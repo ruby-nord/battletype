@@ -37,7 +37,7 @@ RSpec.describe "Opponent", type: :request do
 
     context 'when game is full' do
       before :each do
-        game.update(state: 'running')
+        game.running!
         game.players.create!
         post "/games/starship-battle/opponent"
       end
@@ -54,7 +54,7 @@ RSpec.describe "Opponent", type: :request do
 
     context 'when game is already finished' do
       before :each do
-        game.update(state: 'finished')
+        game.finished!
         post "/games/starship-battle/opponent"
       end
 

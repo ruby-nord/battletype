@@ -82,7 +82,7 @@ module Bombs
 
     def finish_game
       player.update(won: true)
-      game.update(state: 'finished')
+      game.finished!
     end
   end
 end
