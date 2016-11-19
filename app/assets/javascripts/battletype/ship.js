@@ -37,12 +37,16 @@
               break;
             }
           }
-        },
-        set: function (h) { this._height = h; }
+        }
       },
       positionY: {
         get: function () { /* TODO */ },
-        set: function (y) { $(this).css({ top: y + "px" }); }
+        set: function (newPosition) {
+          newPosition = newPosition - this.heigh;
+          newPosition = Math.max(0, newPosition);
+
+          $(this).css({ top: newPosition + "px" });
+        }
       },
       targeted: {
         get: function () { return this._targeted; },

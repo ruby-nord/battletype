@@ -8,11 +8,11 @@
     _templates: {},
 
     launch: function (attributes, combatZone) {
-      var newShip   = Ship.build(this._templates[attributes.ship.type], attributes);
-      var positionY = combatZone.randomFreeVerticalSlot - newShip.height;
+      var newShip = Ship.build(this._templates[attributes.ship.type], attributes);
 
       newShip.addEventListener("animationend", this._bombingEventDispatcherFor(newShip), false);
-      newShip.positionY = Math.max(0, positionY);
+      newShip.positionY = combatZone.randomFreeVerticalSlot;
+
       $(newShip).appendTo(combatZone); // TODO: do without jQuery
 
       return newShip;

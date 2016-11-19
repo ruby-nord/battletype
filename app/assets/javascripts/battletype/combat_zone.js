@@ -3,8 +3,9 @@
     _properties: {
       randomFreeVerticalSlot: {
         get: function () {
-          var hudHeight = 60;
-          var maxHeight = this.height() - hudHeight;
+          var bottomHudHeight = document.getElementById('life_player').offsetHeight;
+          var margin = 15; // in pixels
+          var maxHeight = this.height() - bottomHudHeight - margin;
 
           return Math.floor(Math.random() * maxHeight);
         }
