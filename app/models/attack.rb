@@ -31,7 +31,7 @@ class Attack
   private
 
   def game_running?
-    unless game.state == 'running'
+    unless game.running?
       errors.add(:game, "not_running")
     end
   end

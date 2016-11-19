@@ -2,11 +2,14 @@ require "rails_helper"
 
 RSpec.describe "Attack", type: :model do
   subject(:attack)  { Attack.new(game: game, word: word, player: player) }
-  let(:game)        { Game.create!(state: 'running') }
+  let(:game)        { Game.create! }
   let(:word)        { 'attack' }
   let(:player)      { Player.new }
 
-  before { allow_words("attack") }
+  before do
+    allow_words("attack")
+    game.running!
+  end
 
   describe '.reward_for' do
     describe 'word between 0 and 1 letters' do
@@ -102,7 +105,7 @@ RSpec.describe "Attack", type: :model do
     context 'when game is finished' do
       before :each do
         allow_words("finished")
-        game.update(state: 'finished')
+        game.finished!
       end
 
       it 'returns false' do

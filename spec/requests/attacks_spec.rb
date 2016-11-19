@@ -1,10 +1,11 @@
 require "rails_helper"
 
 RSpec.describe "Attacks", type: :request do
-  let(:game)            { Game.create!(name: 'Starship Battle', state: 'running') }
+  let(:game)            { Game.create!(name: 'Starship Battle') }
   let(:player)          { game.players.create!(nickname: "Rico") }
 
   before :each do
+    game.running!
     allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
   end
 
