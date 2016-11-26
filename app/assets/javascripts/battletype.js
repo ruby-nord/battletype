@@ -12,6 +12,7 @@
 (function () {
   this.Battletype = {
     attacking: true,
+    running: true,
 
     _eventsRelay: Object.create(PS2EventRelay),
 
@@ -108,6 +109,7 @@
         }
         break;
       case "game_won":
+        this.running = false;
         this._logs.displayMessage(payload.code);
 
         if (payload.player_id == this.playerId) {
@@ -139,6 +141,8 @@
       }
     },
     scanForShip: function (text) {
+      if (!this.running) { return }
+
       if (!this.attacking) {
         var target = this.$combatZone.find("[id^='" + Ship._shipIdFromWord(text) + "']");
         if (target) {
@@ -150,6 +154,8 @@
       }
     },
     transmitEntry: function (entry) {
+      if (!this.running) { return }
+
       this.attacking ? this._transmitAttack(entry) : this._transmitDefense(entry);
       this._stdin.reset();
     },
@@ -165,6 +171,8 @@
       $(this.defenseFrequency).trigger("submit.rails");
     },
     _transmitBombing: function (ship) {
+      if (!this.running) { return }
+
       ship.className += " leaving"; // The bombing ship leaves the scene
       this.mothership.hit = true;   // The mothership takes a hit
 
@@ -172,6 +180,8 @@
       $(this.bombingFrequency).trigger("submit.rails");
     },
     switchMode: function () {
+      if (!this.running) { return }
+
       Battletype.attacking = !Battletype.attacking;
 
       if (Battletype.attacking) {
