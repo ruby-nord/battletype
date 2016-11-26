@@ -3,7 +3,11 @@
     _properties: {
       randomFreeVerticalSlot: {
         get: function () {
-          return Math.floor(Math.random() * this.height()) - 80;
+          var bottomHudHeight = document.getElementById('life_player').offsetHeight;
+          var margin = 15; // in pixels
+          var maxHeight = this.height() - bottomHudHeight - margin;
+
+          return Math.floor(Math.random() * maxHeight);
         }
       },
       ships: {
@@ -15,7 +19,7 @@
     locate: function () {
       var zone = $("#combat_zone");
       Object.defineProperties(zone, this._properties);
-      
+
       return zone;
     }
   };
