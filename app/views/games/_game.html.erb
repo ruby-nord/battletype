@@ -3,47 +3,48 @@
 <% end %>
 
 <div class="wrapper">
-  <div class="combat_zone attack_mode" id="combat_zone">
+  <div class="attack_mode" id="game_window">
     <%= render "stars" %>
-    <div class="hud">
+    <div id="combat_zone">
       <%= content_tag :h1, "ROOM: #{@game.name}", class: "room", id: "game_title", data: { game_id: @game.id } %>
-      <ul id="life_player">
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-      </ul>
-      <div id="current_player" data-player-id="<%= game.current_player.id %>" data-player-nickname="<%= game.current_player.nickname %>"></div>
-      <%= form_for(game.current_player, url: player_path(game.current_player), data: { remote: true }, class: "player") do |f| %>
-        <%= f.text_field :nickname, id: 'current_player_nickname' %>
-      <% end %>
-      <ul id="life_opponent">
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-        <li class="life_bar"><%= render "games/hud/life" %></li>
-      </ul>
+      <div class="hud">
+        <ul id="life_player">
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+        </ul>
+        <div id="current_player" data-player-id="<%= game.current_player.id %>" data-player-nickname="<%= game.current_player.nickname %>"></div>
+        <%= form_for(game.current_player, url: player_path(game.current_player), data: { remote: true }, class: "player") do |f| %>
+          <%= f.text_field :nickname, id: 'current_player_nickname' %>
+        <% end %>
+        <ul id="life_opponent">
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+          <li class="life_bar"><%= render "games/hud/life" %></li>
+        </ul>
 
-      <h1 class="opponent" id="opponent_nickname"><%= game.opponent.nickname.presence || 'waiting player' %></h1>
+        <h1 class="opponent" id="opponent_nickname"><%= game.opponent.nickname.presence || 'waiting player' %></h1>
 
-      <div class="bonus_bar">
-        <div class="bonus_percentage"></div>
+        <div class="bonus_bar">
+          <div class="bonus_percentage"></div>
+        </div>
+
+        <%= text_field_tag :stdin, "", class: "attack" %>
       </div>
-
-      <%= text_field_tag :stdin, "", class: "attack" %>
-
       <%= form_tag(attacks_path, id: "attack", data: { remote: true }) do %>
         <%= hidden_field_tag :word %>
         <%= hidden_field_tag :game_id, @game.id %>

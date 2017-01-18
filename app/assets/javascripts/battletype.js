@@ -19,7 +19,7 @@
       this.playerId         = options.playerId;
       this.opponentId       = options.playerId;
 
-      this.combatZone = CombatZone(document.getElementById("combat_zone"));
+      this.combatZone = CombatZone(document.getElementById("game_window"));
 
       this.attackFrequency  = document.getElementById("attack");
       this.defenseFrequency = document.getElementById("defense");
