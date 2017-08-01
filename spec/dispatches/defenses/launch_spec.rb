@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Defenses::Launch", type: :dispatch do
   subject(:dispatch)  { Defenses::Launch }
 
-  let(:game)          { Game.create! }
+  let(:game)          { Game.create!(state: 'running') }
   let(:attacker)      { Player.create!(game: game) }
   let(:attacker_ship) { attacker.ships.last }
   let(:attacker_word) { Word.create!(value: 'attacker', game: game) }

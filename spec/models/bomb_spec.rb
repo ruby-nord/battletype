@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Bomb", type: :model do
   subject(:bomb) { Bomb.new(player: attacker, word: word) }
 
-  let(:game)            { Game.create! }
+  let(:game)            { Game.create!(state: 'running') }
   let(:attacker)        { Player.create!(game: game) }
   let(:attacker_word)   { Word.create!(value: 'BOMB', game: game) }
   let(:perfect_typing)  { '1' }
@@ -64,6 +64,18 @@ RSpec.describe "Bomb", type: :model do
 
       it 'returns true' do
         expect(bomb.valid?).to eq(true)
+      end
+    end
+
+    context "when game is finished" do
+      let(:word) { 'BOMB' }
+
+      before :each do
+        game.update(state: 'finished')
+      end
+
+      it 'returns false' do
+        expect(bomb.valid?).to eq(false)
       end
     end
   end

@@ -46,8 +46,12 @@ module Bombs
         code:         'failed_bombing',
         player_id:    player.id,
         word:         word,
-        error_codes:  bomb.errors[:word]
+        error_codes:  error_codes
       }]
+    end
+
+    def error_codes
+      bomb.errors.messages.values.flatten
     end
 
     def game_won?

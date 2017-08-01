@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Defense", type: :model do
   subject(:defense)     { Defense.new(player: player, word: word, perfect_typing: perfect_typing) }
 
-  let(:game)            { Game.create! }
+  let(:game)            { Game.create!(state: 'running') }
   let(:attacker)        { Player.create!(game: game) }
   let(:attacker_word)   { Word.create!(value: 'HaCkeR', game: game) }
   let(:perfect_typing)  { '1' }
@@ -160,6 +160,16 @@ RSpec.describe "Defense", type: :model do
 
       it 'returns true' do
         expect(defense.valid?).to eq(true)
+      end
+    end
+
+    context 'when game is finished' do
+      before :each do
+        game.update(state: 'finished')
+      end
+
+      it 'returns false' do
+        expect(defense.valid?).to eq(false)
       end
     end
   end

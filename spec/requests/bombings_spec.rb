@@ -1,8 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Bombings", type: :request do
-  let(:game)            { Game.create!(name: 'Starship Battle') }
-  let(:game)            { Game.create! }
+  let(:game)            { Game.create!(name: 'Starship Battle', state: 'running') }
   let(:attacked_player) { Player.create!(game: game, life: 10) }
   let(:attacked_word)   { Word.create!(game: game, value: 'go') }
   let(:attacker)        { Player.create!(game: game, life: 7) }
@@ -164,6 +163,32 @@ RSpec.describe "Bombings", type: :request do
           {
             code:       'game_won',
             player_id:  attacker.id
+          }
+        )
+      end
+    end
+
+    context "when game is finished" do
+      before :each do
+        game.update(state: 'finished')
+      end
+
+      it "returns 200 HTTP status" do
+        post "/bombings", params: { word: 'BOMB' }
+        expect(response).to have_http_status(200)
+      end
+
+      it 'broadcasts a failed bombing payload' do
+        allow(ActionCable.server).to receive(:broadcast)
+        post "/bombings", params: { word: 'BOMB' }
+
+        expect(ActionCable.server).to have_received(:broadcast).with(
+          anything,
+          {
+            code:         'failed_bombing',
+            player_id:    attacker.id,
+            word:         'BOMB',
+            error_codes:  ['not_running']
           }
         )
       end

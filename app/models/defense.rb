@@ -1,7 +1,12 @@
 class Defense
   include ActiveModel::Validations
 
-  validate :ship_exists, :matching_case_sensitive, :not_matching_own_ship, :ship_not_destroyed_yet, :mission_not_accomplished_yet
+  validate  :game_running,
+            :ship_exists,
+            :matching_case_sensitive,
+            :not_matching_own_ship,
+            :ship_not_destroyed_yet,
+            :mission_not_accomplished_yet
 
   private
   attr_reader :player, :perfect_typing, :word
@@ -34,6 +39,12 @@ class Defense
   end
 
   private
+
+  def game_running
+    unless player.game.state == 'running'
+      errors.add(:game, "not_running")
+    end
+  end
 
   def ship_not_destroyed_yet
     if ship&.state == 'destroyed'

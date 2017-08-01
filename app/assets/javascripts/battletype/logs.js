@@ -27,16 +27,19 @@
     "attack": {
       "english_word":                 "Must be an English word",
       "long_enough":                  "Word is not long enough",
+      "not_running":                  "Game is not running!",
       "unique_case_insensitive_word": "Word must be unique"
     },
     "bomb": {
       "attacked_player_ship": "You tried to bomb your mothership!!",
+      "not_running":          "Game is not running!",
       "ship_not_found":       "Ship to bomb not found"
     },
     "defense": {
       "already_destroyed":    "Ship is already destroyed!",
       "bomb_already_dropped": "Bomb already dropped",
       "player_ship":          "It's your own ship!",
+      "not_running":          "Game is not running!",
       "ship_not_found":       "Ship not found",
       "wrong_case":           "Words are case sensitive"
     }

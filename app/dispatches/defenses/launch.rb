@@ -32,7 +32,11 @@ module Defenses
     end
 
     def failed_payload
-      { code: 'failed_defense', player_id: player.id, word: word, error_codes: defense.errors[:word] }
+      { code: 'failed_defense', player_id: player.id, word: word, error_codes: error_codes }
+    end
+
+    def error_codes
+      defense.errors.messages.values.flatten
     end
 
     def successful_payload

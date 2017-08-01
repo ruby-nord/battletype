@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Bombs::Drop", type: :dispatch do
   subject(:dispatch)    { Bombs::Drop }
 
-  let(:game)            { Game.create! }
+  let(:game)            { Game.create!(state: 'running') }
   let(:attacked_player) { Player.create!(game: game, life: 10) }
   let(:attacked_word)   { Word.create!(game: game, value: 'go') }
   let(:attacker)        { Player.create!(game: game) }

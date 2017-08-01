@@ -28,7 +28,11 @@ module Attacks
     private
 
     def failed_payload
-      { code: 'failed_attack', player_id: player.id, word: word, error_codes: attack.errors[:word] }
+      { code: 'failed_attack', player_id: player.id, word: word, error_codes: error_codes }
+    end
+
+    def error_codes
+      attack.errors.messages.values.flatten
     end
 
     def save_word
