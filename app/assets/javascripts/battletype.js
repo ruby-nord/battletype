@@ -63,7 +63,7 @@
         }
         else { // TODO: comparer plutôt à opponentId
           audio_spaceship("right");
-          Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.$combatZone, this._eventsRelay);
+          Dockyard.launch({ word: payload.word, ship: payload.launched_ship }, this.$combatZone);
         }
         break;
       case "failed_attack":
