@@ -2,6 +2,7 @@
 
 //= require battletype/stdin
 //= require battletype/logs
+//= require battletype/alert_box
 //= require battletype/ps2_event_relay
 //= require battletype/combat_zone
 //= require battletype/dockyard
@@ -11,6 +12,7 @@
 
 (function () {
   this.Battletype = {
+    running: true,
     attacking: true,
 
     _eventsRelay: Object.create(PS2EventRelay),
@@ -57,7 +59,7 @@
       switch(payload.code) {
       case "successful_attack":
         if (payload.player_id == this.playerId) {
-          this._logs.displayMessage(payload.code);
+          this._logs.displayCodeMessage(payload.code);
         }
         else { // TODO: comparer plutôt à opponentId
           audio_spaceship("right");
@@ -66,7 +68,7 @@
         break;
       case "failed_attack":
         if (payload.player_id == this.playerId) {
-          this._logs.displayMessage(payload.code, payload.error_codes);
+          this._logs.displayCodeMessage(payload.code, payload.error_codes);
 
           console.log("Failed attack with word", payload.word);
           console.log("Error code", payload.error_codes);
@@ -79,7 +81,7 @@
           var ship = Ship.locate(payload.word);
           if (ship) { this.$combatZone.get(0).removeChild(ship); }
 
-          this._logs.displayMessage(payload.code);
+          this._logs.displayCodeMessage(payload.code);
           // TODO: update gauge & unlock strike
         } else {
           // TODO
@@ -87,16 +89,16 @@
         break;
       case "failed_bombing":
         if (payload.player_id == this.playerId) {
-          this._logs.displayMessage(payload.code, payload.error_codes);
+          this._logs.displayCodeMessage(payload.code, payload.error_codes);
         }
         break;
       case "failed_defense":
         if (payload.player_id == this.playerId) {
-          this._logs.displayMessage(payload.code, payload.error_codes);
+          this._logs.displayCodeMessage(payload.code, payload.error_codes);
         }
         break;
       case "successful_bombing":
-        this._logs.displayMessage(payload.code);
+        this._logs.displayCodeMessage(payload.code);
 
         if (payload.player_id == this.playerId) {
           console.info(payload.code);
@@ -106,16 +108,19 @@
         }
         break;
       case "game_won":
-        this._logs.displayMessage(payload.code);
+        var mode;
+
+        this.running = false;
 
         if (payload.player_id == this.playerId) {
-          // TODO
-          console.log("\o/ You won!");
+          mode = "won";
         } else {
-          // TODO
-          console.log(":( You lose!");
+          mode = "lost";
           this.mothership.destroyed = true;
         }
+
+        this._logs.displayCodeMessage("game_" + mode);
+        CombatZone.close(mode);
         break;
       case "player_joined":
         if (payload.player_id != this.playerId) {
@@ -170,14 +175,16 @@
       $(this.bombingFrequency).trigger("submit.rails");
     },
     switchMode: function () {
+      if (!this.running) { return }
+
       Battletype.attacking = !Battletype.attacking;
 
       if (Battletype.attacking) {
-        this.$combatZone.removeClass("defense_mode").addClass("attack_mode"); // TODO tell-dont-ask
+        this.$combatZone.mode = "attack";
         this._stdin.indicateAttackMode();
       }
       else {
-        this.$combatZone.removeClass("attack_mode").addClass("defense_mode"); // TODO tell-dont-ask
+        this.$combatZone.mode = "defense";
         this._stdin.indicateDefenseMode();
       }
     },
