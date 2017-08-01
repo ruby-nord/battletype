@@ -1,4 +1,7 @@
 (function () {
+  var TOP_MARGIN = 15;
+  var BOTTOM_MARGIN = 180; // more space for the HUD
+
   this.CombatZone = {
     _properties: {
       mode: {
@@ -13,7 +16,10 @@
       },
       randomFreeVerticalSlot: {
         get: function () {
-          return Math.floor(Math.random() * this.height()) - 80;
+          var min = Math.ceil(TOP_MARGIN);
+          var max = Math.floor(this.height() - BOTTOM_MARGIN);
+
+          return Math.floor(Math.random() * (max - min + 1)) + min;
         }
       },
       ships: {
