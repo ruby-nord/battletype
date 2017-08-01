@@ -126,7 +126,7 @@
         if (payload.player_id != this.playerId) {
           var nickname = payload.nickname;
           Battletype.opponent.nickname = payload.nickname;
-          this._logs.displayMessage(payload.code);
+          this._logs.displayCodeMessage(payload.code);
         }
         break;
       case "player_nickname_changed":
@@ -134,7 +134,7 @@
 
         if (payload.player_id == this.playerId) {
           Battletype.player.nickname = payload.nickname;
-          this._logs.displayMessage(payload.code);
+          this._logs.displayCodeMessage(payload.code);
         } else {
           Battletype.opponent.nickname = payload.nickname;
         }
