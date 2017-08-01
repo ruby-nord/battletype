@@ -5,7 +5,7 @@ RSpec.describe "Games", type: :request do
 
   describe "GET show" do
     context "player is signed in" do
-      let(:player) { Player.create! }
+      let(:player) { Player.create!(life: 10) }
 
       before :each do
         allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
@@ -34,12 +34,13 @@ RSpec.describe "Games", type: :request do
       end
 
       context "player joined the game and refresh the page" do
-        let!(:opponent) { Player.create(game: game) }
+        let!(:opponent) { Player.create(game: game, life: 10) }
 
         before :each do
           game.update(state: 'running')
           player.update(game: game)
 
+          allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
           get "/games/#{game.to_param}"
         end
 
@@ -108,6 +109,30 @@ RSpec.describe "Games", type: :request do
 
       it { expect(response).to redirect_to(root_path) }
       it { expect(Game.count).to eq(0) }
+    end
+
+    context "when players have already lost part of their life" do
+      let(:rico) { Player.create!(nickname: "Rico") }
+      let(:zim)  { Player.create!(nickname: "Zim") }
+
+      before :each do
+        game.update(state: "running")
+        rico.update(game: game, life: 8)
+        zim.update(game: game, life: 3)
+
+        allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(rico)
+      end
+
+      it "has 8 bars of life for the current player" do
+        get "/games/#{game.to_param}"
+        expect(response.body).to have_css('#life_player .life_bar', count: 8)
+      end
+
+      it "has 3 bars of life for the opponent player" do
+        get "/games/#{game.to_param}"
+        expect(response.body).to have_css('#life_opponent .life_bar', count: 3)
+        # HERE
+      end
     end
 
     context "when game is finished" do
