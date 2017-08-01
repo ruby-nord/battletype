@@ -6,11 +6,22 @@ class GamesController < ApplicationController
   end
 
   def create
-    game = Games::Create.new(game_params[:name]).call
+    game    = Games::Create.new(game_params[:name]).call
+    @enlist = Players::Enlist.new(game: game, player: current_player)
+
+    enlist_player
     redirect_to game_url(game)
   end
 
   private
+
+  def enlist_player
+    return unless @enlist.available?
+    payload = @enlist.assign_game_to_player!
+
+    set_current_player(@enlist.player)
+    ActionCable.server.broadcast "game_#{current_player.game_id}", payload
+  end
 
   def game_params
     params.require(:game).permit(:name)

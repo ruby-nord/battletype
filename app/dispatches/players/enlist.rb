@@ -13,7 +13,7 @@ module Players
 
     def assign_game_to_player!
       @player = Player.create!(nickname: nickname, game: game, life: Player::LIFE)
-      game.running!
+      game.running! if game.full?
 
       return successful_payload
     end

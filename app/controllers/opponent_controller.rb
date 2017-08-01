@@ -3,15 +3,17 @@ class OpponentController < ApplicationController
 
   def create
     @enlist = Players::Enlist.new(game: @game, player: current_player)
-    enlist_player if @enlist.available?
 
+    enlist_player
     redirect_to game_path(@game)
   end
 
   private
 
   def enlist_player
+    return unless @enlist.available?
     payload = @enlist.assign_game_to_player!
+
     set_current_player(@enlist.player)
     ActionCable.server.broadcast "game_#{current_player.game_id}", payload
   end
