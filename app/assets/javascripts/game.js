@@ -2,7 +2,7 @@
 
 (function () {
   var start = function () {
-    if ($("body").hasClass("games show")) {
+    if (document.getElementById("combat_zone")) {
       Battletype.init({
         playerId: $("#current_player").data("playerId"),
       });

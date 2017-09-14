@@ -42,21 +42,21 @@
         if (e.type == "keydown") {
           this._dispatchWordTypedEvent();
         }
-        
+
         e.preventDefault();
         break;
       case "Tab":
         if (e.type == "keyup") {
           this._dispatchSwitchModeEvent();
         }
-        
+
         e.preventDefault();
         break;
       default:
         if (e.type == "keyup") {
           var scannerResults = this.scanner(this.inputDevice.value);
-          
-          if (scannerResults != false) {
+
+          if (scannerResults != undefined) {
             scannerResults.$all.each(function () { this.targeted = false; });
             scannerResults.target.targeted = true;
           }
