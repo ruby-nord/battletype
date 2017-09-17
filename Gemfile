@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.3.5'
 
 # Base
-gem 'rails',        '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails',        '~> 5.1.4'
 gem 'pg',           '~> 0.18'
 gem 'puma',         '~> 3.0'
 
@@ -25,6 +25,9 @@ gem 'jquery-rails'
 gem 'turbolinks',   '~> 5'
 
 group :development, :test do
+  gem 'pry-byebug'
+  gem 'pry-rails'
+
   gem 'byebug', platform: :mri
   gem 'capybara',     '~> 2.7.1'
   gem 'coffee-rails', '~> 4.2' # Teaspoon still needs coffee-rails, unfortunately (https://github.com/jejacks0n/teaspoon/issues/405)
