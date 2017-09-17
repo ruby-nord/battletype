@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.5'
+ruby '2.4.2'
 
 # Base
 gem 'rails',        '~> 5.1.4'
@@ -13,7 +13,7 @@ gem 'inherited_resources', git: 'https://github.com/activeadmin/inherited_resour
 # Gems!
 gem 'figaro',       '~> 1.1.1'
 gem 'jbuilder',     '~> 2.5'
-gem 'oj',           '~> 2.12.14' # Used by rollbar
+gem 'oj',           '~> 2.18.5' # Used by rollbar
 gem 'rollbar',      '~> 2.13.3'
 gem 'redis'
 gem 'haikunator'
