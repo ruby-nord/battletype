@@ -2,11 +2,10 @@ require "rails_helper"
 
 RSpec.describe "Bombings", type: :request do
   let(:game)            { Game.create!(name: 'Starship Battle') }
-  let(:game)            { Game.create! }
   let(:attacked_player) { Player.create!(game: game, life: 10) }
   let(:attacked_word)   { Word.create!(game: game, value: 'go') }
   let(:attacker)        { Player.create!(game: game, life: 7) }
-  let(:attacker_word)   { Word.create!(value: 'BOMB') }
+  let(:attacker_word)   { Word.create!(value: 'BOMB', game: game) }
   let(:ship)            { game.ships.last }
 
   before :each do

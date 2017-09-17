@@ -40,7 +40,7 @@ RSpec.describe "Defenses", type: :request do
 
     context "when word matches player's own ship" do
       before :each do
-        own_word = Word.create!(value: 'own')
+        own_word = Word.create!(value: 'own', game: game)
         player.ships.create!(word: own_word)
       end
 
@@ -66,7 +66,7 @@ RSpec.describe "Defenses", type: :request do
 
     context "when word matches one of attacker's ships with wrong case" do
       before :each do
-        attacker_word = Word.create!(value: 'CoMet')
+        attacker_word = Word.create!(value: 'CoMet', game: game)
         attacker.ships.create!(word: attacker_word)
       end
 
@@ -92,7 +92,7 @@ RSpec.describe "Defenses", type: :request do
 
     context 'when word matching ship has already been destroyed' do
       before :each do
-        attacker_word = Word.create!(value: 'down')
+        attacker_word = Word.create!(value: 'down', game: game)
         attacker.ships.create!(word: attacker_word, state: 'destroyed')
       end
 
@@ -119,7 +119,7 @@ RSpec.describe "Defenses", type: :request do
 
     context 'when word matching ship has already accomplissed its mission' do
       before :each do
-        attacker_word = Word.create!(value: 'DONE')
+        attacker_word = Word.create!(value: 'DONE', game: game)
         attacker.ships.create!(word: attacker_word, state: 'mission_accomplished')
       end
 
@@ -146,7 +146,7 @@ RSpec.describe "Defenses", type: :request do
 
     context "when word matches one of attacker's ships" do
       before :each do
-        attacker_word = Word.create!(value: 'HacKeR')
+        attacker_word = Word.create!(value: 'HacKeR', game: game)
         attacker.ships.create!(word: attacker_word)
       end
 
@@ -175,7 +175,7 @@ RSpec.describe "Defenses", type: :request do
 
     context "when matching word not perfectly typed" do
       before :each do
-        attacker_word = Word.create!(value: 'flaw')
+        attacker_word = Word.create!(value: 'flaw', game: game)
         attacker.ships.create!(word: attacker_word)
       end
 

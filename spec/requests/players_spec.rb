@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Players", type: :request do
-  let(:player) { Player.create!(nickname: "Rico") }
+  let(:game)   { Game.create! }
+  let(:player) { Player.create!(nickname: "Rico", game: game) }
 
   describe "PUT update" do
     context 'update current_player' do
@@ -30,7 +31,7 @@ RSpec.describe "Players", type: :request do
     end
 
     context 'update another player' do
-      let(:other_player) { Player.create!(nickname: "Carmen") }
+      let(:other_player) { Player.create!(nickname: "Carmen", game: game) }
 
       before :each do
         allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(other_player)

@@ -5,7 +5,7 @@ RSpec.describe "Games", type: :request do
 
   describe "GET show" do
     context "player is signed in" do
-      let(:player) { Player.create!(life: 10) }
+      let(:player) { Player.new(life: 10) }
 
       before :each do
         allow_any_instance_of(ApplicationController).to receive(:current_player).and_return(player)
@@ -28,9 +28,8 @@ RSpec.describe "Games", type: :request do
           get "/games/#{game.to_param}"
         end
 
-
         it { expect(response.body).to include("already full") }
-        it { expect(player.reload.game).to_not eq(game) }
+        it { expect(player.game).to_not eq(game) }
       end
 
       context "player joined the game and refresh the page" do
@@ -94,7 +93,7 @@ RSpec.describe "Games", type: :request do
       context "game is already full" do
         before :each do
           game.update(state: 'running')
-          2.times { Player.create!(game: game) }
+          2.times { Player.create!(game: game, life: 10) }
           get "/games/#{game.to_param}"
         end
 
@@ -112,8 +111,8 @@ RSpec.describe "Games", type: :request do
     end
 
     context "when players have already lost part of their life" do
-      let(:rico) { Player.create!(nickname: "Rico") }
-      let(:zim)  { Player.create!(nickname: "Zim") }
+      let(:rico) { Player.create!(nickname: "Rico", game: game) }
+      let(:zim)  { Player.create!(nickname: "Zim", game: game) }
 
       before :each do
         game.update(state: "running")
@@ -136,8 +135,8 @@ RSpec.describe "Games", type: :request do
     end
 
     context "when game is finished" do
-      let(:rico)  { Player.create!(nickname: "Rico") }
-      let(:zim)   { Player.create!(nickname: "Zim") }
+      let(:rico)  { Player.create!(nickname: "Rico", game: game) }
+      let(:zim)   { Player.create!(nickname: "Zim", game: game) }
 
       before :each do
         game.update(state: "finished")
