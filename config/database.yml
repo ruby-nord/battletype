@@ -78,8 +78,8 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
-  <<: *default
-  database: battletype_production
-  username: battletype
-  password: <%= ENV['BATTLETYPE_DATABASE_PASSWORD'] %>
+# production:
+#   <<: *default
+#   database: battletype_production
+#   username: battletype
+#   password: <%= ENV['BATTLETYPE_DATABASE_PASSWORD'] %>
