@@ -16,7 +16,7 @@
     </div>
 
     <%= form_for(@game) do |f| %>
-      <p>battle-type.com/</p>
+      <p><%= @host %>/</p>
       <%= f.text_field :name, value: "", autofocus: "true" %>
       <%= f.submit class: "button" %>
     <% end %>
