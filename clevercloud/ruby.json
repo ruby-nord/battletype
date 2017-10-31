@@ -1,0 +1,6 @@
+{
+  "deploy": {
+    "rakegoals": ["assets:precompile", "db:migrate"],
+    "static": "/public"
+  }
+}
