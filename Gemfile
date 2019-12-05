@@ -4,7 +4,7 @@ ruby '2.6.5'
 # Base
 gem 'rails',        '~> 5.1.6'
 gem 'pg',           '~> 0.18'
-gem 'puma',         '~> 3.0'
+gem 'puma',         '~> 3.12'
 
 # Git sources
 gem 'activeadmin',         git: 'https://github.com/activeadmin/activeadmin.git'
